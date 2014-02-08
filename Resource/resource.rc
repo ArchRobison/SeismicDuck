@@ -1,0 +1,121 @@
+
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "windows.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+1                       ICON                    "icon.ico"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+//
+// Bitmap
+//
+
+Panel                   PNG      "Panel.png"
+Mallard 			    PNG      "Mallard.png"
+FloatingRig             PNG      "FloatingRig.png"
+LandRig                 PNG      "LandRig.png"
+ColorLookupTable        PNG      "ColorLookupTable.png"
+WheelDigits             PNG      "WheelDigits.png"
+DigitalMeter    	    PNG      "DigitalMeter.png"
+WaterMeter              PNG      "WaterMeter.png"
+OilMeter                PNG      "OilMeter.png"
+GasMeter                PNG      "GasMeter.png"
+GeologySliders          PNG      "GeologySliders.png"
+ShotSliders             PNG      "ShotSliders.png"
+ColorSliders            PNG      "ColorSliders.png"
+SpeedSliders            PNG      "SpeedSliders.png"
+AboutTheAuthor          PNG      "AboutTheAuthor.png"
+Keyboard                PNG      "Keyboard.png"
+SliderKnob              PNG      "SliderKnob.png"
+SliderKnobSelected      PNG      "SliderKnobSelected.png"
+DrillBit                PNG      "DrillBit.png"
+LevelMeter              PNG      "LevelMeter.png"
+CashMeter               PNG      "CashMeter.png"
+Bankrupt                PNG      "Bankrupt.png"
+LevelContinueDialog     PNG      "LevelContinueDialog.png"
+Culture                 PNG      "Culture.png"
+FontSans16              PNG      "FontSans16.png"
+ButtonBackground        PNG      "ButtonBackground.png"
+ButtonSelected          PNG      "ButtonSelected.png"
+WarnBreakDrillDialog    PNG      "WarnBreakDrillDialog.png"
+WarnAwayFromCultureDialog PNG "WarnAwayFromCultureDialog.png"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_FORMVIEW, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 353
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 140
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
