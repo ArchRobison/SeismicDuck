@@ -589,21 +589,6 @@ static void UpdateDuckAndRig() {
         MoveDrillVertically(-1);
 }
 
-#if 0
-class WavefieldFunctor {
-    const NimbleRequest request;
-    NimblePixMap subsurface;
-public:
-    WavefieldFunctor( const NimblePixMap& subsurface_, NimbleRequest request_ ) :
-       request(request_),
-       subsurface(subsurface_)
-    {}
-    void operator()() const {
-        WavefieldUpdateDraw( subsurface, request, ShowGeology, ShowSeismic, TheColorFunc );
-    }
-};
-#endif
-
 class ReservoirFunctor {
     const NimbleRequest request;
 public:
