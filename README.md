@@ -1,0 +1,4 @@
+SeismicDuck
+===========
+
+Reflection seismology game
