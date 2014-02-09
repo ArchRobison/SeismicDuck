@@ -1,12 +1,16 @@
-SeismicDuck
-===========
+Seismic Duck
+============
 
-Seismid Duck is a reflection seismology game.
+_Seismic Duck_ is a reflection seismology game.  See http://www.blonzonics.us/games/seismic-duck for an introduction to it.
 
-Installer with Pre-Built Binary
-===============================
+The sources here are a revision that uses SDL 2 instead of DirectX for graphics 
+support, and therefore should be easy to port to platforms other than Windows.
 
-An installer Seismic Duck be dowloaded from http://www.blonzonics.us/games/seismic-duck/windows .
+Pre-Built Version for Windows
+=============================
+
+An installer for a DirectX-based Seismic Duck can be dowloaded from 
+http://www.blonzonics.us/games/seismic-duck/windows .
 
 Building from Source
 ====================
@@ -23,3 +27,4 @@ It assumes the following locations:
 * TBB is in ```$(TBB40_INSTALL_DIR)```
 * SDL2 headers are in ```C:\lib\SDL2\include``` and the corresponding libraries are in ```C:\lib\SDL2\lib\x86```
 * SDL_image headers are in ```C:\lib\SDL2_image\include``` and the correspoinding libraries are in ```C:\lib\SDL2_image\lib\x86```
+
