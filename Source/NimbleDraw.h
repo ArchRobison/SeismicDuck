@@ -1,4 +1,4 @@
-/* Copyright 1996-2010 Arch D. Robison 
+/* Copyright 1996-2014 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -22,8 +22,7 @@
 #define NimbleDraw_H
 
 #if defined(_WIN32)||defined(_WIN64)
-#define NIMBLE_DIRECTX 1    /* Set to 1 for DirectX targets */
-#define NIMBLE_MAC 0        /* Set to 1 for Mac targets */
+
 #if _MSC_VER
 /* Turn off pesky "possible loss of data" and "forcing value to bool" warnings */
 #pragma warning(disable: 4244 4800) 
@@ -37,18 +36,10 @@
 
 typedef unsigned char byte;
 
-//! NimbleIsLittleEndian should be true on little-endian targets, false on big-endian targets.
-#if NIMBLE_DIRECTX
-const bool NimbleIsLittleEndian = true;
-#elif NIMBLE_MAC
-const bool NimbleIsLittleEndian = false;
-#else
-#error Unknown target
-#endif
-
 //! A point
 class NimblePoint {
 public:
+	//! Coordinates of the point
     short x, y;
     
     //! Construct undefined point
@@ -116,26 +107,15 @@ public:
     }
 };
 
-//! A pixel
-/** Old versions of NimbleDraw supported 16-bit and 32-bit pixels.
-    The current version supports only 32-bit pixels. */
+//! A 32-bit pixel in ARGB format.
 typedef unsigned NimblePixel;
 
 //! A device-independent color
 struct NimbleColor {
-#if NIMBLE_MAC
-    typedef unsigned short component_t;
-    enum {
-        FULL=0xFFFF                 // Full intensity for component
-    };
-#elif NIMBLE_DIRECTX
     typedef byte component_t;       // Always some integral type
     enum {
         FULL=0xFF                   // Full intensity for component
     };
-#else
-#error Unknown target
-#endif
     component_t red, green, blue;   // Always of type component_t
     NimbleColor() {}
     explicit NimbleColor( int gray ) : red(gray), green(gray), blue(gray) {}
@@ -152,7 +132,9 @@ inline void NimbleColor::mix( const NimbleColor& other, float f ) {
 
 //! A view of memory as a rectangular region of NimblePixel.
 /** The pixels within the map are those in the half-open interval [0,width()) x [0,height()).
-    The map also provides mappings between colors and pixels. */
+    The map also provides mappings between colors and pixels.
+	Historical note: NimbleDraw used to support a dynamic choice of 16-bit or 32-bit pixels. 
+	But now it supports only 32-bit pixels. */
 class NimblePixMap {
 public:
     //! Construct undefined map.
@@ -251,13 +233,15 @@ inline void* NimblePixMap::at( int x, int y ) const {
     return (byte*)myBaseAddress + myBytesPerRow*y + (x<<lgBytePixelDepth());
 }
  
-inline NimbleColor::component_t NimblePixMap::alpha( NimblePixel pixel ) const {
-#if NIMBLE_DIRECTX
-    return pixel>>24;
-#else
-#error Not yet implemented on this platform
-#endif /* NIMBLE_DIRECTX */
+inline NimblePixel NimblePixMap::pixel( const NimbleColor& c ) const {
+	Assert( sizeof(NimblePixel)==4 );
+	return c.red<<16 | c.green<<8 | c.blue;
 }
+
+inline NimbleColor::component_t NimblePixMap::alpha( NimblePixel pixel ) const {
+    return pixel>>24;
+}
+
 //! NimblePixMap that owns its buffer.
 class NimblePixMapWithOwnership: public NimblePixMap {
     void operator=( const NimblePixMapWithOwnership& ); 

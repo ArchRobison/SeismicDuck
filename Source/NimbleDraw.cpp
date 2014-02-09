@@ -23,9 +23,6 @@
 #include <cstring>
 
 NimbleColor NimblePixMap::color( NimblePixel p ) const {
-#if NIMBLE_MAC
-#error /* Not yet implemented */
-#elif NIMBLE_DIRECTX
     NimbleColor c;
     // Note that our video card differs from description of 16-bit color on page 92 of 
     // Windows Game Programming for Dummies.  Our card has a 6-bit green channel.
@@ -41,32 +38,6 @@ NimbleColor NimblePixMap::color( NimblePixel p ) const {
         c.blue = p & 0xFF;
     }
     return c;
-#else
-#error Unknown target
-#endif
-}
-
-NimblePixel NimblePixMap::pixel( const NimbleColor& c ) const {
-#if NIMBLE_MAC
-    RGBColor d;
-    d.red = c.red;
-    d.green = c.green;
-    d.blue = c.blue;
-    return Color2Index(&d);
-#elif NIMBLE_DIRECTX
-    // Note that our video card differs from description of 16-bit color on page 92 of 
-    // Windows Game Programming for Dummies.  Our card has a 6-bit green channel.
-    if( sizeof(NimblePixel)==2 ) {
-        // 16-bit color (not supported as of 2010 Jan 1)
-        return (c.red&0xF8)<<8|(c.green&0xFC)<<3|(c.blue&0xF8)>>3;
-    } else {
-        Assert( sizeof(NimblePixel)==4 );
-        // 32-bit color
-        return c.red<<16 | c.green<<8 | c.blue;
-    }
-#else
-#error Unknown target
-#endif
 }
 
 void NimblePixMap::setBitPixelDepth( int bitsPerPixel ) {
