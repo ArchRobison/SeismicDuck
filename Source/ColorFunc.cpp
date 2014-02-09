@@ -1,4 +1,4 @@
-/* Copyright 1996-2010 Arch D. Robison 
+/* Copyright 1996-2014 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -87,6 +87,6 @@ void ColorFuncMakeClut( NimblePixel clut[SAMPLE_CLUT_SIZE], int rockType, const 
             c1.mix(colorScale1[k-1],-residue);
         }
         c0.mix(c1,showGeology);
-        clut[j] = map.pixel(c0); 
+        clut[j] = c0.pixel(); 
     }
 }

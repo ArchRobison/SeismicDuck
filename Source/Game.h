@@ -52,32 +52,4 @@ void GameUpdateDraw( NimblePixMap& map, NimbleRequest request );
 /** map contains the new size and position of the window. */
 void GameResizeOrMove( NimblePixMap& map );
     
-#if HAVE_SOUND
-const size_t GameSamplesPerSec = 44100;
-typedef short GameSoundSample;
-void GamePlaySound( GameSoundSample* begin, size_t length, float relativePitch );
-#endif /* HAVE_SOUND */
-
-#if HAVE_GAME_FILES
-
-//! File that can be written
-class GameOutFile: public OutBitFile {
-    HANDLE hFile;
-    /*override*/ void write( const void* buffer, size_t nbyte );
-public:
-    bool open();
-    void close();
-};
-
-//! File that can be read
-class GameInFile: public InBitFile {
-    HANDLE hFile;
-    /*override*/ size_t read( void* buffer, size_t nbyte );
-public:
-    bool open();
-    void close();
-};
-
-#endif /* HAVE_GAME_FILES */
-
 #endif /* GAME_H */

@@ -43,12 +43,12 @@ void SpriteRep::buildFrom( const NimblePixMap& map, int top, int bottom, bool fl
             do {
                 Assert( p<right );
                 // Find non-transparent pixel
-                while( map.alpha(*p)<NimbleColor::FULL/2 )
+                while( NimbleColor::alphaOf(*p)<NimbleColor::full/2 )
                     if( ++p>=right ) 
                         goto nextRow;
                 const NimblePixel* begin = p;
                 // Find transparent pixel or end of row
-                while( ++p<right && map.alpha(*p)>=NimbleColor::FULL/2 )
+                while( ++p<right && NimbleColor::alphaOf(*p)>=NimbleColor::full/2 )
                     continue;
                 Assert( begin<p );
                 size_t dataBytes = (char*)p-(char*)begin; 

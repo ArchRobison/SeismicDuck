@@ -1,4 +1,4 @@
-/* Copyright 1996-2010 Arch D. Robison 
+/* Copyright 1996-2014 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -278,7 +278,7 @@ static void InitializeGeologyClut( const NimblePixMap& map ) {
             // Use cosine illumination law here to make borehold look round
             float f = 1-cosf((j-DRILL_DIAMETER/2)*(3.141592f/(DRILL_DIAMETER+1)));
             c.mix(black,f);
-            LayerPixel[k][j]=map.pixel(c);
+            LayerPixel[k][j]=c.pixel();
         }
     }
 }

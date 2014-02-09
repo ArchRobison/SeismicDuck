@@ -22,24 +22,6 @@
 #include "Utility.h"
 #include <cstring>
 
-NimbleColor NimblePixMap::color( NimblePixel p ) const {
-    NimbleColor c;
-    // Note that our video card differs from description of 16-bit color on page 92 of 
-    // Windows Game Programming for Dummies.  Our card has a 6-bit green channel.
-    if( sizeof(NimblePixel)==2 ) {
-        // 16-bit color
-        c.red = p>>8&0xF8;
-        c.green = p>>3&0xFC;
-        c.blue = p<<3&0xF8;
-    } else {
-        Assert( sizeof(NimblePixel)==4 );
-        c.red = p>>16 & 0xFF;
-        c.green = p>>8 & 0xFF;
-        c.blue = p & 0xFF;
-    }
-    return c;
-}
-
 void NimblePixMap::setBitPixelDepth( int bitsPerPixel ) {
     int d = 0;
     switch( bitsPerPixel ) {

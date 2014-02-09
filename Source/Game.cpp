@@ -662,8 +662,8 @@ void GameUpdateDraw( NimblePixMap& map, NimbleRequest request ) {
         if( ShowReservoir )
             ReservoirDraw( subsurface );
         NimblePixMap spriteClip( map, NimbleRect( PanelWidth, 0, map.width(), map.height() ));\
-        NimblePixel greenPixel = map.pixel( NimbleColor( 0, NimbleColor::FULL, 0 ));
-        NimblePixel redPixel = map.pixel( NimbleColor( NimbleColor::FULL, 0, 0 ));
+        NimblePixel greenPixel = NimbleColor( 0, NimbleColor::full, 0 ).pixel();
+        NimblePixel redPixel = NimbleColor( NimbleColor::full, 0, 0 ).pixel();
         const int lineHeight = map.height()/2-1; 
         if( CultureBeginX<CultureEndX ) {
             spriteClip.draw( NimbleRect( 0, lineHeight, CultureBeginX, lineHeight+1 ), greenPixel ); 

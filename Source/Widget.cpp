@@ -1,4 +1,4 @@
-/* Copyright 1996-2010 Arch D. Robison 
+/* Copyright 1996-2014 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -23,23 +23,27 @@
 #include "Utility.h"
 #include <cstring>
 
+static inline bool IsTransparent( const NimblePixMap& map, int x, int y ) {
+    return map.alpha(x,y)<NimbleColor::full/2;
+}
+
 //! Given point inside transparent box, find bounds of box.
 static NimbleRect FindTransparentBox( const NimblePixMap& map, int xInside, int yInside ) {
     NimbleRect box;
-    Assert( map.alphaAt(xInside,yInside)<NimbleColor::FULL/2 );
+    Assert( IsTransparent(map,xInside,yInside) );
     int x=xInside;
     int y=yInside;
-    while( x>0 && map.alphaAt(x-1,y)<NimbleColor::FULL/2 ) 
+    while( x>0 && IsTransparent(map,x-1,y) ) 
         --x;
-    while( y>0 && map.alphaAt(x,y-1)<NimbleColor::FULL/2 ) 
+    while( y>0 && IsTransparent(map,x,y-1) ) 
         --y;
     box.left=x;
     box.top=y;
     x=xInside;
     y=yInside;
-    while( y+1<map.height() && map.alphaAt(x,y+1)<NimbleColor::FULL/2 ) 
+    while( y+1<map.height() && IsTransparent(map,x,y+1) ) 
         ++y;
-    while( x+1<map.width() && map.alphaAt(x+1,y)<NimbleColor::FULL/2 ) 
+    while( x+1<map.width() && IsTransparent(map,x+1,y) ) 
         ++x;
     box.right=x+1;
     box.bottom=y+1;
@@ -91,7 +95,7 @@ inline bool Font::isBlankColumn( const NimblePixMap& map, int x ) {
     Assert(0<=x && x<map.width());
     int h = map.height();
     for( int i=0; i<h; ++i )
-        if( map.pixelAt(x,i)&0xFF )
+        if( map.pixel(x,i)&0xFF )
             return false;
     return true;
 }
@@ -120,7 +124,7 @@ void Font::buildFrom( const NimblePixMap& map ) {
             for( int j=0; j<width; ++j ) {
                 Assert(p<storage+nByte);
                 // Bottom row of pixels is used only as internal marker for ' ' and ".
-                *p++ = i==myHeight-1 ? 0 : map.pixelAt(xStart+j,i)&0xFF; 
+                *p++ = i==myHeight-1 ? 0 : map.pixel(xStart+j,i)&0xFF; 
             }
     }
     start[charMax+1-charMin] = p-storage;
@@ -234,7 +238,7 @@ void WheelMeter::buildFrom(const NimblePixMap& map) {
     // Scan for digit windows
     int midy = map.height()/2;
     for( int x=map.width(); --x>=0; ) 
-        if( map.alphaAt(x,midy)<NimbleColor::FULL/2 ) {
+        if( IsTransparent(map,x,midy) ) {
             Assert(myNdigit<DIGIT_MAX);
             myDigitWindow[myNdigit] = FindTransparentBox(map,x,midy);
             x=myDigitWindow[myNdigit].left;
@@ -341,7 +345,7 @@ GraphMeter::GraphMeter( int width, int height ) :
 }
  
 void GraphMeter::drawOn( NimblePixMap& map, int x, int y ) const {
-    NimblePixel green( map.pixel( NimbleColor(0,0xFF,0)));
+    NimblePixel green( NimbleColor(0,0xFF,0).pixel());
     NimbleRect r(x,y,x+myWidth,y+myHeight);
     map.draw(r,NimblePixel(0));
     int h = myHeight;
@@ -426,7 +430,7 @@ void ButtonDialog::buildFrom( const NimblePixMap& map ) {
     // Scan for button area
     for( int y=0; y<map.height(); ++y )
         for( int x=0; x<map.width(); ++x )
-            if( map.alphaAt(x,y)<NimbleColor::FULL/2 ) {
+            if( IsTransparent(map,x,y) ) {
                 myButtonRect = FindTransparentBox(map,x,y);
                 return;
             }
@@ -442,7 +446,7 @@ void ButtonDialog::doDrawOn( NimblePixMap& map ) {
         const NimblePixel* src = (NimblePixel*)myPixMap.at(myButtonRect.left,y);
         NimblePixel* dst = (NimblePixel*)map.at(myButtonRect.left,y);
         for( int j=0; j<w; ++j ) 
-            if( map.alpha(src[j])>=NimbleColor::FULL/2 )
+            if( NimbleColor::alphaOf(src[j])>=NimbleColor::full/2 )
                 dst[j] = src[j];
     }
 }
@@ -493,7 +497,7 @@ void SliderDialog::buildFrom( const NimblePixMap& map ) {
     int h = map.height();
     int midy = h/2;
     for( int x=1; x<map.width() && n<maxSliders; ++x )
-        if( map.alphaAt(x,midy)<NimbleColor::FULL/2 ) {
+        if( IsTransparent(map,x,midy) ) {
             // Found a slot
             mySlotX[n] = x;
             myValue[n] = myMinValue[n];
@@ -627,9 +631,8 @@ void Menu::finishConstruction() {
 
 void Menu::doDrawOn( NimblePixMap& map ) {
     int y = 0;
-    int full = NimbleColor::FULL;
-    NimblePixel black = map.pixel(NimbleColor(0,0,0));
-    NimblePixel gray = map.pixel(NimbleColor(3*full/4,3*full/4,3*full/4));
+    NimblePixel black = NimbleColor(0).pixel();
+    NimblePixel gray = NimbleColor(3*NimbleColor::full/4).pixel();
     NimblePixMap buttonMap( map, NimbleRect(0,0,myTabWidth,myTabHeight));
     (mySelectedRow==0 ? ButtonSelected : ButtonBackground).drawOn(buttonMap);
     myFont.drawOn( map, MarginH, y+MarginV, myTab, black );

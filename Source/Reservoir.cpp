@@ -1,4 +1,4 @@
-/* Copyright 1996-2010 Arch D. Robison 
+/* Copyright 1996-2014 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -438,11 +438,10 @@ void ReservoirUpdate( float fluidExtracted[N_Phase] ) {
         const ReservoirCell* c = &Cell[v][ubegin];
         const ReservoirCell* d = &Cell[v][uend];
         do {
-            int red = int(NimbleColor::FULL*c->saturation[GAS]);
-            int green = int(NimbleColor::FULL*c->saturation[OIL]);
-            int blue = int(NimbleColor::FULL*c->saturation[WATER]);
-            // FIXME - probably should inline color->pixel calculation.
-            NimblePixel p = map.pixel(NimbleColor(red,green,blue));
+            int red = int(NimbleColor::full*c->saturation[GAS]);
+            int green = int(NimbleColor::full*c->saturation[OIL]);
+            int blue = int(NimbleColor::full*c->saturation[WATER]);
+            NimblePixel p = NimbleColor(red,green,blue).pixel();
             // In 2x2 block, write to upper right and lower left corners
             if( *isPorous&2 ) dst[1] = p; 
             if( *isPorous&4 ) dst[downDelta] = p;
