@@ -65,6 +65,7 @@
       <AdditionalLibraryDirectories>$(TBB40_INSTALL_DIR)\\lib\ia32\vc11;C:\lib\SDL2\lib\x86;C:\lib\SDL2_image\lib\x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>sdl2_image.lib;sdl2main.lib;sdl2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -83,6 +84,7 @@
       <AdditionalDependencies>sdl2_image.lib;sdl2main.lib;sdl2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(TBB40_INSTALL_DIR)\\lib\ia32\vc11;C:\lib\SDL2\lib\x86;C:\lib\SDL2_image\lib\x86</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
+      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Full Screen|Win32'">
@@ -103,6 +105,7 @@
       <AdditionalDependencies>sdl2_image.lib;sdl2main.lib;sdl2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(TBB40_INSTALL_DIR)\\lib\ia32\vc11;C:\lib\SDL2\lib\x86;C:\lib\SDL2_image\lib\x86</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
+      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
