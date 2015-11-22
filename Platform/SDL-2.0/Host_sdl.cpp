@@ -1,4 +1,4 @@
-/* Copyright 2014 Arch D. Robison
+/* Copyright 2015 Arch D. Robison
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@ limitations under the License.
 static SDL_PixelFormat* ScreenFormat;
 
 #ifdef __APPLE__
-// MacOS/SDL-2 have a texture synchronization bug.  
-// The code works around it by manual double-buffering.
+// MacOS/SDL-2 have a texture synchronization bug on MacBook Airs running MacOS 10.11.1.  
+// The code works around the bug by manual double-buffering.
 const int N_TEXTURE = 2;
 #else
 const int N_TEXTURE = 1;
@@ -211,7 +211,7 @@ int main(int argc, char* argv[]){
     InitializeKeyTranslationTables();
     ScreenFormat = SDL_AllocFormat(SDL_PIXELFORMAT_ARGB8888);
     if(GameInitialize()) {
-        SDL_Renderer* renderer = NULL;
+        SDL_Renderer* renderer = nullptr;
         SDL_Texture* texture[N_TEXTURE];
         for( int i=0; i<N_TEXTURE; ++i )
             texture[i] = nullptr;
@@ -226,7 +226,7 @@ int main(int argc, char* argv[]){
                 fprintf(stderr,"No texture!\n");
                 abort();
             } 
-            if(SDL_LockTexture(texture[textureIndex], NULL, &pixels, &pitch)) {
+            if(SDL_LockTexture(texture[textureIndex], nullptr, &pixels, &pitch)) {
                 printf("Internal eror: SDL_LockTexture failed: %s\n", SDL_GetError());
                 break;
             }
@@ -238,12 +238,13 @@ int main(int argc, char* argv[]){
             GameUpdateDraw(screen, NimbleUpdate|NimbleDraw);
             SDL_UnlockTexture(texture[textureIndex]);
             SDL_RenderClear(renderer);
-            SDL_RenderCopy(renderer, texture[textureIndex], NULL, NULL);
-            SDL_RenderPresent(renderer);
-            for(int i=1; i<OldFrameIntervalRate; ++i) {
-                SDL_RenderCopy(renderer, texture[textureIndex], NULL, NULL);
+            // Assume 60 Hz update rate.  Simulate slower refresh rate by presenting texture twice.
+            // At least one trip trhough the loop is required because a rate of 0 indicates "unlimited".
+            int i = 0;
+            do {
+                SDL_RenderCopy(renderer, texture[textureIndex], nullptr, nullptr);
                 SDL_RenderPresent(renderer);
-            }
+            } while( ++i<OldFrameIntervalRate );
             PollEvents();
             textureIndex = (textureIndex + 1) & N_TEXTURE-1;
         }

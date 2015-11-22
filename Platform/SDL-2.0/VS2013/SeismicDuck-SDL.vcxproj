@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Full Screen|Win32">
+      <Configuration>Release Full Screen</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CC0EFFD8-3CD5-44F5-A10D-B728CF2A8420}</ProjectGuid>
+    <RootNamespace>SeismicDuckSDL</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Full Screen|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Full Screen|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\lib\tbb44\include;C:\lib\SDL2-2.0.3\include;C:\lib\SDL2_image-2.0.0\include;$(ProjectDir)\..\..\..\source</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\lib\tbb44\lib\ia32\vc12;C:\lib\SDL2-2.0.3\lib\x86;C:\lib\SDL2_image-2.0.0\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sdl2_image.lib;sdl2main.lib;sdl2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\lib\tbb44\include;C:\lib\SDL2-2.0.3\include;C:\lib\SDL2_image-2.0.0\include;$(ProjectDir)\..\..\..\source</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sdl2_image.lib;sdl2main.lib;sdl2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\lib\tbb44\lib\ia32\vc12;C:\lib\SDL2-2.0.3\lib\x86;C:\lib\SDL2_image-2.0.0\lib\x86</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
+      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Full Screen|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\lib\tbb44\include;C:\lib\SDL2-2.0.3\include;C:\lib\SDL2_image-2.0.0\include;$(ProjectDir)\..\..\..\source</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>EXCLUSIVE_MODE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sdl2_image.lib;sdl2main.lib;sdl2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\lib\tbb44\lib\ia32\vc12;C:\lib\SDL2-2.0.3\lib\x86;C:\lib\SDL2_image-2.0.0\lib\x86</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
+      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Source\Airgun.cpp" />
+    <ClCompile Include="..\..\..\Source\AssertLib.cpp" />
+    <ClCompile Include="..\..\..\Source\BuiltFromResource.cpp" />
+    <ClCompile Include="..\..\..\Source\ColorFunc.cpp" />
+    <ClCompile Include="..\..\..\Source\ColorMatrix.cpp" />
+    <ClCompile Include="..\..\..\Source\Game.cpp" />
+    <ClCompile Include="..\..\..\Source\Geology.cpp" />
+    <ClCompile Include="..\..\..\Source\NimbleDraw.cpp" />
+    <ClCompile Include="..\..\..\Source\Reservoir.cpp" />
+    <ClCompile Include="..\..\..\Source\Seismogram.cpp" />
+    <ClCompile Include="..\..\..\Source\Sprite.cpp" />
+    <ClCompile Include="..\..\..\Source\TraceLib.cpp" />
+    <ClCompile Include="..\..\..\Source\Wavefield.cpp" />
+    <ClCompile Include="..\..\..\Source\Widget.cpp" />
+    <ClCompile Include="..\Host_sdl.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Source\AssertLib.h" />
+    <ClInclude Include="..\..\..\Source\BuiltFromResource.h" />
+    <ClInclude Include="..\..\..\Source\ColorFunc.h" />
+    <ClInclude Include="..\..\..\Source\ColorMatrix.h" />
+    <ClInclude Include="..\..\..\Source\Config.h" />
+    <ClInclude Include="..\..\..\Source\Game.h" />
+    <ClInclude Include="..\..\..\Source\Geology.h" />
+    <ClInclude Include="..\..\..\Source\Host.h" />
+    <ClInclude Include="..\..\..\Source\NimbleDraw.h" />
+    <ClInclude Include="..\..\..\Source\PanelBackgroundl.h" />
+    <ClInclude Include="..\..\..\Source\Parallel.h" />
+    <ClInclude Include="..\..\..\Source\Reservoir.h" />
+    <ClInclude Include="..\..\..\Source\Seismogram.h" />
+    <ClInclude Include="..\..\..\Source\Sprite.h" />
+    <ClInclude Include="..\..\..\Source\SSE.h" />
+    <ClInclude Include="..\..\..\Source\StartupList.h" />
+    <ClInclude Include="..\..\..\Source\TraceLib.h" />
+    <ClInclude Include="..\..\..\Source\Utility.h" />
+    <ClInclude Include="..\..\..\Source\Wavefield.h" />
+    <ClInclude Include="..\..\..\Source\Widget.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
