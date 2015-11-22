@@ -33,7 +33,7 @@ frame rate of the SDL2 version.
 You will need some version of Visual Studio 2013.  The Express edition suffices.
 The solution file is in `Platform\SDL-2.0\VS2013` and
 assumes that prerequisites are in the following locations:
-* TBB is in ```$(TBB40_INSTALL_DIR)```
+* TBB is in `$(TBB40_INSTALL_DIR)`.
 * SDL2 headers are in `C:\lib\SDL2\include` and the libraries
   are in `C:\lib\SDL2\lib\x86`.
 * SDL_image headers are in `C:\lib\SDL2_image-2.0.0\include` and the libraries are in `C:\lib\SDL2_image-2.0.0\lib\x86`.
@@ -43,8 +43,7 @@ assumes that prerequisites are in the following locations:
 You will need Visual Studio 2010, or rely on up-conversion to a newer version.
 The Express edition suffices.
 The solution file is in `SeismicDuck\Platform\DirectX9\VS2010` and
-assumes that prerequisites are in the following locations:
-* TBB is in `$(TBB40_INSTALL_DIR)`
+assumes that TBB is in `$(TBB40_INSTALL_DIR)`
 
 MacOS
 =====
