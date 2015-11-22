@@ -792,7 +792,9 @@ static void WavefieldDrawPanel( int p, const NimblePixMap& map ) {
             const unsigned SUBCLUT_MASK = 3<<SAMPLE_CLUT_LG_SIZE;
 #if USE_SSE 
             __m128 v = _mm_max_ps(_mm_min_ps(*in++,upperLimit),lowerLimit);
-#define STEP(k) out[k] = clut[_mm_cvt_ss2si(_mm_shuffle_ps(v,v,k))+(r>>(2*k)&SUBCLUT_MASK)]
+            // The redundant cast to int works around a bug in Apple LLVM version 7.0.0 (clang-700.1.76)
+            // that otherwise causes Seismic Duck to crash.
+#define STEP(k) out[k] = clut[int(_mm_cvt_ss2si(_mm_shuffle_ps(v,v,k))+(r>>(2*k)&SUBCLUT_MASK))]
             STEP(0);
             STEP(1);
             STEP(2);
