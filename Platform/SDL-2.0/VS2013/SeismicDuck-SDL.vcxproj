@@ -58,11 +58,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\lib\tbb44\include;C:\lib\SDL2-2.0.3\include;C:\lib\SDL2_image-2.0.0\include;$(ProjectDir)\..\..\..\source</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(TBB40_INSTALL_DIR)\include;C:\lib\SDL2-2.0.3\include;C:\lib\SDL2_image-2.0.0\include;$(ProjectDir)\..\..\..\source</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\lib\tbb44\lib\ia32\vc12;C:\lib\SDL2-2.0.3\lib\x86;C:\lib\SDL2_image-2.0.0\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(TBB40_INSTALL_DIR)\lib\ia32\vc12;C:\lib\SDL2-2.0.3\lib\x86;C:\lib\SDL2_image-2.0.0\lib\x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>sdl2_image.lib;sdl2main.lib;sdl2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
@@ -75,14 +75,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\lib\tbb44\include;C:\lib\SDL2-2.0.3\include;C:\lib\SDL2_image-2.0.0\include;$(ProjectDir)\..\..\..\source</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(TBB40_INSTALL_DIR)\include;C:\lib\SDL2-2.0.3\include;C:\lib\SDL2_image-2.0.0\include;$(ProjectDir)\..\..\..\source</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>sdl2_image.lib;sdl2main.lib;sdl2.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\lib\tbb44\lib\ia32\vc12;C:\lib\SDL2-2.0.3\lib\x86;C:\lib\SDL2_image-2.0.0\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(TBB40_INSTALL_DIR)\lib\ia32\vc12;C:\lib\SDL2-2.0.3\lib\x86;C:\lib\SDL2_image-2.0.0\lib\x86</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
       <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
     </Link>
@@ -94,7 +94,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\lib\tbb44\include;C:\lib\SDL2-2.0.3\include;C:\lib\SDL2_image-2.0.0\include;$(ProjectDir)\..\..\..\source</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(TBB40_INSTALL_DIR)\include;C:\lib\SDL2-2.0.3\include;C:\lib\SDL2_image-2.0.0\include;$(ProjectDir)\..\..\..\source</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>EXCLUSIVE_MODE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -103,7 +103,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>sdl2_image.lib;sdl2main.lib;sdl2.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\lib\tbb44\lib\ia32\vc12;C:\lib\SDL2-2.0.3\lib\x86;C:\lib\SDL2_image-2.0.0\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(TBB40_INSTALL_DIR)\lib\ia32\vc12;C:\lib\SDL2-2.0.3\lib\x86;C:\lib\SDL2_image-2.0.0\lib\x86</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
       <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
     </Link>
