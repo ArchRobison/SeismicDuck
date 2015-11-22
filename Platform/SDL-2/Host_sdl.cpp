@@ -22,7 +22,15 @@ limitations under the License.
 #include <cstdlib>
 #include <string>
 
-static SDL_PixelFormat ScreenFormat;
+static SDL_PixelFormat* ScreenFormat;
+
+#ifdef __APPLE__
+// MacOS/SDL-2 have a texture synchronization bug.  
+// The code works around it by manual double-buffering.
+const int N_TEXTURE = 2;
+#else
+const int N_TEXTURE = 1;
+#endif
 
 static void ReportResourceError( const char* routine, const char* resourceName, const char* error ) {
     printf( "Internal error: %s failed %s: %s\n", routine, resourceName, error );
@@ -35,7 +43,7 @@ void HostLoadResource(BuiltFromResourcePixMap& item) {
     path += item.resourceName();
     path += ".png";
     if( SDL_Surface* raw = IMG_Load(path.c_str()) ) {
-        if( SDL_Surface* image = SDL_ConvertSurface(raw, &ScreenFormat, 0) ) {
+        if( SDL_Surface* image = SDL_ConvertSurface(raw, ScreenFormat, 0) ) {
             SDL_FreeSurface(raw);
             if(SDL_LockSurface(image)==0) {
                 NimblePixMap map(image->w, image->h, 8*sizeof(NimblePixel), image->pixels, image->pitch);
@@ -140,14 +148,15 @@ static void PollEvents() {
 static const bool UseRendererForUnlimitedRate = true;
 
 //! Destroy renderer and texture, then recreate them if they are to be used.  Return true if success; false if error occurs.
-static bool RebuildRendererAndTexture(SDL_Window* window , int w, int h, SDL_Renderer*& renderer, SDL_Texture*& texture) {
-    if( texture ) {
-        SDL_DestroyTexture(texture);
-        texture = NULL;
-    }
+static bool RebuildRendererAndTexture(SDL_Window* window , int w, int h, SDL_Renderer*& renderer, SDL_Texture* texture[N_TEXTURE]) {
+    for( int i=0; i<N_TEXTURE; ++i )
+        if( texture[i] ) {
+            SDL_DestroyTexture(texture[i]);
+            texture[i] = nullptr;
+        }
     if( renderer ) {
         SDL_DestroyRenderer(renderer);
-        renderer = NULL;
+        renderer = nullptr;
     }
     if( UseRendererForUnlimitedRate || NewFrameIntervalRate>0 ) {
         Uint32 flags = SDL_RENDERER_ACCELERATED;
@@ -158,10 +167,12 @@ static bool RebuildRendererAndTexture(SDL_Window* window , int w, int h, SDL_Ren
             printf("Internal error: SDL_CreateRenderer failed: %s\n", SDL_GetError());
             return false;
         }
-        texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, w, h);
-        if( !texture ) {
-            printf("Internal error: SDL_CreateRenderer failed: %s\n", SDL_GetError());
-            return false;
+        for( int i=0; i<N_TEXTURE; ++i ) {
+            texture[i] = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, w, h);
+            if( !texture[i] ) {
+                printf("Internal error: SDL_CreateRenderer failed: %s\n", SDL_GetError());
+                return false;
+            }
         }
     }
     OldFrameIntervalRate = NewFrameIntervalRate;
@@ -192,45 +203,32 @@ int main(int argc, char* argv[]){
         w,
         h,
 #if EXCLUSIVE_MODE
-        SDL_WINDOW_FULLSCREEN_DESKTOP
+        SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SHOWN
 #else
-        0
+        SDL_WINDOW_SHOWN
 #endif
         );
     InitializeKeyTranslationTables();
-
-    SDL_Surface* surface = SDL_GetWindowSurface(window);
-    ScreenFormat = *surface->format;
-    ScreenFormat.format = SDL_PIXELFORMAT_ARGB8888;
-    ScreenFormat.Amask = 0xFF000000;
-    ScreenFormat.Ashift = 0;
+    ScreenFormat = SDL_AllocFormat(SDL_PIXELFORMAT_ARGB8888);
     if(GameInitialize()) {
         SDL_Renderer* renderer = NULL;
-        SDL_Texture* texture = NULL;
+        SDL_Texture* texture[N_TEXTURE];
+        for( int i=0; i<N_TEXTURE; ++i )
+            texture[i] = nullptr;
+        int textureIndex = 0;
         while(!Quit) {
             if(NewFrameIntervalRate!=OldFrameIntervalRate)
                 if(!RebuildRendererAndTexture(window, w, h, renderer, texture))
                     break;
             void* pixels;
             int pitch;
-            SDL_Surface* surface = NULL;
-            if(texture) {
-                if(SDL_LockTexture(texture, NULL, &pixels, &pitch)) {
-                    printf("Internal eror: SDL_LockTexture failed: %s\n", SDL_GetError());
-                    break;
-                }
-            } else {
-                if(surface = SDL_GetWindowSurface(window)) {
-                    if(SDL_LockSurface(surface)) {
-                        printf("Internal eror: SDL_LockSurface failed: %s\n", SDL_GetError());
-                        break;
-                    }
-                    pixels = surface->pixels;
-                    pitch = surface->pitch;
-                } else {
-                    printf("Internal eror: SDL_GetWindowSurface failed: %s\n", SDL_GetError());
-                    break;
-                }
+            if( !texture[textureIndex] ) {
+                fprintf(stderr,"No texture!\n");
+                abort();
+            } 
+            if(SDL_LockTexture(texture[textureIndex], NULL, &pixels, &pitch)) {
+                printf("Internal eror: SDL_LockTexture failed: %s\n", SDL_GetError());
+                break;
             }
             NimblePixMap screen(w, h, 8*sizeof(NimblePixel), pixels, pitch);
             if(Resize) {
@@ -238,20 +236,20 @@ int main(int argc, char* argv[]){
                 Resize = false;
             }
             GameUpdateDraw(screen, NimbleUpdate|NimbleDraw);
-            if(texture) {
-                SDL_UnlockTexture(texture);
-                SDL_RenderClear(renderer);
-                SDL_RenderCopy(renderer, texture, NULL, NULL);
+            SDL_UnlockTexture(texture[textureIndex]);
+            SDL_RenderClear(renderer);
+            SDL_RenderCopy(renderer, texture[textureIndex], NULL, NULL);
+            SDL_RenderPresent(renderer);
+            for(int i=1; i<OldFrameIntervalRate; ++i) {
+                SDL_RenderCopy(renderer, texture[textureIndex], NULL, NULL);
                 SDL_RenderPresent(renderer);
-                for(int i=1; i<OldFrameIntervalRate; ++i)
-                    SDL_RenderPresent(renderer);
-            } else {
-                SDL_UnlockSurface(surface);
-                SDL_UpdateWindowSurface(window);
             }
             PollEvents();
+            textureIndex = (textureIndex + 1) & N_TEXTURE-1;
         }
-        if(texture) SDL_DestroyTexture(texture);
+        for( int i=0; i<N_TEXTURE; ++i )
+            if(texture[i])
+                SDL_DestroyTexture(texture[i]);
         if(renderer) SDL_DestroyRenderer(renderer);
     } else {
         printf("GameInitialize() failed\n");
