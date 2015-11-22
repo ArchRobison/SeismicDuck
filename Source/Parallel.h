@@ -78,7 +78,7 @@ class ghost_cell_task: public tbb::task {
     /*override*/ tbb::task* execute() {
         if( lower+1==upper ) {
             op.updateInterior(lower);
-            return NULL;
+            return nullptr;
         } else {
             // Find place to split group of chunks into two subgroups
             size_t mid=lower+(upper-lower)/2u;

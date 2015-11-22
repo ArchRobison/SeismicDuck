@@ -45,7 +45,7 @@ class Font: BuiltFromResourcePixMap {
 public:
     Font( const char* resourceName ) : 
         BuiltFromResourcePixMap(resourceName),
-        storage(NULL), myHeight(0)
+        storage(nullptr), myHeight(0)
     {
     }
     ~Font() {delete[] storage;}
@@ -263,8 +263,8 @@ public:
             checked=2
         };
     public:
-        item( const char* text, const char* shortCut=NULL ) : 
-            next(NULL),
+        item( const char* text, const char* shortCut=nullptr ) : 
+            next(nullptr),
             myText(text), 
             myShortcut(shortCut), 
             myFlags(enabled) 
@@ -298,7 +298,7 @@ public:
             toggleChecked();
         }
     public:
-        boolItem( const char* text, const char* shortCut=NULL ) : Menu::item(text,shortCut) {}
+        boolItem( const char* text, const char* shortCut=nullptr ) : Menu::item(text,shortCut) {}
         operator bool() const {return isChecked();}
     };
 

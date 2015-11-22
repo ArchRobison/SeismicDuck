@@ -35,7 +35,7 @@ class SpriteRep {
     };
     /** Data format consists of sequence of items.  Each item is a header followed by 
         header::length occurrences of NimblePixel. 
-        NULL if not initialized. */
+        nullptr if not initialized. */
     header* myData;
 public:
     SpriteRep() : myData(0) {}
