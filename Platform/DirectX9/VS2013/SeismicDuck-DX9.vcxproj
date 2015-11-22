@@ -116,7 +116,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeader>
@@ -126,7 +126,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>kernel32.lib;d3d9.lib;dsound.lib;;user32.lib;gdi32.lib;winmm.lib;Comdlg32.lib;gdiplus.lib;Ole32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(DXSDK_DIR)\Lib\x86;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Lib;$(TBB40_INSTALL_DIR)\lib\ia32\vc9</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)\Lib\x86;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Lib;$(TBB40_INSTALL_DIR)\lib\ia32\vc12</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -156,7 +156,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>kernel32.lib;d3d9.lib;dsound.lib;;user32.lib;gdi32.lib;winmm.lib;Comdlg32.lib;gdiplus.lib;Ole32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(DXSDK_DIR)\Lib\x86;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Lib;$(TBB40_INSTALL_DIR)\lib\ia32\vc9</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)\Lib\x86;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Lib;$(TBB40_INSTALL_DIR)\lib\ia32\vc12</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -176,7 +176,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;EXCLUSIVE_MODE=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeader>
@@ -186,7 +186,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>kernel32.lib;d3d9.lib;dsound.lib;;user32.lib;gdi32.lib;winmm.lib;Comdlg32.lib;gdiplus.lib;Ole32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(DXSDK_DIR)\Lib\x86;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Lib;$(TBB40_INSTALL_DIR)\lib\ia32\vc9</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)\Lib\x86;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Lib;$(TBB40_INSTALL_DIR)\lib\ia32\vc12</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>

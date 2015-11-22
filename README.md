@@ -28,9 +28,11 @@ I would like to move to SDL2 exclusively.  However, I am currently maintaining
 both ports because the DirectX 9.0c version is capable of almost twice the
 frame rate of the SDL2 version.
 
+You will need Visual Studio 2013, or rely on up-conversion to a newer version.
+The Express edition suffices.
+
 ### SDL2 Version
 
-You will need some version of Visual Studio 2013.  The Express edition suffices.
 The solution file is in `Platform\SDL-2.0\VS2013` and
 assumes that prerequisites are in the following locations:
 * TBB is in `$(TBB40_INSTALL_DIR)`.
@@ -40,10 +42,8 @@ assumes that prerequisites are in the following locations:
 
 ### DirectX 9.0c Version
 
-You will need Visual Studio 2010, or rely on up-conversion to a newer version.
-The Express edition suffices.
-The solution file is in `SeismicDuck\Platform\DirectX9\VS2010` and
-assumes that TBB is in `$(TBB40_INSTALL_DIR)`
+The solution file is in `SeismicDuck\Platform\DirectX9\VS2013\SeismicDuck-DX9.sln`
+and assumes that TBB is in `$(TBB40_INSTALL_DIR)`
 
 MacOS
 =====
