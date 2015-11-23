@@ -12,17 +12,12 @@ CPLUS_FLAGS = -O2 -DEXCLUSIVE_MODE
 
 INCLUDE = -I../../../Source -I/usr/local/include -I/usr/local/tbb/include -I/Library/Frameworks/SDL2.framework/Headers/ -I/Library/Frameworks/SDL2_image.framework/Headers
 
-#/usr/local/lib/libSDL2.a \
-
 seismic-duck-2.0: $(OBJ)
 	clang++ -o $@ $(OBJ) $(LIB)
 
 %.o: %.cpp
 	clang++ $(CPLUS_FLAGS) $(INCLUDE) -std=c++11 -c $<
 
-#
-#a.out: redflicker.c
-#	clang -std=c11 
 LIB = -L/usr/local/lib -lSDL2 -lSDL2_image \
 -L/usr/local/tbb/lib -ltbb \
 -framework CoreAudio \
