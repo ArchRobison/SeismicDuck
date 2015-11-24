@@ -1,0 +1,476 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0F08CC541C04179100054CB6 /* AboutTheAuthor.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC371C04167100054CB6 /* AboutTheAuthor.png */; };
+		0F08CC551C04179100054CB6 /* Bankrupt.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC381C04167100054CB6 /* Bankrupt.png */; };
+		0F08CC561C04179100054CB6 /* ButtonBackground.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC391C04167100054CB6 /* ButtonBackground.png */; };
+		0F08CC571C04179100054CB6 /* ButtonSelected.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3A1C04167100054CB6 /* ButtonSelected.png */; };
+		0F08CC581C04179100054CB6 /* CashMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3B1C04167100054CB6 /* CashMeter.png */; };
+		0F08CC591C04179100054CB6 /* ColorLookupTable.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3C1C04167100054CB6 /* ColorLookupTable.png */; };
+		0F08CC5A1C04179100054CB6 /* ColorSliders.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3D1C04167100054CB6 /* ColorSliders.png */; };
+		0F08CC5B1C04179100054CB6 /* Culture.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3E1C04167100054CB6 /* Culture.png */; };
+		0F08CC5C1C04179100054CB6 /* DigitalMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3F1C04167100054CB6 /* DigitalMeter.png */; };
+		0F08CC5D1C04179100054CB6 /* DrillBit.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC401C04167100054CB6 /* DrillBit.png */; };
+		0F08CC5E1C04179100054CB6 /* FloatingRig.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC411C04167100054CB6 /* FloatingRig.png */; };
+		0F08CC5F1C04179100054CB6 /* FontSans16.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC421C04167100054CB6 /* FontSans16.png */; };
+		0F08CC601C04179100054CB6 /* GasMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC431C04167100054CB6 /* GasMeter.png */; };
+		0F08CC611C04179100054CB6 /* GeologySliders.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC441C04167100054CB6 /* GeologySliders.png */; };
+		0F08CC621C04179100054CB6 /* Keyboard.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC451C04167100054CB6 /* Keyboard.png */; };
+		0F08CC631C04179100054CB6 /* LandRig.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC461C04167100054CB6 /* LandRig.png */; };
+		0F08CC641C04179100054CB6 /* LevelContinueDialog.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC471C04167100054CB6 /* LevelContinueDialog.png */; };
+		0F08CC651C04179100054CB6 /* LevelMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC481C04167100054CB6 /* LevelMeter.png */; };
+		0F08CC661C04179100054CB6 /* Mallard.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC491C04167100054CB6 /* Mallard.png */; };
+		0F08CC671C04179100054CB6 /* OilMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4A1C04167100054CB6 /* OilMeter.png */; };
+		0F08CC681C04179100054CB6 /* Panel.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4B1C04167100054CB6 /* Panel.png */; };
+		0F08CC691C04179100054CB6 /* ShotSliders.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4C1C04167100054CB6 /* ShotSliders.png */; };
+		0F08CC6A1C04179100054CB6 /* SliderKnob.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4D1C04167100054CB6 /* SliderKnob.png */; };
+		0F08CC6B1C04179100054CB6 /* SliderKnobSelected.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4E1C04167100054CB6 /* SliderKnobSelected.png */; };
+		0F08CC6C1C04179100054CB6 /* SpeedSliders.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4F1C04167100054CB6 /* SpeedSliders.png */; };
+		0F08CC6D1C04179100054CB6 /* WarnAwayFromCultureDialog.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC501C04167100054CB6 /* WarnAwayFromCultureDialog.png */; };
+		0F08CC6E1C04179100054CB6 /* WarnBreakDrillDialog.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC511C04167100054CB6 /* WarnBreakDrillDialog.png */; };
+		0F08CC6F1C04179100054CB6 /* WaterMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC521C04167100054CB6 /* WaterMeter.png */; };
+		0F08CC701C04179100054CB6 /* WheelDigits.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC531C04167100054CB6 /* WheelDigits.png */; };
+		0F7B80001C03C35800E09EC3 /* Airgun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FF21C03C35800E09EC3 /* Airgun.cpp */; };
+		0F7B80011C03C35800E09EC3 /* AssertLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FF31C03C35800E09EC3 /* AssertLib.cpp */; };
+		0F7B80021C03C35800E09EC3 /* BuiltFromResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FF41C03C35800E09EC3 /* BuiltFromResource.cpp */; };
+		0F7B80031C03C35800E09EC3 /* ColorFunc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FF51C03C35800E09EC3 /* ColorFunc.cpp */; };
+		0F7B80041C03C35800E09EC3 /* ColorMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FF61C03C35800E09EC3 /* ColorMatrix.cpp */; };
+		0F7B80051C03C35800E09EC3 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FF71C03C35800E09EC3 /* Game.cpp */; };
+		0F7B80061C03C35800E09EC3 /* Geology.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FF81C03C35800E09EC3 /* Geology.cpp */; };
+		0F7B80071C03C35800E09EC3 /* NimbleDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FF91C03C35800E09EC3 /* NimbleDraw.cpp */; };
+		0F7B80081C03C35800E09EC3 /* Reservoir.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FFA1C03C35800E09EC3 /* Reservoir.cpp */; };
+		0F7B80091C03C35800E09EC3 /* Seismogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FFB1C03C35800E09EC3 /* Seismogram.cpp */; };
+		0F7B800A1C03C35800E09EC3 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FFC1C03C35800E09EC3 /* Sprite.cpp */; };
+		0F7B800B1C03C35800E09EC3 /* TraceLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FFD1C03C35800E09EC3 /* TraceLib.cpp */; };
+		0F7B800C1C03C35800E09EC3 /* Wavefield.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FFE1C03C35800E09EC3 /* Wavefield.cpp */; };
+		0F7B800D1C03C35800E09EC3 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FFF1C03C35800E09EC3 /* Widget.cpp */; };
+		0F7B80121C03CDE500E09EC3 /* Host_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B80111C03CDE500E09EC3 /* Host_sdl.cpp */; };
+		0F7B80141C03D1AC00E09EC3 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7B80131C03D1AC00E09EC3 /* SDL2.framework */; };
+		0F7B80161C03D37700E09EC3 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7B80151C03D37700E09EC3 /* SDL2_image.framework */; };
+		0FE543AD1C04F76F0032187F /* libtbb.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE543AC1C04F76F0032187F /* libtbb.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0F7B7FE61C03C2F500E09EC3 /* Copy File */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				0F08CC541C04179100054CB6 /* AboutTheAuthor.png in Copy File */,
+				0F08CC551C04179100054CB6 /* Bankrupt.png in Copy File */,
+				0F08CC561C04179100054CB6 /* ButtonBackground.png in Copy File */,
+				0F08CC571C04179100054CB6 /* ButtonSelected.png in Copy File */,
+				0F08CC581C04179100054CB6 /* CashMeter.png in Copy File */,
+				0F08CC591C04179100054CB6 /* ColorLookupTable.png in Copy File */,
+				0F08CC5A1C04179100054CB6 /* ColorSliders.png in Copy File */,
+				0F08CC5B1C04179100054CB6 /* Culture.png in Copy File */,
+				0F08CC5C1C04179100054CB6 /* DigitalMeter.png in Copy File */,
+				0F08CC5D1C04179100054CB6 /* DrillBit.png in Copy File */,
+				0F08CC5E1C04179100054CB6 /* FloatingRig.png in Copy File */,
+				0F08CC5F1C04179100054CB6 /* FontSans16.png in Copy File */,
+				0F08CC601C04179100054CB6 /* GasMeter.png in Copy File */,
+				0F08CC611C04179100054CB6 /* GeologySliders.png in Copy File */,
+				0F08CC621C04179100054CB6 /* Keyboard.png in Copy File */,
+				0F08CC631C04179100054CB6 /* LandRig.png in Copy File */,
+				0F08CC641C04179100054CB6 /* LevelContinueDialog.png in Copy File */,
+				0F08CC651C04179100054CB6 /* LevelMeter.png in Copy File */,
+				0F08CC661C04179100054CB6 /* Mallard.png in Copy File */,
+				0F08CC671C04179100054CB6 /* OilMeter.png in Copy File */,
+				0F08CC681C04179100054CB6 /* Panel.png in Copy File */,
+				0F08CC691C04179100054CB6 /* ShotSliders.png in Copy File */,
+				0F08CC6A1C04179100054CB6 /* SliderKnob.png in Copy File */,
+				0F08CC6B1C04179100054CB6 /* SliderKnobSelected.png in Copy File */,
+				0F08CC6C1C04179100054CB6 /* SpeedSliders.png in Copy File */,
+				0F08CC6D1C04179100054CB6 /* WarnAwayFromCultureDialog.png in Copy File */,
+				0F08CC6E1C04179100054CB6 /* WarnBreakDrillDialog.png in Copy File */,
+				0F08CC6F1C04179100054CB6 /* WaterMeter.png in Copy File */,
+				0F08CC701C04179100054CB6 /* WheelDigits.png in Copy File */,
+			);
+			name = "Copy File";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0F08CC371C04167100054CB6 /* AboutTheAuthor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AboutTheAuthor.png; path = ../../../Resource/AboutTheAuthor.png; sourceTree = "<group>"; };
+		0F08CC381C04167100054CB6 /* Bankrupt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Bankrupt.png; path = ../../../Resource/Bankrupt.png; sourceTree = "<group>"; };
+		0F08CC391C04167100054CB6 /* ButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ButtonBackground.png; path = ../../../Resource/ButtonBackground.png; sourceTree = "<group>"; };
+		0F08CC3A1C04167100054CB6 /* ButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ButtonSelected.png; path = ../../../Resource/ButtonSelected.png; sourceTree = "<group>"; };
+		0F08CC3B1C04167100054CB6 /* CashMeter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CashMeter.png; path = ../../../Resource/CashMeter.png; sourceTree = "<group>"; };
+		0F08CC3C1C04167100054CB6 /* ColorLookupTable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ColorLookupTable.png; path = ../../../Resource/ColorLookupTable.png; sourceTree = "<group>"; };
+		0F08CC3D1C04167100054CB6 /* ColorSliders.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ColorSliders.png; path = ../../../Resource/ColorSliders.png; sourceTree = "<group>"; };
+		0F08CC3E1C04167100054CB6 /* Culture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Culture.png; path = ../../../Resource/Culture.png; sourceTree = "<group>"; };
+		0F08CC3F1C04167100054CB6 /* DigitalMeter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DigitalMeter.png; path = ../../../Resource/DigitalMeter.png; sourceTree = "<group>"; };
+		0F08CC401C04167100054CB6 /* DrillBit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DrillBit.png; path = ../../../Resource/DrillBit.png; sourceTree = "<group>"; };
+		0F08CC411C04167100054CB6 /* FloatingRig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FloatingRig.png; path = ../../../Resource/FloatingRig.png; sourceTree = "<group>"; };
+		0F08CC421C04167100054CB6 /* FontSans16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FontSans16.png; path = ../../../Resource/FontSans16.png; sourceTree = "<group>"; };
+		0F08CC431C04167100054CB6 /* GasMeter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GasMeter.png; path = ../../../Resource/GasMeter.png; sourceTree = "<group>"; };
+		0F08CC441C04167100054CB6 /* GeologySliders.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GeologySliders.png; path = ../../../Resource/GeologySliders.png; sourceTree = "<group>"; };
+		0F08CC451C04167100054CB6 /* Keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Keyboard.png; path = ../../../Resource/Keyboard.png; sourceTree = "<group>"; };
+		0F08CC461C04167100054CB6 /* LandRig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LandRig.png; path = ../../../Resource/LandRig.png; sourceTree = "<group>"; };
+		0F08CC471C04167100054CB6 /* LevelContinueDialog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LevelContinueDialog.png; path = ../../../Resource/LevelContinueDialog.png; sourceTree = "<group>"; };
+		0F08CC481C04167100054CB6 /* LevelMeter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LevelMeter.png; path = ../../../Resource/LevelMeter.png; sourceTree = "<group>"; };
+		0F08CC491C04167100054CB6 /* Mallard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Mallard.png; path = ../../../Resource/Mallard.png; sourceTree = "<group>"; };
+		0F08CC4A1C04167100054CB6 /* OilMeter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = OilMeter.png; path = ../../../Resource/OilMeter.png; sourceTree = "<group>"; };
+		0F08CC4B1C04167100054CB6 /* Panel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Panel.png; path = ../../../Resource/Panel.png; sourceTree = "<group>"; };
+		0F08CC4C1C04167100054CB6 /* ShotSliders.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ShotSliders.png; path = ../../../Resource/ShotSliders.png; sourceTree = "<group>"; };
+		0F08CC4D1C04167100054CB6 /* SliderKnob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SliderKnob.png; path = ../../../Resource/SliderKnob.png; sourceTree = "<group>"; };
+		0F08CC4E1C04167100054CB6 /* SliderKnobSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SliderKnobSelected.png; path = ../../../Resource/SliderKnobSelected.png; sourceTree = "<group>"; };
+		0F08CC4F1C04167100054CB6 /* SpeedSliders.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SpeedSliders.png; path = ../../../Resource/SpeedSliders.png; sourceTree = "<group>"; };
+		0F08CC501C04167100054CB6 /* WarnAwayFromCultureDialog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WarnAwayFromCultureDialog.png; path = ../../../Resource/WarnAwayFromCultureDialog.png; sourceTree = "<group>"; };
+		0F08CC511C04167100054CB6 /* WarnBreakDrillDialog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WarnBreakDrillDialog.png; path = ../../../Resource/WarnBreakDrillDialog.png; sourceTree = "<group>"; };
+		0F08CC521C04167100054CB6 /* WaterMeter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WaterMeter.png; path = ../../../Resource/WaterMeter.png; sourceTree = "<group>"; };
+		0F08CC531C04167100054CB6 /* WheelDigits.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WheelDigits.png; path = ../../../Resource/WheelDigits.png; sourceTree = "<group>"; };
+		0F7B7FE81C03C2F500E09EC3 /* SeismicDuck */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SeismicDuck; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F7B7FF21C03C35800E09EC3 /* Airgun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Airgun.cpp; path = ../../../../Source/Airgun.cpp; sourceTree = "<group>"; };
+		0F7B7FF31C03C35800E09EC3 /* AssertLib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AssertLib.cpp; path = ../../../../Source/AssertLib.cpp; sourceTree = "<group>"; };
+		0F7B7FF41C03C35800E09EC3 /* BuiltFromResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BuiltFromResource.cpp; path = ../../../../Source/BuiltFromResource.cpp; sourceTree = "<group>"; };
+		0F7B7FF51C03C35800E09EC3 /* ColorFunc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ColorFunc.cpp; path = ../../../../Source/ColorFunc.cpp; sourceTree = "<group>"; };
+		0F7B7FF61C03C35800E09EC3 /* ColorMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ColorMatrix.cpp; path = ../../../../Source/ColorMatrix.cpp; sourceTree = "<group>"; };
+		0F7B7FF71C03C35800E09EC3 /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Game.cpp; path = ../../../../Source/Game.cpp; sourceTree = "<group>"; };
+		0F7B7FF81C03C35800E09EC3 /* Geology.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Geology.cpp; path = ../../../../Source/Geology.cpp; sourceTree = "<group>"; };
+		0F7B7FF91C03C35800E09EC3 /* NimbleDraw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NimbleDraw.cpp; path = ../../../../Source/NimbleDraw.cpp; sourceTree = "<group>"; };
+		0F7B7FFA1C03C35800E09EC3 /* Reservoir.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Reservoir.cpp; path = ../../../../Source/Reservoir.cpp; sourceTree = "<group>"; };
+		0F7B7FFB1C03C35800E09EC3 /* Seismogram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Seismogram.cpp; path = ../../../../Source/Seismogram.cpp; sourceTree = "<group>"; };
+		0F7B7FFC1C03C35800E09EC3 /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite.cpp; path = ../../../../Source/Sprite.cpp; sourceTree = "<group>"; };
+		0F7B7FFD1C03C35800E09EC3 /* TraceLib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TraceLib.cpp; path = ../../../../Source/TraceLib.cpp; sourceTree = "<group>"; };
+		0F7B7FFE1C03C35800E09EC3 /* Wavefield.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Wavefield.cpp; path = ../../../../Source/Wavefield.cpp; sourceTree = "<group>"; };
+		0F7B7FFF1C03C35800E09EC3 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Widget.cpp; path = ../../../../Source/Widget.cpp; sourceTree = "<group>"; };
+		0F7B80111C03CDE500E09EC3 /* Host_sdl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Host_sdl.cpp; path = ../../Host_sdl.cpp; sourceTree = "<group>"; };
+		0F7B80131C03D1AC00E09EC3 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
+		0F7B80151C03D37700E09EC3 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
+		0FE543AC1C04F76F0032187F /* libtbb.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtbb.dylib; path = ../../../../../../../../../opt/intel/compilers_and_libraries_2016.1.111/mac/tbb/lib/libtbb.dylib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0F7B7FE51C03C2F500E09EC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0F7B80161C03D37700E09EC3 /* SDL2_image.framework in Frameworks */,
+				0F7B80141C03D1AC00E09EC3 /* SDL2.framework in Frameworks */,
+				0FE543AD1C04F76F0032187F /* libtbb.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0F7B7FDF1C03C2F500E09EC3 = {
+			isa = PBXGroup;
+			children = (
+				0FE543AC1C04F76F0032187F /* libtbb.dylib */,
+				0FEDE7381C040C5100659547 /* Resource */,
+				0F7B7FEA1C03C2F500E09EC3 /* Source */,
+				0F7B7FE91C03C2F500E09EC3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0F7B7FE91C03C2F500E09EC3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0F7B7FE81C03C2F500E09EC3 /* SeismicDuck */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0F7B7FEA1C03C2F500E09EC3 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				0F7B80151C03D37700E09EC3 /* SDL2_image.framework */,
+				0F7B80131C03D1AC00E09EC3 /* SDL2.framework */,
+				0F7B80111C03CDE500E09EC3 /* Host_sdl.cpp */,
+				0F7B7FF21C03C35800E09EC3 /* Airgun.cpp */,
+				0F7B7FF31C03C35800E09EC3 /* AssertLib.cpp */,
+				0F7B7FF41C03C35800E09EC3 /* BuiltFromResource.cpp */,
+				0F7B7FF51C03C35800E09EC3 /* ColorFunc.cpp */,
+				0F7B7FF61C03C35800E09EC3 /* ColorMatrix.cpp */,
+				0F7B7FF71C03C35800E09EC3 /* Game.cpp */,
+				0F7B7FF81C03C35800E09EC3 /* Geology.cpp */,
+				0F7B7FF91C03C35800E09EC3 /* NimbleDraw.cpp */,
+				0F7B7FFA1C03C35800E09EC3 /* Reservoir.cpp */,
+				0F7B7FFB1C03C35800E09EC3 /* Seismogram.cpp */,
+				0F7B7FFC1C03C35800E09EC3 /* Sprite.cpp */,
+				0F7B7FFD1C03C35800E09EC3 /* TraceLib.cpp */,
+				0F7B7FFE1C03C35800E09EC3 /* Wavefield.cpp */,
+				0F7B7FFF1C03C35800E09EC3 /* Widget.cpp */,
+			);
+			name = Source;
+			path = Xcode;
+			sourceTree = "<group>";
+		};
+		0FEDE7381C040C5100659547 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				0F08CC371C04167100054CB6 /* AboutTheAuthor.png */,
+				0F08CC381C04167100054CB6 /* Bankrupt.png */,
+				0F08CC391C04167100054CB6 /* ButtonBackground.png */,
+				0F08CC3A1C04167100054CB6 /* ButtonSelected.png */,
+				0F08CC3B1C04167100054CB6 /* CashMeter.png */,
+				0F08CC3C1C04167100054CB6 /* ColorLookupTable.png */,
+				0F08CC3D1C04167100054CB6 /* ColorSliders.png */,
+				0F08CC3E1C04167100054CB6 /* Culture.png */,
+				0F08CC3F1C04167100054CB6 /* DigitalMeter.png */,
+				0F08CC401C04167100054CB6 /* DrillBit.png */,
+				0F08CC411C04167100054CB6 /* FloatingRig.png */,
+				0F08CC421C04167100054CB6 /* FontSans16.png */,
+				0F08CC431C04167100054CB6 /* GasMeter.png */,
+				0F08CC441C04167100054CB6 /* GeologySliders.png */,
+				0F08CC451C04167100054CB6 /* Keyboard.png */,
+				0F08CC461C04167100054CB6 /* LandRig.png */,
+				0F08CC471C04167100054CB6 /* LevelContinueDialog.png */,
+				0F08CC481C04167100054CB6 /* LevelMeter.png */,
+				0F08CC491C04167100054CB6 /* Mallard.png */,
+				0F08CC4A1C04167100054CB6 /* OilMeter.png */,
+				0F08CC4B1C04167100054CB6 /* Panel.png */,
+				0F08CC4C1C04167100054CB6 /* ShotSliders.png */,
+				0F08CC4D1C04167100054CB6 /* SliderKnob.png */,
+				0F08CC4E1C04167100054CB6 /* SliderKnobSelected.png */,
+				0F08CC4F1C04167100054CB6 /* SpeedSliders.png */,
+				0F08CC501C04167100054CB6 /* WarnAwayFromCultureDialog.png */,
+				0F08CC511C04167100054CB6 /* WarnBreakDrillDialog.png */,
+				0F08CC521C04167100054CB6 /* WaterMeter.png */,
+				0F08CC531C04167100054CB6 /* WheelDigits.png */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0F7B7FE71C03C2F500E09EC3 /* SeismicDuck */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0F7B7FEF1C03C2F500E09EC3 /* Build configuration list for PBXNativeTarget "SeismicDuck" */;
+			buildPhases = (
+				0F7B7FE41C03C2F500E09EC3 /* Sources */,
+				0F7B7FE51C03C2F500E09EC3 /* Frameworks */,
+				0F7B7FE61C03C2F500E09EC3 /* Copy File */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SeismicDuck;
+			productName = Xcode;
+			productReference = 0F7B7FE81C03C2F500E09EC3 /* SeismicDuck */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0F7B7FE01C03C2F500E09EC3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "Arch D. Robison";
+				TargetAttributes = {
+					0F7B7FE71C03C2F500E09EC3 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 0F7B7FE31C03C2F500E09EC3 /* Build configuration list for PBXProject "SeismicDuck" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0F7B7FDF1C03C2F500E09EC3;
+			productRefGroup = 0F7B7FE91C03C2F500E09EC3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0F7B7FE71C03C2F500E09EC3 /* SeismicDuck */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0F7B7FE41C03C2F500E09EC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0F7B80061C03C35800E09EC3 /* Geology.cpp in Sources */,
+				0F7B800C1C03C35800E09EC3 /* Wavefield.cpp in Sources */,
+				0F7B80021C03C35800E09EC3 /* BuiltFromResource.cpp in Sources */,
+				0F7B80031C03C35800E09EC3 /* ColorFunc.cpp in Sources */,
+				0F7B80121C03CDE500E09EC3 /* Host_sdl.cpp in Sources */,
+				0F7B800B1C03C35800E09EC3 /* TraceLib.cpp in Sources */,
+				0F7B800D1C03C35800E09EC3 /* Widget.cpp in Sources */,
+				0F7B80081C03C35800E09EC3 /* Reservoir.cpp in Sources */,
+				0F7B80041C03C35800E09EC3 /* ColorMatrix.cpp in Sources */,
+				0F7B80071C03C35800E09EC3 /* NimbleDraw.cpp in Sources */,
+				0F7B800A1C03C35800E09EC3 /* Sprite.cpp in Sources */,
+				0F7B80051C03C35800E09EC3 /* Game.cpp in Sources */,
+				0F7B80001C03C35800E09EC3 /* Airgun.cpp in Sources */,
+				0F7B80091C03C35800E09EC3 /* Seismogram.cpp in Sources */,
+				0F7B80011C03C35800E09EC3 /* AssertLib.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0F7B7FED1C03C2F500E09EC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = /Applications/SeismicDuck.app;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		0F7B7FEE1C03C2F500E09EC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = /Applications/SeismicDuck.app;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		0F7B7FF01C03C2F500E09EC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_X86_VECTOR_INSTRUCTIONS = sse4.2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"HOST_PRODUCTION_BUILD=1",
+					"DEBUG=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					/opt/intel/compilers_and_libraries/mac/tbb/include,
+					/Library/Frameworks/SDL2_image.framework/Headers/,
+					/Library/Frameworks/SDL2.framework/Headers/,
+				);
+				INSTALL_PATH = /Applications/SeismicDuck.app;
+				LIBRARY_SEARCH_PATHS = /opt/intel/compilers_and_libraries_2016.1.111/mac/tbb/lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = /opt/intel/compilers_and_libraries/mac/tbb/include;
+			};
+			name = Debug;
+		};
+		0F7B7FF11C03C2F500E09EC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_X86_VECTOR_INSTRUCTIONS = sse4.2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"HOST_PRODUCTION_BUILD=1",
+					"ASSERTIONS=0",
+					"EXCLUSIVE_MODE=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					/opt/intel/compilers_and_libraries/mac/tbb/include,
+					/Library/Frameworks/SDL2_image.framework/Headers/,
+					/Library/Frameworks/SDL2.framework/Headers/,
+				);
+				INSTALL_PATH = /Applications/SeismicDuck.app;
+				LIBRARY_SEARCH_PATHS = /opt/intel/compilers_and_libraries_2016.1.111/mac/tbb/lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = /opt/intel/compilers_and_libraries/mac/tbb/include;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0F7B7FE31C03C2F500E09EC3 /* Build configuration list for PBXProject "SeismicDuck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0F7B7FED1C03C2F500E09EC3 /* Debug */,
+				0F7B7FEE1C03C2F500E09EC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0F7B7FEF1C03C2F500E09EC3 /* Build configuration list for PBXNativeTarget "SeismicDuck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0F7B7FF01C03C2F500E09EC3 /* Debug */,
+				0F7B7FF11C03C2F500E09EC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0F7B7FE01C03C2F500E09EC3 /* Project object */;
+}
