@@ -148,7 +148,7 @@ int Font::drawOn( NimblePixMap& map, int x, int y, const char* s, NimblePixel in
         byte* p = storage + start[c-charMin];
         byte* q = storage + start[c+1-charMin];
         Assert((q-p)%myHeight==0);
-        int width = (q-p)/myHeight;
+        int width = int((q-p)/myHeight);
         if( x+width>map.width() ) {
             width = map.width()-x;
             if( width==0 )

@@ -73,7 +73,7 @@ void parallel_ghost_cell( size_t n, const Op& op ) {
 //! TBB task for parallel_ghost_cell
 template<typename Op>
 class ghost_cell_task: public tbb::task {
-    size_t lower, upper;
+    int lower, upper;
     const Op op;
     /*override*/ tbb::task* execute() {
         if( lower+1==upper ) {
@@ -81,7 +81,7 @@ class ghost_cell_task: public tbb::task {
             return nullptr;
         } else {
             // Find place to split group of chunks into two subgroups
-            size_t mid=lower+(upper-lower)/2u;
+            int mid=lower+((upper-lower)>>1);
             // Exchange border information along the split
             op.exchangeBorders(mid);
             // Evaluate the two subgroups in parallel.  
@@ -98,14 +98,14 @@ class ghost_cell_task: public tbb::task {
     }
 public:
     //! Construct task that evaluates group of chunks [l..u) using op_.
-    ghost_cell_task( size_t l, size_t u, const Op& op_ ) : lower(l), upper(u), op(op_) {}
+    ghost_cell_task( int l, int u, const Op& op_ ) : lower(l), upper(u), op(op_) {}
 };
 
 //! TBB divide and conquer implementation of one-dimensional ghost cell pattern.
 template<typename Op>
 void parallel_ghost_cell( size_t n, const Op& op ) {
     if( n>0 ) {
-        tbb::task* t = new( tbb::task::allocate_root() ) ghost_cell_task<Op>(0,n,op);
+        tbb::task* t = new( tbb::task::allocate_root() ) ghost_cell_task<Op>(0,int(n),op);
         tbb::task::spawn_root_and_wait(*t);
     }
 };

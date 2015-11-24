@@ -8,18 +8,19 @@ OBJ = Airgun.o AssertLib.o BuiltFromResource.o ColorFunc.o ColorMatrix.o \
 
 #CPLUS_FLAGS = -O0 -g 
 #CPLUS_FLAGS = -O2 
-CPLUS_FLAGS = -O2 -DEXCLUSIVE_MODE
+CPLUS_FLAGS = -O2 -DEXCLUSIVE_MODE -DASSERTIONS=0
 
-INCLUDE = -I../../../Source -I/usr/local/include -I/usr/local/tbb/include -I/Library/Frameworks/SDL2.framework/Headers/ -I/Library/Frameworks/SDL2_image.framework/Headers
+INCLUDE = -I../../../Source -I/usr/local/include -I/Library/Frameworks/SDL2.framework/Headers/ -I/Library/Frameworks/SDL2_image.framework/Headers
+
+MIN = -mmacosx-version-min=10.8
 
 seismic-duck-2.0: $(OBJ)
-	clang++ -o $@ $(OBJ) $(LIB)
+	clang++ $(MIN) -o $@ $(OBJ) $(LIB)
 
 %.o: %.cpp
-	clang++ $(CPLUS_FLAGS) $(INCLUDE) -std=c++11 -c $<
+	clang++ $(MIN) $(CPLUS_FLAGS) $(INCLUDE) -std=c++11 -c $<
 
-LIB = -L/usr/local/lib -lSDL2 -lSDL2_image \
--L/usr/local/tbb/lib -ltbb \
+LIB = -L/usr/local/lib -lSDL2 -lSDL2_image -ltbb \
 -framework CoreAudio \
 -framework AudioUnit \
 -framework CoreFoundation \
@@ -31,6 +32,6 @@ LIB = -L/usr/local/lib -lSDL2 -lSDL2_image \
 -liconv 
 
 clean:
-	rm -f *.o
+	rm -f *.o seismic-duck-2.0
 
 *.o: Makefile

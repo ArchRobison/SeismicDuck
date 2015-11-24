@@ -195,8 +195,7 @@ void Geology::generate( const GeologyParameters& parameters, int width, int heig
     RandomStream rs(parameters.random);
 
     // Pick parameters for anticlinal bumps
-    const int n_bump = parameters.nBump;
-    Assert( n_bump>=0 );
+    Assert( parameters.nBump>=0 );
     
     // Compute linear coefficients for general dip.
     // dip_slope is in units of 1/delta_h.

@@ -56,8 +56,8 @@ void SpriteRep::buildFrom( const NimblePixMap& map, int top, int bottom, bool fl
                     dataSize += (sizeof(header)-sizeof(NimblePixel))+dataBytes;
                 } else {
                     header* h = (header*)dataPointer;
-                    h->length = dataBytes/sizeof(NimblePixel);
-                    h->x = begin-left;
+                    h->length = unsigned(dataBytes/sizeof(NimblePixel));
+                    h->x = int(begin-left);
                     h->y = y-top;
                     std::memcpy( h->pixels, begin, dataBytes );
                     dataPointer = (header*)&h->pixels[h->length];

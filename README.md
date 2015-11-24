@@ -48,17 +48,14 @@ and assumes that TBB is in `$(TBB40_INSTALL_DIR)`
 MacOS
 =====
 
-_Seismic Duck_ for MacOS uses SDL2.
-The Makefile assumes TBB is installed in `/usr/local/tbb/`, i.e. the include 
-and lib paths are:
-* `/usr/local/tbb/include`
-* `/usr/local/tbb/lib`
+_Seismic Duck_ for MacOS uses SDL2 and TBB.
 
-The build process is Unix style with a Makefile.
+The build process is Unix style with a Makefile.  
+Assuming bash is your shell, the steps are:
 
-1.  `cd Platform\SDL-2.0\MacOS`
-2.  Run `make`, which should build a bunch of `.o` files and link them to an executable `seismic-duck-2.0`.
-3.  Add directory path of `libtbb.dylib` to `DYLD_LIBRARY_PATH`.
+1.  `source /opt/intel/tbb/bin/tbbvars.sh`.  This step sets environment variables `LIBRARY_PATH` and `CPATH` tell the compiler and linker where to find TBB headers and libraries.
+2.  `cd Platform\SDL-2.0\MacOS`
+3.  Run `make`, which should build a bunch of `.o` files and link them to an executable `seismic-duck-2.0`.
 4.  Run `seismic-duck-2.0`.
 
 Linux

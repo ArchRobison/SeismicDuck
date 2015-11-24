@@ -1,4 +1,4 @@
-/* Copyright 2015 Arch D. Robison
+/* Copyright 2014-2015 Arch D. Robison
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@ limitations under the License.
 
 #include "SDL.h"
 #include "SDL_image.h"
-#include "Host.h"
-#include "Game.h"
-#include "BuiltFromResource.h"
+#include "../../Source/Host.h"
+#include "../../Source/Game.h"
+#include "../../Source/BuiltFromResource.h"
 #include <cstdio>
 #include <cstdlib>
 #include <string>
@@ -33,13 +33,16 @@ const int N_TEXTURE = 1;
 #endif
 
 static void ReportResourceError( const char* routine, const char* resourceName, const char* error ) {
-    printf( "Internal error: %s failed %s: %s\n", routine, resourceName, error );
+    std::printf( "Internal error: %s failed %s: %s\n", routine, resourceName, error );
     HostExit();
 }
 
 void HostLoadResource(BuiltFromResourcePixMap& item) {
-    const char* s = item.resourceName();
+#if defined(HOST_PRODUCTION_BUILD) && __APPLE__
+    std::string path("");
+#else
     std::string path("../../../Resource/"); // FIXME - needs to be different for installed game
+#endif
     path += item.resourceName();
     path += ".png";
     if( SDL_Surface* raw = IMG_Load(path.c_str()) ) {
@@ -57,6 +60,13 @@ void HostLoadResource(BuiltFromResourcePixMap& item) {
             ReportResourceError("SDL_ConvertSurface", item.resourceName(), SDL_GetError());
         }
     } else {
+#ifdef _WIN32
+        char* cwd = _getcwd(nullptr,0);
+#else
+        char* cwd = getcwd(nullptr,0);
+#endif /*__APPLE__*/
+        std::printf("cwd = %s\n",cwd);
+        std::free(cwd);
         ReportResourceError("IMG_Load", path.c_str(), IMG_GetError());
     }
 }
