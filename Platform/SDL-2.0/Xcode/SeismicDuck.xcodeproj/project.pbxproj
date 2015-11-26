@@ -7,35 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0F08CC541C04179100054CB6 /* AboutTheAuthor.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC371C04167100054CB6 /* AboutTheAuthor.png */; };
-		0F08CC551C04179100054CB6 /* Bankrupt.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC381C04167100054CB6 /* Bankrupt.png */; };
-		0F08CC561C04179100054CB6 /* ButtonBackground.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC391C04167100054CB6 /* ButtonBackground.png */; };
-		0F08CC571C04179100054CB6 /* ButtonSelected.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3A1C04167100054CB6 /* ButtonSelected.png */; };
-		0F08CC581C04179100054CB6 /* CashMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3B1C04167100054CB6 /* CashMeter.png */; };
-		0F08CC591C04179100054CB6 /* ColorLookupTable.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3C1C04167100054CB6 /* ColorLookupTable.png */; };
-		0F08CC5A1C04179100054CB6 /* ColorSliders.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3D1C04167100054CB6 /* ColorSliders.png */; };
-		0F08CC5B1C04179100054CB6 /* Culture.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3E1C04167100054CB6 /* Culture.png */; };
-		0F08CC5C1C04179100054CB6 /* DigitalMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3F1C04167100054CB6 /* DigitalMeter.png */; };
-		0F08CC5D1C04179100054CB6 /* DrillBit.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC401C04167100054CB6 /* DrillBit.png */; };
-		0F08CC5E1C04179100054CB6 /* FloatingRig.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC411C04167100054CB6 /* FloatingRig.png */; };
-		0F08CC5F1C04179100054CB6 /* FontSans16.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC421C04167100054CB6 /* FontSans16.png */; };
-		0F08CC601C04179100054CB6 /* GasMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC431C04167100054CB6 /* GasMeter.png */; };
-		0F08CC611C04179100054CB6 /* GeologySliders.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC441C04167100054CB6 /* GeologySliders.png */; };
-		0F08CC621C04179100054CB6 /* Keyboard.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC451C04167100054CB6 /* Keyboard.png */; };
-		0F08CC631C04179100054CB6 /* LandRig.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC461C04167100054CB6 /* LandRig.png */; };
-		0F08CC641C04179100054CB6 /* LevelContinueDialog.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC471C04167100054CB6 /* LevelContinueDialog.png */; };
-		0F08CC651C04179100054CB6 /* LevelMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC481C04167100054CB6 /* LevelMeter.png */; };
-		0F08CC661C04179100054CB6 /* Mallard.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC491C04167100054CB6 /* Mallard.png */; };
-		0F08CC671C04179100054CB6 /* OilMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4A1C04167100054CB6 /* OilMeter.png */; };
-		0F08CC681C04179100054CB6 /* Panel.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4B1C04167100054CB6 /* Panel.png */; };
-		0F08CC691C04179100054CB6 /* ShotSliders.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4C1C04167100054CB6 /* ShotSliders.png */; };
-		0F08CC6A1C04179100054CB6 /* SliderKnob.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4D1C04167100054CB6 /* SliderKnob.png */; };
-		0F08CC6B1C04179100054CB6 /* SliderKnobSelected.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4E1C04167100054CB6 /* SliderKnobSelected.png */; };
-		0F08CC6C1C04179100054CB6 /* SpeedSliders.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4F1C04167100054CB6 /* SpeedSliders.png */; };
-		0F08CC6D1C04179100054CB6 /* WarnAwayFromCultureDialog.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC501C04167100054CB6 /* WarnAwayFromCultureDialog.png */; };
-		0F08CC6E1C04179100054CB6 /* WarnBreakDrillDialog.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC511C04167100054CB6 /* WarnBreakDrillDialog.png */; };
-		0F08CC6F1C04179100054CB6 /* WaterMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC521C04167100054CB6 /* WaterMeter.png */; };
-		0F08CC701C04179100054CB6 /* WheelDigits.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC531C04167100054CB6 /* WheelDigits.png */; };
 		0F7B80001C03C35800E09EC3 /* Airgun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FF21C03C35800E09EC3 /* Airgun.cpp */; };
 		0F7B80011C03C35800E09EC3 /* AssertLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FF31C03C35800E09EC3 /* AssertLib.cpp */; };
 		0F7B80021C03C35800E09EC3 /* BuiltFromResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B7FF41C03C35800E09EC3 /* BuiltFromResource.cpp */; };
@@ -53,6 +24,36 @@
 		0F7B80121C03CDE500E09EC3 /* Host_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B80111C03CDE500E09EC3 /* Host_sdl.cpp */; };
 		0F7B80141C03D1AC00E09EC3 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7B80131C03D1AC00E09EC3 /* SDL2.framework */; };
 		0F7B80161C03D37700E09EC3 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7B80151C03D37700E09EC3 /* SDL2_image.framework */; };
+		0FA422081C051EEE004BFDF7 /* libtbb.dylib in Copy File */ = {isa = PBXBuildFile; fileRef = 0FE543AC1C04F76F0032187F /* libtbb.dylib */; };
+		0FB346F31C0784F00059E9EF /* AboutTheAuthor.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC371C04167100054CB6 /* AboutTheAuthor.png */; };
+		0FB346F41C0784F00059E9EF /* Bankrupt.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC381C04167100054CB6 /* Bankrupt.png */; };
+		0FB346F51C0784F00059E9EF /* ButtonBackground.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC391C04167100054CB6 /* ButtonBackground.png */; };
+		0FB346F61C0784F00059E9EF /* ButtonSelected.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3A1C04167100054CB6 /* ButtonSelected.png */; };
+		0FB346F71C0784F00059E9EF /* CashMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3B1C04167100054CB6 /* CashMeter.png */; };
+		0FB346F81C0784F00059E9EF /* ColorLookupTable.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3C1C04167100054CB6 /* ColorLookupTable.png */; };
+		0FB346F91C0784F00059E9EF /* ColorSliders.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3D1C04167100054CB6 /* ColorSliders.png */; };
+		0FB346FA1C0784F00059E9EF /* Culture.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3E1C04167100054CB6 /* Culture.png */; };
+		0FB346FB1C0784F00059E9EF /* DigitalMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC3F1C04167100054CB6 /* DigitalMeter.png */; };
+		0FB346FC1C0784F00059E9EF /* DrillBit.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC401C04167100054CB6 /* DrillBit.png */; };
+		0FB346FD1C0784F00059E9EF /* FloatingRig.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC411C04167100054CB6 /* FloatingRig.png */; };
+		0FB346FE1C0784F00059E9EF /* FontSans16.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC421C04167100054CB6 /* FontSans16.png */; };
+		0FB346FF1C0784F00059E9EF /* GasMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC431C04167100054CB6 /* GasMeter.png */; };
+		0FB347001C0784F00059E9EF /* GeologySliders.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC441C04167100054CB6 /* GeologySliders.png */; };
+		0FB347011C0784F00059E9EF /* Keyboard.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC451C04167100054CB6 /* Keyboard.png */; };
+		0FB347021C0784F00059E9EF /* LandRig.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC461C04167100054CB6 /* LandRig.png */; };
+		0FB347031C0784F00059E9EF /* LevelContinueDialog.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC471C04167100054CB6 /* LevelContinueDialog.png */; };
+		0FB347041C0784F00059E9EF /* LevelMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC481C04167100054CB6 /* LevelMeter.png */; };
+		0FB347051C0784F00059E9EF /* Mallard.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC491C04167100054CB6 /* Mallard.png */; };
+		0FB347061C0784F00059E9EF /* OilMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4A1C04167100054CB6 /* OilMeter.png */; };
+		0FB347071C0784F00059E9EF /* Panel.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4B1C04167100054CB6 /* Panel.png */; };
+		0FB347081C0784F00059E9EF /* ShotSliders.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4C1C04167100054CB6 /* ShotSliders.png */; };
+		0FB347091C0784F00059E9EF /* SliderKnob.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4D1C04167100054CB6 /* SliderKnob.png */; };
+		0FB3470A1C0784F00059E9EF /* SliderKnobSelected.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4E1C04167100054CB6 /* SliderKnobSelected.png */; };
+		0FB3470B1C0784F00059E9EF /* SpeedSliders.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC4F1C04167100054CB6 /* SpeedSliders.png */; };
+		0FB3470C1C0784F00059E9EF /* WarnAwayFromCultureDialog.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC501C04167100054CB6 /* WarnAwayFromCultureDialog.png */; };
+		0FB3470D1C0784F00059E9EF /* WarnBreakDrillDialog.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC511C04167100054CB6 /* WarnBreakDrillDialog.png */; };
+		0FB3470E1C0784F00059E9EF /* WaterMeter.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC521C04167100054CB6 /* WaterMeter.png */; };
+		0FB3470F1C0784F00059E9EF /* WheelDigits.png in Copy File */ = {isa = PBXBuildFile; fileRef = 0F08CC531C04167100054CB6 /* WheelDigits.png */; };
 		0FE543AD1C04F76F0032187F /* libtbb.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE543AC1C04F76F0032187F /* libtbb.dylib */; };
 /* End PBXBuildFile section */
 
@@ -61,37 +62,38 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "";
-			dstSubfolderSpec = 16;
+			dstSubfolderSpec = 10;
 			files = (
-				0F08CC541C04179100054CB6 /* AboutTheAuthor.png in Copy File */,
-				0F08CC551C04179100054CB6 /* Bankrupt.png in Copy File */,
-				0F08CC561C04179100054CB6 /* ButtonBackground.png in Copy File */,
-				0F08CC571C04179100054CB6 /* ButtonSelected.png in Copy File */,
-				0F08CC581C04179100054CB6 /* CashMeter.png in Copy File */,
-				0F08CC591C04179100054CB6 /* ColorLookupTable.png in Copy File */,
-				0F08CC5A1C04179100054CB6 /* ColorSliders.png in Copy File */,
-				0F08CC5B1C04179100054CB6 /* Culture.png in Copy File */,
-				0F08CC5C1C04179100054CB6 /* DigitalMeter.png in Copy File */,
-				0F08CC5D1C04179100054CB6 /* DrillBit.png in Copy File */,
-				0F08CC5E1C04179100054CB6 /* FloatingRig.png in Copy File */,
-				0F08CC5F1C04179100054CB6 /* FontSans16.png in Copy File */,
-				0F08CC601C04179100054CB6 /* GasMeter.png in Copy File */,
-				0F08CC611C04179100054CB6 /* GeologySliders.png in Copy File */,
-				0F08CC621C04179100054CB6 /* Keyboard.png in Copy File */,
-				0F08CC631C04179100054CB6 /* LandRig.png in Copy File */,
-				0F08CC641C04179100054CB6 /* LevelContinueDialog.png in Copy File */,
-				0F08CC651C04179100054CB6 /* LevelMeter.png in Copy File */,
-				0F08CC661C04179100054CB6 /* Mallard.png in Copy File */,
-				0F08CC671C04179100054CB6 /* OilMeter.png in Copy File */,
-				0F08CC681C04179100054CB6 /* Panel.png in Copy File */,
-				0F08CC691C04179100054CB6 /* ShotSliders.png in Copy File */,
-				0F08CC6A1C04179100054CB6 /* SliderKnob.png in Copy File */,
-				0F08CC6B1C04179100054CB6 /* SliderKnobSelected.png in Copy File */,
-				0F08CC6C1C04179100054CB6 /* SpeedSliders.png in Copy File */,
-				0F08CC6D1C04179100054CB6 /* WarnAwayFromCultureDialog.png in Copy File */,
-				0F08CC6E1C04179100054CB6 /* WarnBreakDrillDialog.png in Copy File */,
-				0F08CC6F1C04179100054CB6 /* WaterMeter.png in Copy File */,
-				0F08CC701C04179100054CB6 /* WheelDigits.png in Copy File */,
+				0FB346F31C0784F00059E9EF /* AboutTheAuthor.png in Copy File */,
+				0FB346F41C0784F00059E9EF /* Bankrupt.png in Copy File */,
+				0FB346F51C0784F00059E9EF /* ButtonBackground.png in Copy File */,
+				0FB346F61C0784F00059E9EF /* ButtonSelected.png in Copy File */,
+				0FB346F71C0784F00059E9EF /* CashMeter.png in Copy File */,
+				0FB346F81C0784F00059E9EF /* ColorLookupTable.png in Copy File */,
+				0FB346F91C0784F00059E9EF /* ColorSliders.png in Copy File */,
+				0FB346FA1C0784F00059E9EF /* Culture.png in Copy File */,
+				0FB346FB1C0784F00059E9EF /* DigitalMeter.png in Copy File */,
+				0FB346FC1C0784F00059E9EF /* DrillBit.png in Copy File */,
+				0FB346FD1C0784F00059E9EF /* FloatingRig.png in Copy File */,
+				0FB346FE1C0784F00059E9EF /* FontSans16.png in Copy File */,
+				0FB346FF1C0784F00059E9EF /* GasMeter.png in Copy File */,
+				0FB347001C0784F00059E9EF /* GeologySliders.png in Copy File */,
+				0FB347011C0784F00059E9EF /* Keyboard.png in Copy File */,
+				0FB347021C0784F00059E9EF /* LandRig.png in Copy File */,
+				0FB347031C0784F00059E9EF /* LevelContinueDialog.png in Copy File */,
+				0FB347041C0784F00059E9EF /* LevelMeter.png in Copy File */,
+				0FB347051C0784F00059E9EF /* Mallard.png in Copy File */,
+				0FB347061C0784F00059E9EF /* OilMeter.png in Copy File */,
+				0FB347071C0784F00059E9EF /* Panel.png in Copy File */,
+				0FB347081C0784F00059E9EF /* ShotSliders.png in Copy File */,
+				0FB347091C0784F00059E9EF /* SliderKnob.png in Copy File */,
+				0FB3470A1C0784F00059E9EF /* SliderKnobSelected.png in Copy File */,
+				0FB3470B1C0784F00059E9EF /* SpeedSliders.png in Copy File */,
+				0FB3470C1C0784F00059E9EF /* WarnAwayFromCultureDialog.png in Copy File */,
+				0FB3470D1C0784F00059E9EF /* WarnBreakDrillDialog.png in Copy File */,
+				0FB3470E1C0784F00059E9EF /* WaterMeter.png in Copy File */,
+				0FB3470F1C0784F00059E9EF /* WheelDigits.png in Copy File */,
+				0FA422081C051EEE004BFDF7 /* libtbb.dylib in Copy File */,
 			);
 			name = "Copy File";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,6 +413,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"HOST_PRODUCTION_BUILD=1",
 					"DEBUG=1",
+					"HOST_RESOURCE_PATH=\\\".\\\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					/opt/intel/compilers_and_libraries/mac/tbb/include,
@@ -436,6 +439,7 @@
 					"HOST_PRODUCTION_BUILD=1",
 					"ASSERTIONS=0",
 					"EXCLUSIVE_MODE=1",
+					"HOST_RESOURCE_PATH=\\\".\\\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					/opt/intel/compilers_and_libraries/mac/tbb/include,

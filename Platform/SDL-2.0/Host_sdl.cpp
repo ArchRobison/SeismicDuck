@@ -38,13 +38,12 @@ static void ReportResourceError( const char* routine, const char* resourceName, 
 }
 
 void HostLoadResource(BuiltFromResourcePixMap& item) {
-#if defined(HOST_PRODUCTION_BUILD) && __APPLE__
-    std::string path("");
+#if defined(HOST_RESOURCE_PATH)
+    std::string path(HOST_RESOURCE_PATH);
 #else
-    std::string path("../../../Resource/"); // FIXME - needs to be different for installed game
+    std::string path("../../../Resource");
 #endif
-    path += item.resourceName();
-    path += ".png";
+    path = path + "/" + item.resourceName() + ".png";
     if( SDL_Surface* raw = IMG_Load(path.c_str()) ) {
         if( SDL_Surface* image = SDL_ConvertSurface(raw, ScreenFormat, 0) ) {
             SDL_FreeSurface(raw);

@@ -6,32 +6,73 @@ OBJ = Airgun.o AssertLib.o BuiltFromResource.o ColorFunc.o ColorMatrix.o \
     Game.o Geology.o NimbleDraw.o Reservoir.o Seismogram.o Sprite.o \
     TraceLib.o Wavefield.o Widget.o Host_sdl.o
 
+# Basic configuration alternatives.  Choose one of the following settings of CPLUS_FLAGS.
 #CPLUS_FLAGS = -O0 -g 
 #CPLUS_FLAGS = -O2 
 CPLUS_FLAGS = -O2 -DEXCLUSIVE_MODE -DASSERTIONS=0
 
-INCLUDE = -I../../../Source -I/usr/local/include -I/Library/Frameworks/SDL2.framework/Headers/ -I/Library/Frameworks/SDL2_image.framework/Headers
+INCLUDE = -I../../../Source -I/Library/Frameworks/SDL2.framework/Headers/ -I/Library/Frameworks/SDL2_image.framework/Headers
 
-MIN = -mmacosx-version-min=10.8
+CPLUS_FLAGS += -mmacosx-version-min=10.7 
+CPLUS = clang++ -stdlib=libstdc++
 
-seismic-duck-2.0: $(OBJ)
-	clang++ $(MIN) -o $@ $(OBJ) $(LIB)
+ifdef BUNDLE
+    APP_DIR = duck.app
+    EXE_DIR = $(APP_DIR)/Contents/MacOS
+else
+    EXE_DIR = .
+endif
+
+EXE = $(EXE_DIR)/seismic-duck-2.0
+
+$(EXE): $(OBJ) $(APP_DIR)
+	$(CPLUS) -o $@ $(OBJ) $(LIB)
 
 %.o: %.cpp
-	clang++ $(MIN) $(CPLUS_FLAGS) $(INCLUDE) -std=c++11 -c $<
+	$(CPLUS) $(CPLUS_FLAGS) $(INCLUDE) -std=c++11 -c $<
 
-LIB = -L/usr/local/lib -lSDL2 -lSDL2_image -ltbb \
+LIB = -ltbb \
 -framework CoreAudio \
 -framework AudioUnit \
 -framework CoreFoundation \
 -framework CoreGraphics \
+-framework CoreServices \
 -framework ForceFeedback \
 -framework IOKit \
 -framework AppKit \
 -framework Carbon \
+-framework ImageIO \
+-framework ApplicationServices \
 -liconv 
 
+ifdef BUNDLE
+
+    # Building Apple-style "bundle"
+    CPLUS_FLAGS += -DHOST_RESOURCE_PATH=\"../Resources\"
+    LIB += -Xlinker -rpath -Xlinker @loader_path/../Frameworks
+
+    # Statically link SLD2
+    LIB += /usr/local/lib/libSDL2.a /usr/local/lib/libSDL2_image.a 
+
+    $(APP_DIR):
+	    mkdir -p $(APP_DIR)/Contents/MacOS
+	    mkdir -p $(APP_DIR)/Contents/Frameworks
+	    cp $(TBBROOT)/lib/libtbb.dylib $(APP_DIR)/Contents/Frameworks/
+	    install_name_tool -id @rpath/libtbb.dylib $(APP_DIR)/Contents/Frameworks/libtbb.dylib
+	    mkdir -p $(APP_DIR)/Contents/Resources
+	    cp ../../../Resource/*.png $(APP_DIR)/Contents/Resources
+
+    run: $(EXE)
+	    $(EXE)
+
+else
+
+    # Build in current directory using dynamically linked libraries
+    LIB += -framework SDL2 -framework SDL2_image
+
+endif
+
 clean:
-	rm -f *.o seismic-duck-2.0
+	rm -rf *.o *.dylib seismic-duck-2.0 duck.app
 
 *.o: Makefile

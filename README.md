@@ -7,8 +7,9 @@ http://www.blonzonics.us/games/seismic-duck for an introduction to it.
 Pre-Built Version for Windows
 =============================
 
-An installer for DirectX-based _Seismic Duck_ can be dowloaded from
-http://www.blonzonics.us/games/seismic-duck/windows .
+Installers for Windows and MacOS _Seismic Duck_ can be dowloaded from
+[http://www.blonzonics.us/games/seismic-duck/]
+(http://www.blonzonics.us/games/seismic-duck/).
 
 Building from Source
 ====================
