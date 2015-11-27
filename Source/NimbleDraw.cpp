@@ -1,4 +1,4 @@
-/* Copyright 1996-2014 Arch D. Robison 
+/* Copyright 1996-2015 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -94,14 +94,16 @@ void NimblePixMap::drawOn( NimblePixMap& dst, int x, int y ) const {
     // Clip right side of source
     if( x+w>dst.width() ) {
         w = dst.width()-x;
-        if( w<=0 ) return;
     }
+    if( w<=0 ) 
+        return;
     // Clip bottom of source
     int h = height();
     if( y+h>dst.height() ) {
         h = dst.height()-y;
-        if( h<=0 ) return;
     }
+    if( h<=0 ) 
+        return;
     for( int i=Max(0,-y); i<h; ++i ) {
         std::memcpy( dst.at(x,y+i), at(j,i), w*sizeof(NimblePixel) );
     }
