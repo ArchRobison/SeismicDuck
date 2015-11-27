@@ -60,7 +60,8 @@ ifdef BUNDLE
 	    cp $(TBBROOT)/lib/libtbb.dylib $(APP_DIR)/Contents/Frameworks/
 	    install_name_tool -id @rpath/libtbb.dylib $(APP_DIR)/Contents/Frameworks/libtbb.dylib
 	    mkdir -p $(APP_DIR)/Contents/Resources
-	    cp ../../../Resource/*.png $(APP_DIR)/Contents/Resources
+	    cp ../../../Resource/*.png ../../../Resource/SeismicDuck.icns $(APP_DIR)/Contents/Resources
+	    cp Info.plist $(APP_DIR)/Contents
 
     run: $(EXE)
 	    $(EXE)
