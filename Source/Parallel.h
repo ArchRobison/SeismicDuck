@@ -1,15 +1,15 @@
-/* Copyright 1996-2014 Arch D. Robison 
+/* Copyright 1996-2015 Arch D. Robison
 
-   Licensed under the Apache License, Version 2.0 (the "License"); 
-   you may not use this file except in compliance with the License. 
-   You may obtain a copy of the License at 
-   
-       http://www.apache.org/licenses/LICENSE-2.0 
-       
-   Unless required by applicable law or agreed to in writing, software 
-   distributed under the License is distributed on an "AS IS" BASIS, 
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-   See the License for the specific language governing permissions and 
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
    limitations under the License.
  */
 
@@ -33,7 +33,7 @@
 //! Cilk implementation of one-dimensional ghost cell pattern using cilk_for.
 template<typename Op>
 void parallel_ghost_cell( size_t n, const Op& op ) {
-    cilk_for( size_t i=1; i<n; ++i ) 
+    cilk_for( size_t i=1; i<n; ++i )
         op.exchangeBorders(i);
     cilk_for( size_t i=0; i<n; ++i )
         op.updateInterior(i);
@@ -70,6 +70,8 @@ void parallel_ghost_cell( size_t n, const Op& op ) {
 
 #include "tbb/parallel_invoke.h"
 
+#define HAVE_WORKER_THROTTLE 1
+
 //! TBB task for parallel_ghost_cell
 template<typename Op>
 class ghost_cell_task: public tbb::task {
@@ -84,7 +86,7 @@ class ghost_cell_task: public tbb::task {
             int mid=lower+((upper-lower)>>1);
             // Exchange border information along the split
             op.exchangeBorders(mid);
-            // Evaluate the two subgroups in parallel.  
+            // Evaluate the two subgroups in parallel.
             task& c = *new( allocate_continuation() ) tbb::empty_task();
             // Continuation implicitly waits on 2 children.
             c.set_ref_count(2);
@@ -110,6 +112,12 @@ void parallel_ghost_cell( size_t n, const Op& op ) {
     }
 };
 
+//! Return most recent estimate of what fraction of time was spend computing. 
+float BusyFrac();
+
+// Return number of worker threads
+int WorkerCount();
+
 #else
 
 //! Serial implementation of parallel_ghost_cell
@@ -126,4 +134,5 @@ void parallel_ghost_cell( size_t n, const Op& op ) {
         op.updateInterior(i);
     }
 }
+
 #endif /* serial */

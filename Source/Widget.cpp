@@ -337,12 +337,13 @@ void BarMeter::drawOn( NimblePixMap& map, int x, int y ) const {
 // GraphMeter
 //-----------------------------------------------------------------
  
-GraphMeter::GraphMeter( int width, int height ) :
+GraphMeter::GraphMeter( int width, int height, NimbleColor penColor ) :
     myWidth(width),
     myHeight(height),
     myMin(0.0f),
     myMax(1.0f),
-    myHead(0)
+    myHead(0),
+    myPenColor(penColor.pixel())
 {
     int n = myWidth<<lg2Scale;
     myArray = new float[n];
@@ -352,7 +353,6 @@ GraphMeter::GraphMeter( int width, int height ) :
 }
  
 void GraphMeter::drawOn( NimblePixMap& map, int x, int y ) const {
-    NimblePixel green( NimbleColor(0,0xFF,0).pixel());
     NimbleRect r(x,y,x+myWidth,y+myHeight);
     map.draw(r,NimblePixel(0));
     int h = myHeight;
@@ -367,7 +367,7 @@ void GraphMeter::drawOn( NimblePixMap& map, int x, int y ) const {
         // Clip
         if( i<0 ) i=0;
         if( i>=h ) i=h-1; 
-        *(NimblePixel*)map.at(t>>scale,y+i) = green;
+        *(NimblePixel*)map.at(t>>scale,y+i) = myPenColor;
     }
 }
 

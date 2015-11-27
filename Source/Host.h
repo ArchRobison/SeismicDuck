@@ -1,4 +1,4 @@
-/* Copyright 1996-2014 Arch D. Robison 
+/* Copyright 1996-2015 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -26,6 +26,10 @@ double HostClockTime();
     1 = one per frame
     2 = every two frames */
 void HostSetFrameIntervalRate( int limit );
+
+//! Estimate on how busy host is maintaining current frame rate with current resources.
+/** 0.75 means that host is idling 25% of the time. */
+float HostBusyFrac();
 
 //! Enumeration of keys corresponding to non-printing characters. 
 enum {

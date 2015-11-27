@@ -21,6 +21,9 @@ limitations under the License.
 #include <cstdio>
 #include <cstdlib>
 #include <string>
+#ifdef _WIN32
+#include <direct.h>
+#endif
 
 static SDL_PixelFormat* ScreenFormat;
 
@@ -72,6 +75,12 @@ void HostLoadResource(BuiltFromResourcePixMap& item) {
 
 double HostClockTime() {
     return SDL_GetTicks()*0.001;
+}
+
+static float BusyFrac;
+
+float HostBusyFrac() {
+    return BusyFrac;
 }
 
 static int NewFrameIntervalRate=1, OldFrameIntervalRate=-1;
@@ -239,12 +248,17 @@ int main(int argc, char* argv[]){
                 printf("Internal eror: SDL_LockTexture failed: %s\n", SDL_GetError());
                 break;
             }
+            double t0 = HostClockTime(); 
             NimblePixMap screen(w, h, 8*sizeof(NimblePixel), pixels, pitch);
             if(Resize) {
                 GameResizeOrMove(screen);
                 Resize = false;
             }
             GameUpdateDraw(screen, NimbleUpdate|NimbleDraw);
+
+            extern void ThrottleWorkers(double,double);
+            ThrottleWorkers(t0,HostClockTime()); 
+
             SDL_UnlockTexture(texture[textureIndex]);
             SDL_RenderClear(renderer);
             // Assume 60 Hz update rate.  Simulate slower refresh rate by presenting texture twice.
