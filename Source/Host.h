@@ -27,6 +27,10 @@ double HostClockTime();
     2 = every two frames */
 void HostSetFrameIntervalRate( int limit );
 
+//! Estimate on how busy host is maintaining current frame rate with current resources.
+/** 0.75 means that host is idling 25% of the time. */
+float HostBusyFrac();
+
 //! Enumeration of keys corresponding to non-printing characters. 
 enum {
     HOST_KEY_RETURN=0xD,

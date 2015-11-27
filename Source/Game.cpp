@@ -1,4 +1,4 @@
-/* Copyright 1996-2014 Arch D. Robison 
+/* Copyright 1996-2015 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -462,6 +462,7 @@ static BarMeter OilMeter("OilMeter");
 static BarMeter GasMeter("GasMeter");
 static RubberImage PanelBackground("Panel");
 static DigitalMeter FrameRateMeter(6,1);
+static BarMeter BusyMeter("BusyMeter",/*isVertical=*/false);
 
 static MessageDialog TheLevelContinueDialog("LevelContinueDialog");
 static MessageDialog WarnBreakDrillDialog("WarnBreakDrillDialog");
@@ -715,6 +716,8 @@ void GameUpdateDraw( NimblePixMap& map, NimbleRequest request ) {
         if( ShowFrameRate ) {
             FrameRateMeter.setValue( EstimateFrameRate() );
             FrameRateMeter.drawOn( map, PanelWidth/2-FrameRateMeter.width()/2, fluidMeterY-FrameRateMeter.height()-15 ); 
+            BusyMeter.setValue( HostBusyFrac() );
+            BusyMeter.drawOn( map, PanelWidth/2-BusyMeter.width()/2, fluidMeterY-FrameRateMeter.height()-FrameRateMeter.height()-25 );
         }
         DrawClickable( TheFileMenu, map, tabLeft1, tabTop1 );
         DrawClickable( TheHelpMenu, map, tabLeft2, tabTop1 );
@@ -858,7 +861,7 @@ void ExploreNewAreaItem::onSelect() {CreateNewArea();}
 void EndGameItem::onSelect() {ScoreState.finishGame();}
 
 const char* GameTitle() {
-    return "Seismic Duck 2.0.4"
+    return "Seismic Duck 2.0.5"
 #if ASSERTIONS
            " ASSERTIONS"
 #endif

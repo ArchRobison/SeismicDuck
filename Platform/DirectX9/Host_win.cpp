@@ -1,4 +1,4 @@
-/* Copyright 1996-2014 Arch D. Robison 
+/* Copyright 1996-2015 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -276,25 +276,35 @@ static void InitializeFloatingPoint(void)
     _control87(MCW_EM,MCW_EM);
 }
 
-//! Initially recorded time from QueryPerformanceCounter
-/** This value is subtracted from subsequent calls to QueryPerformanceCounter,
-    in order to increase the number of signficicant bits returned by HostClockTime(). */
-static LARGE_INTEGER ClockBase;
-
-static LARGE_INTEGER ClockFreq;
+static double TotalClockTime;
+static LARGE_INTEGER OldClockFreq;
+static LARGE_INTEGER OldClockCount;
 
 static void InitializeClock() {
-    BOOL countStatus = QueryPerformanceCounter(&ClockBase); 
+    BOOL countStatus = QueryPerformanceCounter(&OldClockCount); 
     Assert(countStatus);
-    BOOL freqStatus = QueryPerformanceFrequency(&ClockFreq);  
+    BOOL freqStatus = QueryPerformanceFrequency(&OldClockFreq);  
     Assert(freqStatus);
 };
 
 double HostClockTime() {
-    LARGE_INTEGER count;
+    // The following algorithms attempts to compensate for dynamic frequency scaling
+    // by using the average frequency between now and the previous clock reading.
+    LARGE_INTEGER count, freq;
     BOOL counterStatus = QueryPerformanceCounter(&count); 
     Assert(counterStatus);
-    return double(count.QuadPart-ClockBase.QuadPart)/ClockFreq.QuadPart; 
+    BOOL freqStatus = QueryPerformanceFrequency(&freq);  
+    Assert(freqStatus);
+    TotalClockTime += 2*double(count.QuadPart-OldClockCount.QuadPart)/(freq.QuadPart+OldClockFreq.QuadPart);
+    OldClockCount = count;
+    OldClockFreq = freq;
+    return TotalClockTime; 
+}
+
+static float BusyFrac;
+
+float HostBusyFrac() {
+    return BusyFrac;
 }
 
 bool HostIsKeyDown( int key ) {
@@ -434,9 +444,14 @@ static void UpdateAndDraw( HWND hwnd ) {
 	GameUpdateDraw(pixmap, NimbleUpdate | NimbleDraw);
     hr = backBuffer->UnlockRect();
     Assert(hr==D3D_OK);
+    auto t1 = HostClockTime();
     backBuffer->Release();
     Device->EndScene();
+    static double oldT2;
     hr = Device->Present( 0, 0, 0, 0 );
+    auto t2 = HostClockTime();
+    BusyFrac = (t1-oldT2)/(t2-oldT2);
+    oldT2 = t2;
     if( hr!=D3D_OK ) {
         Decode(hr);
 	}
