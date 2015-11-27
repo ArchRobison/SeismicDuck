@@ -615,6 +615,8 @@ public:
 void GameUpdateDraw( NimblePixMap& map, NimbleRequest request ) {
     CheckGameInterface(GIC_GameUpdateDraw); 
 
+    AdjustThreadResources( HostBusyFrac() );
+
 #if WRITING_DOCUMENTATION
     new(&TheMap) NimblePixMap( map );
 #endif /* WRITING_DOCUMENTATION */

@@ -74,6 +74,12 @@ double HostClockTime() {
     return SDL_GetTicks()*0.001;
 }
 
+static float BusyFrac;
+
+float HostBusyFrac() {
+    return BusyFrac;
+}
+
 static int NewFrameIntervalRate=1, OldFrameIntervalRate=-1;
 
 void HostSetFrameIntervalRate(int limit) {
@@ -239,12 +245,17 @@ int main(int argc, char* argv[]){
                 printf("Internal eror: SDL_LockTexture failed: %s\n", SDL_GetError());
                 break;
             }
+            double t1 = HostClockTime(); 
             NimblePixMap screen(w, h, 8*sizeof(NimblePixel), pixels, pitch);
             if(Resize) {
                 GameResizeOrMove(screen);
                 Resize = false;
             }
             GameUpdateDraw(screen, NimbleUpdate|NimbleDraw);
+            double t2 = HostClockTime(); 
+            static double oldt2;
+            BusyFrac = (t2-t1)/(t2-oldt2);
+            oldt2 = t2;
             SDL_UnlockTexture(texture[textureIndex]);
             SDL_RenderClear(renderer);
             // Assume 60 Hz update rate.  Simulate slower refresh rate by presenting texture twice.

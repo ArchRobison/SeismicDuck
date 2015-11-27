@@ -110,6 +110,8 @@ void parallel_ghost_cell( size_t n, const Op& op ) {
     }
 };
 
+void AdjustThreadResources( float busyFrac );
+
 #else
 
 //! Serial implementation of parallel_ghost_cell
