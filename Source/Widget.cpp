@@ -1,4 +1,4 @@
-/* Copyright 1996-2014 Arch D. Robison 
+/* Copyright 1996-2015 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -308,22 +308,29 @@ void DigitalMeter::drawOn( NimblePixMap& map, int x, int y ) const {
 // BarMeter
 //-----------------------------------------------------------------
 
-BarMeter::BarMeter( const char* resourceName ) : 
-    Widget(resourceName), myValue(0) 
+BarMeter::BarMeter( const char* resourceName, bool isVertical ) : 
+    Widget(resourceName), myValue(0), myIsVertical(char(isVertical))
 {
 }
 
 void BarMeter::drawOn( NimblePixMap& map, int x, int y ) const {
-    int w = myPixMap.width()/2;
-    int h = myPixMap.height();
+    int w = width();
+    int h = height();
     float value = myValue;
     // Clip value
     if( value<0.0f ) value=0.0f;
     if( value>1.0f ) value=1.0f;
-    int fill = h*value;
-    // Draw empty part of meter
-    NimblePixMap(myPixMap, NimbleRect(0,0,w,h-fill)).drawOn( map, x, y );
-    NimblePixMap(myPixMap, NimbleRect(w,h-fill,2*w,h)).drawOn( map, x, y+h-fill );
+    if( myIsVertical ) {
+        // e = length (in pixels) of empty fraction of meter
+        int e = h-h*value;
+        NimblePixMap(myPixMap, NimbleRect(0, 0, w, e)).drawOn(map, x, y);       // Empty part
+        NimblePixMap(myPixMap, NimbleRect(w, e, 2*w, h)).drawOn(map, x, y+e);   // Full part
+    } else {
+        // f = length (in pixels) of full fraction of meter
+        int f = w*value;
+        NimblePixMap(myPixMap, NimbleRect(0, h, f, 2*h)).drawOn(map, x, y);     // Full Part
+        NimblePixMap(myPixMap, NimbleRect(f, 0, w, h)).drawOn(map, x+f, y);     // Empty Part
+    }
 }
 
 //-----------------------------------------------------------------

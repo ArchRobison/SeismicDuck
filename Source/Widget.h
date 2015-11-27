@@ -1,4 +1,4 @@
-/* Copyright 1996-2014 Arch D. Robison 
+/* Copyright 1996-2015 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -102,17 +102,18 @@ private:
     signed char myNdecimal;
 };
 
-// Vertical bar meter, such as used for gas/oil/water meters.
+//! Bar meter, such as used for gas/oil/water meters.
 /** Value of 1 is full, value of zero is empty. */
 class BarMeter: public Widget {
 public:
-    BarMeter( const char* resourceName );
+    BarMeter( const char* resourceName, bool isVertical=true );
     void drawOn( NimblePixMap& map, int x, int y ) const;
-    int width() const {return myPixMap.width()/2;}
-    int height() const {return myPixMap.height();}
+    int width() const {return myPixMap.width() >> myIsVertical;}
+    int height() const {return myPixMap.height() >> (myIsVertical^1);}
     void setValue( float value ) {myValue=value;}
 private:
     float myValue;
+    char myIsVertical;  // 1 if meter is oriented vertically, 0 otherwise.
 };
 
 class GraphMeter {
