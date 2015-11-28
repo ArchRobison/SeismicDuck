@@ -715,7 +715,8 @@ void GameUpdateDraw( NimblePixMap& map, NimbleRequest request ) {
         int tabLeft2 = PanelWidth*5/8;
         int airGunTop = tabTop2+2*TheFont.height();;
         AirgunMeter.drawOn( map, PanelWidth/2-AirgunMeter.width()/2, airGunTop );
-        if( ShowFrameRate ) {
+        BusyMeter.update(BusyFrac());
+        if(ShowFrameRate) {
             int frameMeterY = fluidMeterY-FrameRateMeter.height()-15;
             FrameRateMeter.setValue( EstimateFrameRate() );
             FrameRateMeter.drawOn( map, PanelWidth/2-FrameRateMeter.width()/2, frameMeterY ); 
@@ -723,8 +724,7 @@ void GameUpdateDraw( NimblePixMap& map, NimbleRequest request ) {
             int pairWidth = ThreadMeter.width() + 10 + BusyMeter.width();
             ThreadMeter.setValue( WorkerCount() );
             ThreadMeter.drawOn( map, PanelWidth/2 - pairWidth/2, threadMeterY );
-            BusyMeter.update( BusyFrac() );
-            BusyMeter.drawOn( map, PanelWidth/2 + pairWidth/2 - BusyMeter.width(), threadMeterY );
+             BusyMeter.drawOn( map, PanelWidth/2 + pairWidth/2 - BusyMeter.width(), threadMeterY );
         }
         DrawClickable( TheFileMenu, map, tabLeft1, tabTop1 );
         DrawClickable( TheHelpMenu, map, tabLeft2, tabTop1 );

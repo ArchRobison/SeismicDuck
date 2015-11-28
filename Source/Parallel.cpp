@@ -6,17 +6,17 @@
 // Hence to get a more reliable estimate of BusyFrac, the code estimates
 // the time looking back over a certain number of frames. 
 
-static const unsigned TimeQueueSize = 8;     // Should be power of two for speed, though other sizes will work.
-static const unsigned TimeLookback = 6;      // Number of frames to look back.  Must be less than TimeQueueSize.
+static const unsigned TimeQueueSize = 8;    // Should be power of two for speed, though other sizes will work.
+static const unsigned TimeLookback = 6;     // Number of frames to look back.  Must be less than TimeQueueSize.
 static double TimeQueue[TimeQueueSize];
-static unsigned TimeQueueIndex;              // Index into TimeQueueIndex
+static unsigned TimeQueueIndex;             // Index into TimeQueueIndex
 static float LastBusyFrac;
 
-static const float BusyFracSlow = 0.80; // The acceptable BusyFrac 
-static const float BusyFracFast = 0.60; // The acceptable BusyFrac 
-static const int LookBack = 15;         // How many frames to look back
-static const int MissTolerance = 3;     // How many misses to tolerate in a LookBack period
-static const int Settle = 15;           // Number of frames to ignore after changing thread count
+static const float BusyFracSlow = 0.80f;    // The acceptable BusyFrac 
+static const float BusyFracFast = 0.60f;    // The acceptable BusyFrac 
+static const int LookBack = 15;             // How many frames to look back
+static const int MissTolerance = 3;         // How many misses to tolerate in a LookBack period
+static const int Settle = 15;               // Number of frames to ignore after changing thread count
 
 static unsigned WasSlow;
 static unsigned WasFast;
