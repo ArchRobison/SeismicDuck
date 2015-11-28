@@ -70,6 +70,8 @@ void parallel_ghost_cell( size_t n, const Op& op ) {
 
 #include "tbb/parallel_invoke.h"
 
+#define HAVE_WORKER_THROTTLE 1
+
 //! TBB task for parallel_ghost_cell
 template<typename Op>
 class ghost_cell_task: public tbb::task {
@@ -110,6 +112,12 @@ void parallel_ghost_cell( size_t n, const Op& op ) {
     }
 };
 
+//! Return most recent estimate of what fraction of time was spend computing. 
+float BusyFrac();
+
+// Return number of worker threads
+int WorkerCount();
+
 #else
 
 //! Serial implementation of parallel_ghost_cell
@@ -126,4 +134,5 @@ void parallel_ghost_cell( size_t n, const Op& op ) {
         op.updateInterior(i);
     }
 }
+
 #endif /* serial */

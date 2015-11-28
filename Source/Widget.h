@@ -118,7 +118,7 @@ private:
 
 class GraphMeter {
 public:
-    GraphMeter( int width, int height );
+    GraphMeter( int width, int height, NimbleColor penColor = NimbleColor(0,0xFF,0) );
     ~GraphMeter() {delete[] myArray;}
     void drawOn( NimblePixMap& map, int x, int y ) const;
     void setLimits( float min, float max  ) {
@@ -138,6 +138,7 @@ private:
     static const int lg2Scale = 1;
     int myWidth;
     int myHeight;
+    NimblePixel myPenColor;
     //! Lower bound on data points that will be displayed without clipping
     float myMin;
     //! Upper bound on data points that will be displayed without clipping

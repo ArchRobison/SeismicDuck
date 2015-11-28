@@ -117,6 +117,7 @@
     <ClCompile Include="..\..\..\Source\Game.cpp" />
     <ClCompile Include="..\..\..\Source\Geology.cpp" />
     <ClCompile Include="..\..\..\Source\NimbleDraw.cpp" />
+    <ClCompile Include="..\..\..\Source\Parallel.cpp" />
     <ClCompile Include="..\..\..\Source\Reservoir.cpp" />
     <ClCompile Include="..\..\..\Source\Seismogram.cpp" />
     <ClCompile Include="..\..\..\Source\Sprite.cpp" />

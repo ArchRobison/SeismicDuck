@@ -1,4 +1,4 @@
-/* Copyright 1996-2014 Arch D. Robison 
+/* Copyright 1996-2015 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -276,25 +276,29 @@ static void InitializeFloatingPoint(void)
     _control87(MCW_EM,MCW_EM);
 }
 
-//! Initially recorded time from QueryPerformanceCounter
-/** This value is subtracted from subsequent calls to QueryPerformanceCounter,
-    in order to increase the number of signficicant bits returned by HostClockTime(). */
-static LARGE_INTEGER ClockBase;
-
-static LARGE_INTEGER ClockFreq;
+static double TotalClockTime;
+static LARGE_INTEGER OldClockFreq;
+static LARGE_INTEGER OldClockCount;
 
 static void InitializeClock() {
-    BOOL countStatus = QueryPerformanceCounter(&ClockBase); 
+    BOOL countStatus = QueryPerformanceCounter(&OldClockCount); 
     Assert(countStatus);
-    BOOL freqStatus = QueryPerformanceFrequency(&ClockFreq);  
+    BOOL freqStatus = QueryPerformanceFrequency(&OldClockFreq);  
     Assert(freqStatus);
 };
 
 double HostClockTime() {
-    LARGE_INTEGER count;
+    // The following algorithms attempts to compensate for dynamic frequency scaling
+    // by using the average frequency between now and the previous clock reading.
+    LARGE_INTEGER count, freq;
     BOOL counterStatus = QueryPerformanceCounter(&count); 
     Assert(counterStatus);
-    return double(count.QuadPart-ClockBase.QuadPart)/ClockFreq.QuadPart; 
+    BOOL freqStatus = QueryPerformanceFrequency(&freq);  
+    Assert(freqStatus);
+    TotalClockTime += 2*double(count.QuadPart-OldClockCount.QuadPart)/(freq.QuadPart+OldClockFreq.QuadPart);
+    OldClockCount = count;
+    OldClockFreq = freq;
+    return TotalClockTime; 
 }
 
 bool HostIsKeyDown( int key ) {
@@ -420,6 +424,7 @@ static void UpdateAndDraw( HWND hwnd ) {
     D3DLOCKED_RECT lockedRect;
     hr = backBuffer->LockRect(&lockedRect,NULL,D3DLOCK_NOSYSLOCK|D3DLOCK_DISCARD);
     Assert(hr==D3D_OK);
+    double t0 = HostClockTime();
     NimblePixMap pixmap(desc.Width,desc.Height,32,lockedRect.pBits,lockedRect.Pitch);
     if( ResizeOrMove ) {
         GameResizeOrMove( pixmap );
@@ -432,6 +437,10 @@ static void UpdateAndDraw( HWND hwnd ) {
 	previousTime = currentTime;
 #endif
 	GameUpdateDraw(pixmap, NimbleUpdate | NimbleDraw);
+
+    extern void ThrottleWorkers(double,double);         // Defined in Parallel.cpp
+    ThrottleWorkers(t0,HostClockTime());
+
     hr = backBuffer->UnlockRect();
     Assert(hr==D3D_OK);
     backBuffer->Release();

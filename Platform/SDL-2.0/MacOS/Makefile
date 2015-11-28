@@ -3,7 +3,7 @@
 VPATH = ../../../Source ..
 
 OBJ = Airgun.o AssertLib.o BuiltFromResource.o ColorFunc.o ColorMatrix.o \
-    Game.o Geology.o NimbleDraw.o Reservoir.o Seismogram.o Sprite.o \
+    Game.o Geology.o NimbleDraw.o Parallel.o Reservoir.o Seismogram.o Sprite.o \
     TraceLib.o Wavefield.o Widget.o Host_sdl.o
 
 # Basic configuration alternatives.  Choose one of the following settings of CPLUS_FLAGS.
@@ -14,7 +14,7 @@ CPLUS_FLAGS = -O2 -DEXCLUSIVE_MODE -DASSERTIONS=0
 INCLUDE = -I../../../Source -I/Library/Frameworks/SDL2.framework/Headers/ -I/Library/Frameworks/SDL2_image.framework/Headers
 
 CPLUS_FLAGS += -mmacosx-version-min=10.7 
-CPLUS = clang++ -stdlib=libstdc++
+CPLUS = clang++ -stdlib=libstdc++ -MMD
 
 ifdef BUNDLE
     APP_DIR = duck.app
@@ -74,6 +74,8 @@ else
 endif
 
 clean:
-	rm -rf *.o *.dylib seismic-duck-2.0 duck.app
+	rm -rf *.o *.d *.dylib seismic-duck-2.0 duck.app
 
 *.o: Makefile
+
+-include *.d

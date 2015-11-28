@@ -1,4 +1,4 @@
-/* Copyright 1996-2014 Arch D. Robison 
+/* Copyright 1996-2015 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -462,6 +462,8 @@ static BarMeter OilMeter("OilMeter");
 static BarMeter GasMeter("GasMeter");
 static RubberImage PanelBackground("Panel");
 static DigitalMeter FrameRateMeter(6,1);
+static DigitalMeter ThreadMeter(2,0);
+static GraphMeter BusyMeter(90,25,NimbleColor(255,255,0));
 
 static MessageDialog TheLevelContinueDialog("LevelContinueDialog");
 static MessageDialog WarnBreakDrillDialog("WarnBreakDrillDialog");
@@ -617,6 +619,7 @@ void GameUpdateDraw( NimblePixMap& map, NimbleRequest request ) {
 #if WRITING_DOCUMENTATION
     new(&TheMap) NimblePixMap( map );
 #endif /* WRITING_DOCUMENTATION */
+
     WavefieldRect = NimbleRect(PanelWidth,map.height()/2,map.width(),map.height());
     NimblePixMap subsurface(map,WavefieldRect); 
     NimblePixMap seismogramClip( map,NimbleRect(PanelWidth,0,map.width(),map.height()/2) );
@@ -712,9 +715,16 @@ void GameUpdateDraw( NimblePixMap& map, NimbleRequest request ) {
         int tabLeft2 = PanelWidth*5/8;
         int airGunTop = tabTop2+2*TheFont.height();;
         AirgunMeter.drawOn( map, PanelWidth/2-AirgunMeter.width()/2, airGunTop );
-        if( ShowFrameRate ) {
+        BusyMeter.update(BusyFrac());
+        if(ShowFrameRate) {
+            int frameMeterY = fluidMeterY-FrameRateMeter.height()-15;
             FrameRateMeter.setValue( EstimateFrameRate() );
-            FrameRateMeter.drawOn( map, PanelWidth/2-FrameRateMeter.width()/2, fluidMeterY-FrameRateMeter.height()-15 ); 
+            FrameRateMeter.drawOn( map, PanelWidth/2-FrameRateMeter.width()/2, frameMeterY ); 
+            int threadMeterY = frameMeterY -ThreadMeter.height() - 10;
+            int pairWidth = ThreadMeter.width() + 10 + BusyMeter.width();
+            ThreadMeter.setValue( WorkerCount() );
+            ThreadMeter.drawOn( map, PanelWidth/2 - pairWidth/2, threadMeterY );
+             BusyMeter.drawOn( map, PanelWidth/2 + pairWidth/2 - BusyMeter.width(), threadMeterY );
         }
         DrawClickable( TheFileMenu, map, tabLeft1, tabTop1 );
         DrawClickable( TheHelpMenu, map, tabLeft2, tabTop1 );
@@ -858,7 +868,7 @@ void ExploreNewAreaItem::onSelect() {CreateNewArea();}
 void EndGameItem::onSelect() {ScoreState.finishGame();}
 
 const char* GameTitle() {
-    return "Seismic Duck 2.0.4"
+    return "Seismic Duck 2.1"
 #if ASSERTIONS
            " ASSERTIONS"
 #endif
