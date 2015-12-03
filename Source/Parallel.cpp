@@ -13,7 +13,7 @@ static unsigned TimeQueueIndex;             // Index into TimeQueueIndex
 static float LastBusyFrac;
 
 static const float BusyFracSlow = 0.80f;    // The acceptable BusyFrac 
-static const float BusyFracFast = 0.60f;    // The acceptable BusyFrac 
+static const float BusyFracFast = 0.50f;    // The acceptable BusyFrac 
 static const int LookBack = 15;             // How many frames to look back
 static const int MissTolerance = 3;         // How many misses to tolerate in a LookBack period
 static const int Settle = 15;               // Number of frames to ignore after changing thread count

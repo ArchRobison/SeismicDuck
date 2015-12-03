@@ -12,7 +12,7 @@
     <string>us.blonzonics.seismic-duck</string>
 
     <key>CFBundleVersion</key>
-    <string>2.0</string>
+    <string>2.1</string>
 
     <key>CFBundlePackageType</key>
     <string>APPL</string>
@@ -21,7 +21,7 @@
     <string>sEdU</string>
 
     <key>CFBundleExecutable</key>
-    <string>seismic-duck-2.0</string>
+    <string>seismic-duck-2.1</string>
 
     <key>CFBundleIconFile</key>
     <string>SeismicDuck</string>

@@ -1,4 +1,5 @@
-# This Makefile assumes SDL2 was installed using "brew"
+# This Makefile assumes SDL2 libraries are installed in /usr/local/lib/
+# Define envrionment variable BUNDLE=1 to build the code as a MacOS style "bundle".
 
 VPATH = ../../../Source ..
 
@@ -23,7 +24,7 @@ else
     EXE_DIR = .
 endif
 
-EXE = $(EXE_DIR)/seismic-duck-2.0
+EXE = $(EXE_DIR)/seismic-duck-2.1
 
 $(EXE): $(OBJ) $(APP_DIR)
 	$(CPLUS) -o $@ $(OBJ) $(LIB)
@@ -74,7 +75,7 @@ else
 endif
 
 clean:
-	rm -rf *.o *.d *.dylib seismic-duck-2.0 duck.app
+	rm -rf *.o *.d *.dylib seismic-duck-2.1 duck.app
 
 *.o: Makefile
 

@@ -1,0 +1,657 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+    <HEAD>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+		<TITLE>
+			Seismic Duck 2.1 - A Game of Reflection Seismology
+		</TITLE>
+	</HEAD>
+<BODY>
+	<CENTER><H1>Duckumentation for Seismic Duck 2.1</H1>
+		<FONT SIZE="+2"><EM>A Game of Reflection Seismology</EM></FONT>
+		<P>
+                Copyright &copy; 1996-2015 Arch D. Robison
+		<P>
+		Last Revision: Dec. 3, 2015
+</CENTER>
+<P>
+<H2>Contents</H2>
+<UL>
+    <LI><A HREF="#System">System Requirements</A>
+    <LI><A HREF="#Install">Installing</A>
+    <LI><A HREF="#QuickStart">Quick Start</A>
+    <LI><A HREF="#Preface">Preface</A>
+    <LI><A HREF="#Where">Where Oil Hides</A>
+    <LI><A HREF="#How">How to Find Oil</A>
+    <LI><A HREF="#Running">Running Seismic Duck</A>
+    <LI><A HREF="#Geophysics">Exploration Geophysics</A>
+    <LI><A HREF="#Playing">Playing the Game</A>
+    <LI><A HREF="#Unreality">Exaggerations, Approximations, and Artifacts</A>
+    <LI><A HREF="#About">About the Programming</A>
+    <LI><A HREF="#Acknowledgements">Acknowledgements</A>
+    <LI><A HREF="#Legal">Legal</A>
+    <LI><A HREF="#References">References</A>
+</UL>
+<HR>
+<H2><A NAME="System">System Requirements</A></H2>
+<h3>Windows</h3>
+The Windows version of Seismic Duck should run on most PCs built after 2003.  The requirements are:
+<UL>
+	<LI> Intel&reg; Pentium&reg; 4 processor or better.  
+	     Intel&reg; Core&trade; 2 Duo or better recommended.</LI>
+	<LI> Windows&reg; XP or later.</LI>
+	<LI> Video display with:
+	<UL>
+		<LI>32-bit color</LI>
+		<LI>A screen resolution between 1024&times;768 and 1920&times;1440.
+		    A widescreen monitor works best.</LI>
+	</UL>
+	<LI> DirectX 9.0c End-User Runtime or later. 
+If you play video games on your computer, you probably already have it.
+If not, you can download it from Microsoft.  
+To find it, google "DirectX End-User Runtime Web Installer site:www.microsoft.com".
+        </LI>
+</UL>
+Seismic Duck 2.1 has been tested on:
+<UL>
+<LI> Intel&reg; Core&trade; i7-4770 running 64-bit Windows&reg; 8 </LI>
+</UL>
+<h3>Mac OS X</h3>
+<P>
+The Mac OS X version of Seismic Duck should run on any Mac with OS X 10.7 or later.  
+Seismic Duck 2.1 has been tested on:
+</P>
+<UL>
+<LI> MacBook Air running Mac OS X 10.11.1.
+</UL>
+<P>The Mac OS X version should not be confused with the earlier "Seismic Duck 1.6" for MacOS 7.1 and 8.0 that exists in repositories of old Mac software.</P>
+<HR>
+<h2><a name="Install">Installing</a></H2>
+<H3>Installing on Windows</H3>
+<OL>
+	<LI>Download the latest Seismic Duck installer from the <A HREF="http://www.blonzonics.us/games/seismic-duck">Seismic Duck home page</A>.</LI>
+	<LI>Click on the downloaded <TT>SeismicDuck*.msi</TT> file.</LI>  
+    <LI>Go through the installer steps.</LI>
+</OL>
+
+<H3>Installing on Mac OS X</H3>
+Apple's installer software has proven to be remarkably unreliable,
+so Seismic Duck is provided as a <TT>.dmg</TT> file from 
+<A href="http://www.blonzonics.us/games/seismic-duck/macos">
+http://www.blonzonics.us/games/seismic-duck/macos
+</a>.
+The <TT>.dmg</TT> file has the following:
+<CENTER><TABLE BORDER="1">
+	<TR> <TD>Seismic Duck</TD> <TD>the application</TD> </TR>
+	<TR> <TD>LICENSE.rtf</TD> <TD>the license</TD> </TR>
+	<TR> <TD>README.html</TD> <TD>this duckumentation</TD> </TR>
+	<TR> <TD>images</TD> <TD>folder of images used by <TT>README.html</TD> </TR>
+</TABLE>
+</CENTER>
+You can run Seismic Duck directly off the <TT>.dmg</TT> file, or copy it to your <TT>Applications</TT> directory.
+<P>
+The application is unsigned ("unidentified developer"), 
+so you may need to use "control click" to run it the first time.
+
+<HR>
+<H2><a name="QuickStart">Quick Start</a></H2>
+Seismic Duck is a full-screen game, so it is best to read the rest of this document before running it.
+However, if instructions bore you, do the following:
+<UL>
+<LI> Start the program. </LI>
+<LI> Once the program is running, press the space bar to clap the duck's feet.  Watch what happens. </LI>
+</UL>
+<P>Read the rest of the documentation to understand what is happening.</P>
+
+<HR>
+<h2><a name="Preface">Preface</a></H2>
+The goals of Seismic Duck are to demonstrate some physics and be an interesting game. 
+These goals require balance. 
+One extreme is accurate physics, which typically happens at time and distance scales too small or large to be interesting.  
+At the other extreme, most games employ cartoon physics suitable only for Wiley Coyote.  
+Seismic Duck tries to be qualitatively accurate, but quantitatively interesting.  
+Thus time and space scales are distorted:  
+<UL>
+	<LI> The sound waves are too slow
+	<LI> The horizontal scale covers a very large lateral distance in proportion to the vertical scale.  
+</UL>
+Nonetheless, many of the qualitative aspects are accurate, 
+at least as much as a 2-dimensional finite-difference simulation allows.  
+Waves propagate, interfere, spread, and reflect as they should.
+<HR>
+<P>
+<h2><a name="Where">Where Oil Hides</a></h2>
+The game of Seismic Duck involves applying geophysics to find oil.  
+This section explains where oil hides, and the next section explains how to find it.  
+For an oil reservoir to form, there must be porous rock to store the oil and cap rock to stop the oil migrating further upwards.
+This arrangement is called a <EM>trap</EM>. 
+A classic trap is shown below:
+<P>
+<CENTER><IMG SRC="images/Anticline.png" ALT="Anticline"></CENTER>
+<P>
+An upward curve like this is called an anticline.  
+A downward curve is called a syncline.
+<P>
+Hydrocarbons (gas, oil, asphalt, coal) come from natural chemical transformation of old dead plants buried in rock.   
+Over a long time, gas and oil migrate upwards through porous rock until they reach a layer of non-porous cap rock.  
+They collect at a high point.  
+Below is a diagram showing gas, oil, and water trapped under a cap rock. 
+Gas is at the top because it least dense.
+Water is at the bottom because it is most dense.
+The program uses similar color coding. 
+<P>
+<CENTER><IMG SRC="images/AnticlineTrap.png" alt="Anticline Trap"></CENTER>
+<P>
+Another common structural trap for gas and oil is where the porous rock is terminated by a fault.  
+Traps in the current version of Seismic Duck are always anticlines.  
+<P>
+It should be understood that despite the fact that oil reservoirs are also called pools, 
+the reservoir is not like a pool of water, but mostly rock.  
+You should think of it as a dirty hard sponge.  
+Applying great pressure to the sponge causes some of the gas and oil to flow out.   
+The weight of the overlying rock provides most of the pressure necessary to extract oil.  
+Sometimes the pressure is so great that the oil flow out by itself.
+In extreme cases its blows out of the well.   
+Though wells always have spectacular blowouts in the movies, modern drilling goes to great pains to avoid blowouts.
+<P>
+Asphalt and coal do not flow.  
+You must dig for those.
+<hr> 
+<h2><a name="How">How To Find Oil</a></h2>
+Some anticlines show as bulges at the surface.  
+Such obvious traps were drained in the early days of the oil industry.  
+To find oil these days, geophysicists look miles underground by sending sound waves into the ground.  
+Waves partially reflect from underground boundaries, and thus provide information about subsurface structures.
+<P>
+More precisely, reflection occurs when the acoustical impedance changes.  
+The acoustical impedance of a rock is the density of the rock multiplied by the velocity of sound in the rock.  
+For example, cap rock and porous rock have difference acoustical impedances.  
+The boundary between the cap rock and porous rock partially reflects incident sound waves.  
+Thus the depth of an underground structure can be found by creating a sound at the surface, and timing how long it takes to receive a reflection.  
+The time it takes for the sound to reach the boundary and come back is called the (two-way) <EM>travel time</EM>.  
+The depth of a boundary can be estimated from the travel time and velocity of sound in the rock.  
+For instance, if the speed of sound is 3 km/sec in the rock and takes 4 seconds to make it from the surface to the boundary and back, then the boundary must be 6 km deep. 
+<P>
+In reality there are multiple reflection paths and varying rock velocities to consider.  
+In modern oil exploration, high-performance computers compute the subsurface structure from the reflected waves.  
+But in the old days, there were no computers and geologists examined raw seismic data.   
+Seismic Duck brings back these old days, and makes you an old-fashioned prospector for oil.
+<P>
+If all this sounds too difficult, do not despair.  
+Though careful quantitative calculations are necessary in practice, you will not need them in Seismic Duck.  
+The key in Seismic Duck will be interpreting patterns in seismograms (recordings of waves).  
+Even a bright preschooler can learn to play it with some coaching on what patterns are important.
+</P>
+<HR>
+<h2><a NAME="Running">Running Seismic Duck</a></h2>
+To start the program, double click the file <TT>SeismicDuck.exe</TT>, or its icon <IMG SRC="images/icon.png" alt="duck icon" ALIGN=TOP>.
+The program brings up a display that looks like this:
+<P>
+<CENTER><IMG SRC="images/ScreenShot.png" alt="screenshot"></CENTER>
+<P>
+The screen has three major portions:
+<UL>
+<LI> The <B>instrument panel</B> shows various instrument readings.  
+<LI> The <B>seismogram</B> records the wave pressure at the surface and scrolls upwards.
+<LI> The <B>subsurface</B> display shows up to three pieces of information: geology, reservoir, and seismic waves.  The section on the <A HREF="#ViewMenu">View menu</A> explains how the information is displayed.
+</UL>
+In the middle there is a duck and an oil rig.
+<!--
+At the bottom there are various meters.  
+The ones on the left measure gas, oil, and water.  
+The ones on the right show the seismogram gain and air gun charge.  -->
+The rest of this section explains the various keys, menus, and sliders that control the program.
+<H3>Popup Panels</H3>
+The top of the instrument panel has four green buttons labeled <B>File</B>, <B>Help</B>, <B>Model</B>, and <B>View</B>.
+These bring up menus.
+Some menu choices pop up additional panels.
+Some panels have sliders that you can drag to change values.
+To hide a popup panel, press the <EM>Enter</EM> key.  
+Some panels have a pink screw or green button that can be clicked on hide it.
+<!-- add example -->
+<H3>Keyboard</H3>
+Below is a diagram of the keys that control motion of the duck and drilling platform.
+<P>
+<CENTER> <IMG SRC="images/Keyboard.png" alt="control keys"></CENTER>
+<P>
+<B>Auto Gain, Subsurface view, and Pause</B>: 
+These keys toggle features shown in the table below. 
+The view toggles are inactive in game mode.
+<CENTER><TABLE BORDER="1">
+	<TR> <TH>Key</TH> <TH>Toggles</TH> </TR>
+	<TR> <TD>a</TD> <TD><A HREF="#Autogain">Auto gain</A> on seismogram</TD> </TR>
+	<TR> <TD>g</TD> <TD>Geology view</TD> </TR>
+	<TR> <TD>r</TD> <TD>Reservoir view</TD> </TR>
+	<TR> <TD>s</TD> <TD>Seismic view</TD> </TR>
+	<TR> <TD>p</TD> <TD>Pause</TD> </TR>
+</TABLE></CENTER>
+<B>Drill Control</B>: The cursor keys control the drill location.  
+The drill moves up or down.  
+The drill platform moves left or right.
+The platform cannot be moved if the drill is lowered.  
+In game mode, drilling into fresh rock costs money.  
+Too many dry wells will bankrupt you.  
+<P>
+<B>Duck Control</B>: These keys cause the duck to act.
+<CENTER><TABLE BORDER="1">
+	<TR> <TH>Key</TH>  <TH>Duck Action</TH> </TR>
+	<TR> <TD>Z</TD>    <TD>Move left</TD> </TR>
+	<TR> <TD>X</TD>    <TD>Move right</TD> </TR>
+	<TR> <TD>space</TD><TD>Clap feet</TD> </TR>
+</TABLE></CENTER>
+Seismic Duck gets its name from its talented duck,
+which initiates a seismic wave by clapping its feet.
+Each initiation is called a <EM>shot</EM>.
+In real life, shots are taken with explosives on land or airguns in water.
+After each clap, the duck takes time to regain its senses.  
+When not in game mode, you can also take a shot anywhere underground.  
+Move the cursor to the shot position and click the mouse button.  
+This is handy for studying various wave effects.
+<P>
+<H3>File Menu</H3>
+The File menu lets you start a game and start surveying new areas.  
+You may survey and extract oil from as many areas as you want during a game.  
+You may also end a game early before the clock runs out.
+
+<h3><a name="ViewMenu">View Menu</a></h3>
+The View menu lets you turn each view on or off separately, and lets you control how data is displayed in colors.  When playing the game, all three views are turned off, as the point of the game is to deduce the view from seismic data.  Below is a summary of the three views and related adjustments.
+<P>
+<B>Geology</B>: Shows the underground layers of rock, and (if present) ocean above the rock.
+<P>
+<A NAME="ReservoirView"><B>Reservoir</B></A>: 
+Shows the contents of the reservoir.  
+The color code is red/green/blue for gas/oil/water as in the earlier picture, and black for empty.  
+The colors get dimmer as you drain the reservoir.
+<P>
+<B>Seismic</B>: Shows seismic pressure waves.  These are the waves created when the duck creates a shot by shooting its air gun.  The pressure shown is relative to the static pressure within the rock. 
+<P>
+<A NAME="Color"><B>Color</B></A>: 
+Brings up sliders that control how data is displayed.  
+<CENTER><IMG SRC="images/ColorScale.png" alt="Color Scales"></CENTER>
+The default <B>Linear</B> scale is uniform.  
+The <A NAME="Arcsinh"><B>Arcsinh</B></A> scale makes small amplitudes more visible.  
+Both these scales clip values that do not fit.
+The <B>Sign Only</B> scale shows only the sign of the value.  
+Surprisingly, you can usually deduce the underground structure by knowing the sign only.  
+In real life, computers can often construct a quite accurate image of underground structure from sign-only seismic data.
+<P>
+<A NAME="SpeedSliders"><B>Speed</B>:</A> 
+Brings up sliders that control speeds.
+The <B>Frame Rate Limit</B> slider sets a limit on frames per second.
+The default limit is the frame rate of your monitor.
+The limit can be lowered to 0.5, which causes the program to update the frame every two monitor frames,
+or raised to unlimited.
+Your computer may not actually reach the limit.  
+The <B>Wave Speed</B> slider controls how far waves move per frame.
+</P>
+
+<B><EM>Note for Hardware Owls</EM></B>: Press <B>F</B> to toggle display of performance information,
+which looks like:
+<P>
+<CENTER><IMG SRC="images/FrameRate.png" alt="Frame Rate Display"></CENTER>
+<P>
+The number of hardware threads is typically 1 or 2,
+depending on your processor speed and display size,
+unless the <A href="#SpeedSliders">Frame Rate Limit</A> slider is set to &infin;,
+in which case the value will rise to your hardware's maximum capability.
+The load is a time-varying value between 0 and 1 that estimates
+what fraction of time Seismic Duck is computing versus idling.
+ 
+<H3>Model Menu</H3>
+The Model menu lets you change the parameters of the simulation.
+<P>
+<A NAME="Autogain"><B>Auto Gain Control</B></A>: When automatic gain control is disabled, the seismogram gain is fixed at 1 and the signal is recorded as received.  When enabled, the seismogram gain is amplified (or attenuated) to make the recorded root-mean-squawk constant.  
+The gain is limited to 16x.  
+The advantage of automatic gain control is that it lets you see weak reflections.  
+The disadvantage is that it introduces artifacts.  
+Most noticeably, automatic gain control causes the initial signal from a shot to not look triangular, because the gain is rapidly changing.
+Therefore, I recommend that you keep it off until you have mastered the basics.
+<P>
+<A NAME="GeologySliders"><B>Geology</B>:</A> 
+The geology sliders let you change various parameters of the geological model.  
+The water popup lets you do offshore exploration.   
+Adding water makes it much more challenging, because there is a strong reflection off the water bottom.  
+Notice that waves travel much more slowly in the water than in the cap rock.  
+The dip popup selects how steep the anticlines are.  
+The folding popup selects the complexity of the anticlines.  
+Simple folding creates a single anticline.  
+Moderate folding creates up to three anticlines.  
+Complex folding creates up to five anticlines.   
+No folding results in no anticlines, and hence nowhere for hydrocarbons to collect!
+<P>
+<!--
+<B>Recording</B>: The recording dialog lets you change the recording format to squiggle traces, which is what the data looked like in days of yore (except in days of yore, it was in black and white!)
+<P>
+-->
+<A NAME="ShotSliders"><B>Shot</B>:</A>
+The shot sliders let you change the characteristics of the "shot" that creates the waves.
+The duck generates shots by clapping is feet, and is not only talented, but a bit musical minded.
+<UL>
+	<LI> The signature is a graph of the shot's amplitude.  
+        <LI> The frequency is how fast the shot occurs.  
+	<LI> The amplitude is how strong the shot is.  
+</UL>
+More about the <A HREF="#signature">signature</A> is said in the <A HREF="#Geophysics">next section</A>.
+In real life, buried explosives are usually used to create shots on land, and air guns on water.  
+An air gun going off sounds like a low-pitched loud thump.  
+
+<HR>
+<h2><a name="Geophysics">Exploration Geophysics</a></h2>
+The best way to learn about exploration seismology is to experiment with the geology and seismic views enabled.  Try taking shooting the air gun at various locations and see how the waves bounce off structures.  Observe how waves reflect and interfere, and how underground structure affects the recorded seismogram.  Below are some basic principles in geophysics.
+<P>
+<B>P waves vs. S waves</B>:  There are really two major kinds of seismic waves: pressure waves (P) and shear waves (S).  Pressure waves are also called acoustic waves.  
+Oddly enough, the P and S symbols do not stand for Pressure and Shear, but Primary (P) and Secondary (S), but because pressure waves are inherently faster than shear waves and arrive at the receiver first.  
+Shear waves never travel through liquid because liquids do not shear.  
+(But there is an aquatic bird called a Shearwater.  Go figure!)  
+That's how physicists know that parts of the inner earth are liquid -- P waves go through and S waves do not.  There are also other kinds of waves peculiar to the surface or boundaries.  For instance, the damaging waves from an earthquake are a special form of wave (called ground roll) that travels only the surface of the earth.  Because they are limited to the surface, their intensity falls of much more slowly than P or S waves do.  
+Seismic Duck does not model shear waves and ground roll for sake of simplicity and speed.  
+The other kinds of waves travel at different speeds, and if simulated, would greatly slow down the animation and make the seismograms much harder to interpret.  
+<P>
+<B>Phase of Reflection</B>:  
+A reflection can have the same or opposite phase as the incident wave.  
+The phase of a reflection depends upon whether the acoustical impedance goes up or down when a boundary is crossed.  
+Taking note of the reflection phase can yield a valuable hint about whether a reflection is from the top or the bottom of the sandstone.  
+The reflection from the top of the sandstone has the opposite phase; the reflection from the bottom of the sandstone has same phase.  
+To see this:
+<UL>
+	<LI> Use the <A HREF="#GeologySliders">Geology sliders</A> to set the water depth to zero and the folding to none.  
+	<LI> Use the <A HREF="#SpeedSliders">Speed sliders</A> to set the Wave Speed to slow.
+</UL>
+Then shoot the air gun and observe the reflections.  
+Turning on automatic gain control from the Model menu may help you compare the reflections, because it amplifies the weaker ones from the bottom of the sandstone that have to travel farther.  Reversal of phase shows up as a change in the order of colors.  
+For instance, if the incident wave has blue (positive pressure) traveling in front of red (negative pressure), a reflected wave with reversed phase will have red traveling in front of blue.
+<P>
+<B>Free Surface Boundary Condition</B>: The top boundary is treated as a ``free surface boundary condition'', which means that there is no resistance to motion at the boundary.  
+No resistance means no pressure, and this requires it reflect a wave with opposite phase so that the reflection cancel the incident wave.  
+Use the mouse to shoot the air gun about an inch below the surface.  
+Examine the reflection and you will see that it indeed has opposite phase.   
+<P>
+<B>Slope of Seismogram</B>:  The initial seismogram for a shot looks like a cone.  
+The slope of the sides relates to the wave velocity.  
+The slower the medium, the steeper the sides of the cone, as shown below:
+<P>
+<CENTER><IMG SRC="images/SeismogramShalevsWater.png" alt="Seismogram of Shale vs. Water"></CENTER>
+<P>
+Both images were taken after same time interval after a shot.
+<P>
+<B>First Break</B>: The fastest path between two points is not always a straight line.  
+Sometimes it is faster to take a detour to get on an expressway.  
+Below is a diagram showing how this can happen for sound waves 
+coming from shot point S.
+<P>
+<CENTER><IMG SRC="images/TwoPath.png"></CENTER>
+<P>
+Both paths take the same time.  
+The detour goes further in that time because sound travels must faster in the shale than water.
+<P>
+This phenomenon is called the <EM>first break</EM> on a seismogram, where the slope of the outer &ldquo;cone&rdquo; becomes less steep.  
+To see the first break effect, set the water depth to shallow and folding to none.  
+Set the air gun frequency to low and shoot the air gun.  
+Watch as the part of the wave in the rock overtakes that in the water.  
+When that overtaking part of the wave reaches the surface, the first break shows up on the seismogram as a change in the slope of the outer edge of the seismogram.  
+On real seismograms, there can be second breaks, third breaks, etc.  
+The position of breaks is one way to determine the depth of a boundary.  
+Below is a snapshot with the leading edge of the seismogram and first break marked.
+<P>  
+<CENTER><IMG SRC="images/FirstBreak.png"></CENTER>
+<P>
+<B>Head Wave</B>: Corresponding to the first break in the example above is another kind of wave water with a strange property -- it moves through the slower medium (water) at the velocity of the faster medium!
+This kind of wave occurs at a boundary, and is called a head wave.  
+In the Seismic Duck water and rock model, head waves are fairly weak.  
+To see them, it may help to set the color mapping to <A HREF="#Arcsinh"><EM>Arcsinh</EM></A> or <EM>Sign only</EM>.
+<P>
+<B>Waveguide</B>: A slow layer of rock between two fast layers of rock can trap waves and guide them along the layer.  
+This is the same sort of waveguide effect that guides light through fiber optics.  
+To see the effect, turn off the Reservoir view and turn on the Geology and Seismic Views.  
+Use the mouse to shoot the air gun inside the sandstone, near the left edge.  
+If you shoot too close to the left edge, the damping will quash the shot, so be sure to shoot at least a centimeter in from the left edge.   
+Immediately after the shot, much of the wave will escape the guide, because it struck the boundaries at too steep an angle to be reflected back into the waveguide.  
+These escaped waves will race ahead.  However, after a while you will see some ``blips'' that travel trapped inside the sandstone layer.  
+These blips are waves being guided by the sandstone layer.   
+If the layer makes a sharp turn, you will see some of the wave escape the waveguide.
+<P>
+<A NAME="signature"><B>Shot Signature</B>:</A>
+The signature of a shot is the shape of its pulse in time.  
+One of the <A HREF="#ShotSliders">shot sliders</A> lets you choose one of four signatures shown below.
+<CENTER><TABLE BORDER="1" ALIGN=CENTER>
+	<TR> <TH>Name      </TH> <TH>Equation</TH> <TH>Graph</TH></TR>
+	<TR ALIGN=CENTER> <TD>Rectangular</TD> <TD><TABLE><TR><TD>1 if |t|&lt;1 </TD></TR>
+				 <TR><TD>0 otherwise</TD></TR></TABLE></TD><TD><IMG SRC="images/SignatureRect.png"></TD></TR>
+	<TR ALIGN=CENTER> <TD>Gaussian  </TD> <TD>e<SUP>-t<SUP>2</SUP></SUP>       </TD><TD><IMG SRC="images/SignatureGauss.png"></TD></TR>
+	<TR ALIGN=CENTER> <TD>          </TD> <TD>te<SUP>-t<SUP>2</SUP></SUP>      </TD><TD><IMG SRC="images/SignatureDoublet.png"></TD></TR>
+	<TR ALIGN=CENTER> <TD>Ricker    </TD> <TD>(1-t<SUP>2</SUP>)e<SUP>-t<SUP>2</SUP></SUP></TD><TD><IMG SRC="images/SignatureRicker.png"></TD></TR>
+</TABLE></CENTER>
+The equations in the table omit scaling coefficients.
+<P>
+You will see that the waves caused by the Gaussian signature looks more like the Ricker wavelet.  
+This is because after being pushed by the shot, the rock snaps back the other way.  
+This is called ringing.  
+Similarly, the waves caused by the Ricker and Zero Phase signatures all have extra bumps from ringing.   
+The Rectangular signature is not normally used, because it is not bandlimited and severe <A HREF="#Aliasing">aliasing</A> occurs.   
+Aliasing also occurs with the other signatures if the frequency is set too high.  
+Aliasing is explained in the next section (Exaggerations, Approximations, and Artifacts).
+<P>
+<B>Band Limited</B>:  
+You may be wondering about the choice of signatures.  
+Why these signatures?  
+The reason is that except for the rectangular pulse, these signatures are almost finite in time but exponentially bandlimited, meaning their frequency content falls off exponentially with increasing frequency.  
+That is, if played on an audio system most of the sound would come from the woofers, not the tweeters.  
+Signatures such as the rectangular pulse, which is not bandlimited, cause problems.  
+Try the rectangular pulse and see what happens. Ducks band-limited too &mdash; one to each foot.
+<P>
+<B>Hyperbolic Moveout</B>: The reflection from a flat horizontal reflector shows up on the seismogram as a hyperbola.  
+The reason is that as the receiver point moves out away from the shot point, the waves have to travel a longer path.
+The deeper the reflector, the more the hyperbola is flattened out.   
+Thus one way to estimate the depth of a reflector is to observe the flatness of its recorded hyperbola.  
+To see this effect, use the <A HREF="#GeologySliders">Geology sliders</A> to set the water depth to shallow and the folding to none.  
+Then shoot the air gun at the surface and examine the resulting hyperbolas on the seismogram.  
+The hyperbola for the reflection from the water will have sharper curvature than the hyperbolas for reflections from the deeper boundaries.
+<P>
+<B>Cable Feathering</B>:  In real oil exploration over water, a boat pulls a long cable behind it.  
+Along the cable are receivers that pick up the seismic signal.  
+Ideally, the cable becomes straight as it is pulled and the receivers line up.  
+However, water currents can push the receivers out of alignment.  
+This is called cable feathering.  
+Ducks are experts on cable feathering.
+<P>
+<B>Coning</B>: As oil is extracted, the gas above and water below may form cones that intrude into the layer of oil.  
+This is a nuisance in real oil wells too.
+<P>
+<B>Edwin Drake</B>: First person to drill for oil (1861).  
+He did not use any seismic methods.  
+Ducks are proud of famous Drakes.
+<P>
+<B>Ultrasound</B>: A common method of imaging fetuses in the womb is ultrasound.  
+The physics of ultrasound are essentially the same as for seismic imaging.  
+The difference is one of scale: kilometers vs. centimeters.  
+The resolution of the reconstructed image is limited by the wavelength, which is inverse to frequency.  
+Thus ultrasound uses much higher frequencies than seismic imaging.
+<HR>
+<h2><a name="Playing">Playing the Game</a></h2>
+To start the game, pull down the <B>File</B> menu and select <B>Begin Game</B>.  
+In the game, all major underground views are hidden.  
+All you see underground is where you drill.  
+<P>
+The goal is to get through as many levels as possible.  
+You start each level with 100 units of cash.
+Time costs money.
+You must double your cash to reach the next level.
+The game ends when you run out of cash.
+<P>
+You may survey and drill more than one area per level.  
+However, you score cash only for oil and gas being pumped from the current area.
+Doubling your money on a level causes the subsurface to be revealed.
+Click on <IMG SRC="images/StartNextLevel.png" ALIGN=TOP> to start the next level.
+The Enter key can be used as a shortcut for clicking.
+<P>
+Your current level and cash are shown on gauges that look like the gauges on an old-fashioned gasoline pump.  
+Old-fashioned means the kind that did not read your credit card.  
+Really old fashioned would be the kind that showed you the actual gasoline in a big glass graduated cylinder!
+<P>
+<CENTER><IMG SRC="images/LevelPlusCash.png"></CENTER>
+<P>
+<B>Gas vs. Oil</B>:  
+In the game, the total dollar value of all gas and oil is the same in all geological models,
+and oil is worth four times as much as gas.  
+In real life, gas is not worth drilling for unless there is also oil.  
+Even the industry's standard symbols for wells shown below imply this fact -- the  symbol for a gas well looks almost like the symbol for a dry well!  
+<P>
+<CENTER><IMG SRC="images/WellSymbols.png" alt="Well Symbols"></CENTER>
+<P>
+<B>Costs</B>: Shots are free.  
+Drilling through rock costs money.  
+This is a slight exaggeration, but emphasizes the point that seismic data is relatively cheap compared to drilling.  
+Your initial bankroll is enough to drill all the way to the bottom of the screen twice.
+<P>
+<B>Where to drill</B>: Since gas usually collects at the center of an anticline structure and is worth less than the surrounding oil, it usually pays to aim for oil by drilling off to the side of the structure.  
+Practice interpreting the seismogram with the <A HREF="#ReservoirView">reservoir view</A> turned on before tackling the game.  
+Study how the top of the seismogram hyperbolas and bright spots correlate to underground structure.
+<P>
+<B>Stratigraphic Information</B>: 
+Drilling a dry well is not a complete loss, because you can see the layers drilled into.  
+Thus drilling gives you information about the depth of layers (strata) at the drill site, just as in real life.
+<P>
+<B>Culture</B>: 
+Some levels have a <EM>Thin Glass Inc.</EM> factory.  
+It sits on a red line.  
+The duck cannot take shots on the red line, for fear of breaking glass.
+<CENTER><IMG SRC="images/ZoneOfExclusion.png" alt="Zone of Exclusion"></CENTER>
+Such hazards are called "culture" in exploration seismology, and include structures such as buildings, bridges, and railroad tracks.
+You can still drill anywhere.
+
+<HR>
+<h2><a name="Unreality">Exaggerations, Approximations, and Artifacts</a></h2>
+As mentioned in the preface, Seismic Duck exaggerates certain quantities for sake of visual interest.  Furthermore, certain approximations are used that result in artifacts that are not real physics.  Many of these approximations show up in real numerical simulations too, so they are worth understanding.  Interestingly enough, artifacts also show up in the pictures that computers generate from seismic data.  In unlucky instances, the artifacts look like real structures and companies drill for them!
+<P>
+<A NAME="Aliasing"><B>Aliasing and Numerical Anisotropy</B>:</A>  Seismic Duck solves the wave equations using a finite grid to approximate a continuous medium.  If the wavelengths are too short relative to the grid spacing, the simulation becomes inaccurate.  Furthermore, the grid is rectangular, which breaks circular isotropy.   
+To see both artifacts, use the <A HREF="#ShotSliders">Shot sliders</A> to select a high frequency Gaussian pulse.  Use the mouse to shoot in the middle of the shale.  See how the wave degenerates into a bunch of blinking dots (which is the aliasing problem), and how some of the wavefronts that should be circular look like overstuffed square pillows instead (the anisotropy problem).
+<P>
+<B>Anticline</B>: The anticline structures in Seismic Duck have grossly exaggerated vertical scale in order to make their affect on reflections visually obvious.  They are also greatly simplified by having a single porous layer.  Real structures are flatter and usually contain many alternating layers of porous and non-porous rock, which makes for many reflections in real life.  Oil companies use high-speed computers to convert all those reflections into pictures of the layers.
+<P>
+<B>Auto Gain Control</B>: An artifact of automatic gain control is that the initial seismogram does not have a simple triangular form, but rather looks like it is wearing an arrowhead as a hat.  The reason is that the initial portion of the air gun pulse is a weak signal, which causes the gain to be raised to its upper limit.  When the air gun pulse reaches maximum strength, the gain becomes quite low.  This rapid change in gain is why the initial seismogram does not look triangular.  You can see this rapid change by watching the gain meter during a shot.
+<P>
+<B>Damping</B>: Real waves propagate over the entire earth.  Seismic Duck models a finite area, so approximations must be used at the boundaries to fake a larger world beyond.  The approximation used is a <A HREF="#UPML">Uniaxial Perfectly Matched Layer</A> (UPML).  
+Though UPML is very good as suppressing reflections from the boundaries, a little bit of artificial reflection does occur, notably from corners.  
+If you look closely with automatic gain control turned on, you can sometimes detect the corner reflections.
+<P>
+<B>Ducks</B>: Real collection of seismic data over water involves boats, not ducks.  Receivers (geophones) record the seismic data and are attached to long cables that the boats pull behind them.
+<P>
+<B>Full Traps</B>: At best, seismic data reveals structures, but not oil.  In Seismic Duck, the structures always have oil.  In real life, you have to drill to find out if there is gas, oil, or water only.  Read Yergin's <A HREF="#Yergin"><EM>The Prize</EM></A> for an account of Mukluk, a place in the Artic Ocean where $2 billion was spent drilling into a structure that turned out to have only salt water. 
+<P>
+<B>Interpolation</B>:  Seismic Duck solves the wave equation on a grid with two-pixel spacing between grid points, both horizontally and vertically.  There are 4x as many pixels as grid points, thus most of the pixels are interpolated from neighboring grid points.  The artifact of this approximation is that some zero-crossing boundaries of waves take on a stair-step appearance.
+<P>
+<B>Poisson Solver</B>: The reservoir model uses a crude Poisson solver that presumes that water and oil are compressible gases.   
+This approximation seems to be good enough and fast enough for game  purposes.  
+IMplicit Pressure Explicit Saturation (IMPES) models are typically used in production reservoir models.  
+I have not investigated yet whether doing IMPES at video frame rates is practical on current personal computers.
+<P>
+<B>Spreading</B>:  
+In the real three dimensional world, wave energy falls off inverse-square with distance traveled from a point source.  
+This is because energy emitted by a point source in three dimensions becomes an expanding spherical shell.  
+The Seismic Duck world is two dimensional, so wave energy falls off inversely to distance traveled.   
+<P>
+<B>Hypersonic Duck:</B> 
+The duck can waddle or swim faster than the waves.  
+Considering that sound travels about 6 times faster in rock than air, this means the duck exceeds Mach 6!
+<P>
+<B>Velocity and Density:</B> 
+For ocean water and shale, Seismic Duck uses approximately correct values for the velocity of sound and density.  
+Seismic Duck uses fictitious values for sandstone so that reflections will be visually obvious.  
+The table below shows the values for Seismic Duck and the real world.
+<CENTER>
+	<TABLE BORDER="1">
+		<TR>
+			<TD></TD><TH COLSPAN=2>Seismic Duck</TH><TH COLSPAN=2>Real World</TH>
+		</TR>
+		<TR>
+			<TD></TD><TH>velocity<br>(km/s)</TH><TH>density<BR>(g/cm<SUP>3</SUP>) </TH> <TH>velocity<br>(km/s)</TH><TH>density<BR>(g/cm<SUP>3</SUP>) </TH> 
+		</TR>
+		<TR ALIGN="center">
+			<TH>water    </TH>
+			<TD>1.5</TD>
+			<TD>1.0 </TD>
+			<TD>1.4-1.5</TD>
+			<TD>1.025-1.028</TD>
+		</TR>
+		<TR ALIGN="center">
+			<TH>sandstone</TH>
+			<TD>2.1</TD>
+			<TD>1.4</TD> 
+			<TD>2.3-2.7</TD>
+			<TD>2.0-2.6</TD> 
+		</TR>
+		<TR ALIGN="center">
+			<TH>shale    </TH>
+			<TD>3.0</TD>
+			<TD>2.0</TD>
+			<TD>1.8-4.8</TD>
+			<TD>2.0-2.7</TD>
+		</TR>
+	</TABLE>
+</CENTER>
+<HR>
+<h2><a name="About">About the Programming</a></h2>
+<B>Mathematics</B>: 
+Seismic Duck uses the staggered-grid "leap frog" finite difference time domain method, 
+inspired by <A HREF="#Virieux">Virieux's paper</A>.  
+Absorbing waves at the boundaries is done with <A HREF="#UPML">uniaxial perfectly matched layers</A>.
+<P>
+<B>Code</B>: The code is C++ with some SSE intrinsics.  
+It harnesses multi-core processors via <A HREF="http://www.threadingbuildingblocks.org">Intel* Threading Building Blocks</A> (Intel* TBB), using classic space-time trapezoidal iteration spaces that are tiled to minimize memory bandwidth.
+The source code, available at <A href="https://github.com/ArchRobison/SeismicDuck">Github</A>, 
+is open-source and includes a Cilk Plus variant.
+Please contact me if you are interested in porting it to another platform.
+Disclosure: I was the architect for Intel* TBB.  This game is my own hobby and is not connected to my employer.
+<P>
+<B>Known Idiosyncrasies on Windows</B>:
+<UL>
+	<LI>Window does not interact with other windows gracefully.  
+	<LI>Seems to ignore some suspend events.
+</UL>
+<P>
+<H3>To Reach The Author</H3>
+The author welcomes comments, and can be reached at:
+<CENTER><img src="images/address.jpg" alt="author's address"></CENTER>
+
+<HR>
+<h2><a name="Acknowledgements">Acknowledgements</a></h2>
+Scott Morton advised me on the necessity of band-limiting the shot.  
+Former employment at Shell's Bellaire Research Center (Houston) taught me everything I know about geophysics.  
+Yuri V. Ganshin pointed out some errors in version 1.4.
+Steven Johnson's <A HREF="#UPML">notes</A> taught me what I needed to know about perfectly matched layers.
+Any geophysics errors are my own.  
+<P>
+Thanks to the following organizations or individuals for providing no-cost software used in the development of Seismic Duck over the years:
+<UL>
+	<LI>Microsoft for their Microsoft Visual Studio Express Editions. </LI>
+	<LI>The authors of the GNU Image Manipulation Program (GIMP). </LI>
+	<LI>Dennis Bareis for his MakeMSI tool. </LI>
+</UL>
+<HR>
+<h2><a name="Legal">Legal</a></h2>
+<B>Distribution</B>:
+Seismic Duck 2.1 is freeware.  
+You may freely distribute this software as long as it is not modified.
+<P>
+<B>Disclaimer</B>:
+No warrantee expressed or implied.  Use this software at your own risk.
+<P>
+All versions of Seismic Duck use finite-difference equations that do not duplicate the real world, 
+but merely approximate it with arbitrarily large error, including but not limited to aliasing, numerical anisotropy, and numerical dispersion.  
+Seismic Duck does not model shear waves, 3D, or non-linear effects.  
+Seismic Duck is not suitable for serious oil exploration.
+<HR>
+<h2><a name="References">References</a></H2>
+<UL>
+	<li> Sheriff, R. E., and Geldart, L. P., Exploration  seismology Volume  1, History, theory and data acquisition. </li>
+
+	<li> Sheriff, Robert E., Encyclopedic Dictionary of Exploration Geophysics, 3rd edition. </li>
+	<li><a name="UPML">Steven G. Johnson</a>, <A HREF="http://www-math.mit.edu/~stevenj/18.369/pml.pdf">"Notes on Perfectly Matched Layers (PMLs)"</A> July 19, 2008.</li> 
+
+	<li><A NAME="Virieux">Virieux, Jean, ``SH-wave propagation in heterogeneous media: Velocity-stress finite-difference method'', Geophysics, 49, 1933-1942, 1984.</a> </li>
+
+	<li><A NAME="Yergin">Daniel Yergin, <EM>The Prize: The Epic Quest for Oil, Money</EM>, and Power, Simon & Schuster, 1991.</A></li>
+</UL>
+
+</BODY>
+</HTML>
