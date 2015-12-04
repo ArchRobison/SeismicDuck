@@ -52,7 +52,7 @@ ifdef BUNDLE
     CPLUS_FLAGS += -DHOST_RESOURCE_PATH=\"../Resources\"
     LIB += -Xlinker -rpath -Xlinker @loader_path/../Frameworks
 
-    # Statically link SLD2
+    # Statically link SDL2
     LIB += /usr/local/lib/libSDL2.a /usr/local/lib/libSDL2_image.a 
 
     $(APP_DIR):
