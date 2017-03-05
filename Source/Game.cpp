@@ -462,8 +462,10 @@ static BarMeter OilMeter("OilMeter");
 static BarMeter GasMeter("GasMeter");
 static RubberImage PanelBackground("Panel");
 static DigitalMeter FrameRateMeter(6,1);
+#if USE_TBB
 static DigitalMeter ThreadMeter(2,0);
 static GraphMeter BusyMeter(90,25,NimbleColor(255,255,0));
+#endif
 
 static MessageDialog TheLevelContinueDialog("LevelContinueDialog");
 static MessageDialog WarnBreakDrillDialog("WarnBreakDrillDialog");
@@ -629,13 +631,13 @@ void GameUpdateDraw( NimblePixMap& map, NimbleRequest request ) {
         ShowSeismic.update(); 
     }
     const NimbleRequest pausedRequest = IsPaused ? request-NimbleUpdate : request;
-	// Update the seismogram but do not draw it, using the current wavefield state.  
+    // Update the seismogram but do not draw it, using the current wavefield state.  
     SeismogramUpdateDraw( seismogramClip, pausedRequest&NimbleUpdate, TheColorFunc, IsAutoGainOn );
 
-	// Do the computationally intense tasks in parallel
-	auto wf = [=]{WavefieldUpdateDraw(subsurface, pausedRequest, ShowGeology, ShowSeismic, TheColorFunc);  };
-	// Functor for drawing the seismogram.
-	auto sf = [=]{SeismogramUpdateDraw(seismogramClip, pausedRequest&NimbleDraw, TheColorFunc, IsAutoGainOn); };
+    // Do the computationally intense tasks in parallel
+    auto wf = [=]{WavefieldUpdateDraw(subsurface, pausedRequest, ShowGeology, ShowSeismic, TheColorFunc);  };
+    // Functor for drawing the seismogram.
+    auto sf = [=]{SeismogramUpdateDraw(seismogramClip, pausedRequest&NimbleDraw, TheColorFunc, IsAutoGainOn); };
     ReservoirFunctor rf( pausedRequest );
 #if USE_TBB
     tbb::parallel_invoke( wf, sf, rf );
@@ -715,16 +717,20 @@ void GameUpdateDraw( NimblePixMap& map, NimbleRequest request ) {
         int tabLeft2 = PanelWidth*5/8;
         int airGunTop = tabTop2+2*TheFont.height();;
         AirgunMeter.drawOn( map, PanelWidth/2-AirgunMeter.width()/2, airGunTop );
+#if USE_TBB
         BusyMeter.update(BusyFrac());
+#endif
         if(ShowFrameRate) {
             int frameMeterY = fluidMeterY-FrameRateMeter.height()-15;
             FrameRateMeter.setValue( EstimateFrameRate() );
             FrameRateMeter.drawOn( map, PanelWidth/2-FrameRateMeter.width()/2, frameMeterY ); 
+#if USE_TBB
             int threadMeterY = frameMeterY -ThreadMeter.height() - 10;
             int pairWidth = ThreadMeter.width() + 10 + BusyMeter.width();
             ThreadMeter.setValue( WorkerCount() );
             ThreadMeter.drawOn( map, PanelWidth/2 - pairWidth/2, threadMeterY );
-             BusyMeter.drawOn( map, PanelWidth/2 + pairWidth/2 - BusyMeter.width(), threadMeterY );
+            BusyMeter.drawOn( map, PanelWidth/2 + pairWidth/2 - BusyMeter.width(), threadMeterY );
+#endif
         }
         DrawClickable( TheFileMenu, map, tabLeft1, tabTop1 );
         DrawClickable( TheHelpMenu, map, tabLeft2, tabTop1 );

@@ -1,15 +1,15 @@
-/* Copyright 1996-2014 Arch D. Robison 
+/* Copyright 1996-2014 Arch D. Robison
 
-   Licensed under the Apache License, Version 2.0 (the "License"); 
-   you may not use this file except in compliance with the License. 
-   You may obtain a copy of the License at 
-   
-       http://www.apache.org/licenses/LICENSE-2.0 
-       
-   Unless required by applicable law or agreed to in writing, software 
-   distributed under the License is distributed on an "AS IS" BASIS, 
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-   See the License for the specific language governing permissions and 
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
    limitations under the License.
  */
 
@@ -35,17 +35,17 @@ const float VerticalPermeability = 0.1f;
 struct ReservoirCell {
     //! Saturation of phase.
     float saturation[N_Phase];
-     
+
     //! Pressure.
     /** Computed as sum of saturations. */
     float pressure;
-        
+
     //! Connection coefficients.
     float bottomInOut, rightInOut;
 };
 
 //! Nonzero if cell at [v][u] is porous (i.e. can hold fluids)
-/** Bits within the byte correspond to individual pixels. 
+/** Bits within the byte correspond to individual pixels.
         0 1
         2 3
   */
@@ -59,13 +59,16 @@ static int ReservoirWidth;
 //! Height of reservoir (in cells)
 static int ReservoirHeight;
 
-struct RunItem {    
-    //! v coordinate of first cell in run.  
+struct RunItem {
+    //! v coordinate of first cell in run.  Since RESERVOIR_SCALE=2 and only half the screen,
+    //! is used for the reservoir, 10 bits should suffice for displays up to about 4k high.
     unsigned v: 10;
-    //! u coordinate of first cell in run
-    unsigned ubegin: 10;    
+    //! u coordinate of first cell in run.  Since RESERVOIR_SCALE=2, 11 bits should suffice
+    //! for displays up to about 4k wide, even a bit more since the "meter panel" uses a
+    //! portion of the left side of the display.
+    unsigned ubegin: 11;
     //! u coordinate of one past last cell in run
-    unsigned uend: 10;
+    unsigned uend: 11;
 };
 
 //! Space for run-length encoding used for drawing the reservoir.
@@ -112,6 +115,7 @@ static void FindPorousCells( const Geology& g ) {
 }
 
 static void MakeRunSet( int uWidth, int vHeight ) {
+    Assert(sizeof(RunItem)==4);
     RunItem* item = RunSet;
     int ubegin = 0;
     int uend = uWidth;
@@ -120,14 +124,16 @@ static void MakeRunSet( int uWidth, int vHeight ) {
         while( u<uend ) {
             // Find porous
             while( !IsPorous[v][u] )
-                if( ++u==uend ) 
+                if( ++u==uend )
                     goto nextRow;
             // Found beginning of a row of porous cells.
             item->v = v;
             item->ubegin = u;
+            Assert(item->ubegin == u);
             while( ++u<uend && IsPorous[v][u] )
                 continue;
             item->uend = u;
+            Assert(item->uend == u);
             item++;
             Assert( size_t(item-RunSet) < sizeof(RunSet)/sizeof(RunSet[0]) );
         }
@@ -167,11 +173,11 @@ static void FillPorousCells( ReservoirStats& s, int uWidth, int vHeight ) {
     // Find top and bottom porous cell in each column.
     for( int u=0; u<uWidth; ++u ) {
         int v;
-        for( v=0; v<vHeight && !IsPorous[v][u]; v++ ) 
+        for( v=0; v<vHeight && !IsPorous[v][u]; v++ )
             continue;
         fluidTop[u] = v;
         for( ; v<vHeight && IsPorous[v][u]; ++v ) {
-             // Fill column with water.  
+             // Fill column with water.
             for( int k=0; k<N_Phase; ++k )
                 Cell[v][u].saturation[k] = k==WATER ? 1.f : 0.f;
             Cell[v][u].pressure = 1.0f;
@@ -185,12 +191,12 @@ static void FillPorousCells( ReservoirStats& s, int uWidth, int vHeight ) {
     const int MAX_HILLS=RESERVOIR_U_MAX;
     Hill hill[MAX_HILLS];
     Hill* h = hill;
-    int vLast = infinity; 
+    int vLast = infinity;
     for( int u=0;;) {
         // Skip flat part
-        while( fluidTop[u]==vLast ) 
+        while( fluidTop[u]==vLast )
             ++u;
-        if( u>=uWidth ) 
+        if( u>=uWidth )
             break;
         h->uLeft = u;
         // Climb hill
@@ -202,12 +208,12 @@ static void FillPorousCells( ReservoirStats& s, int uWidth, int vHeight ) {
         // Walk over flat top of hill and down
         int uRight = u;
         while( u<=uWidth && fluidTop[u]>=vLast ) {
-            if( fluidTop[u]>vLast ) 
+            if( fluidTop[u]>vLast )
                 uRight=u;
             vLast = fluidTop[u];
             ++u;
         }
-        h->uRight = uRight; 
+        h->uRight = uRight;
         Assert(h->uRight<=uWidth);
         if( h->uLeft==0 )
             if( h->uRight==uWidth )
@@ -216,7 +222,7 @@ static void FillPorousCells( ReservoirStats& s, int uWidth, int vHeight ) {
             else
                 // Hill up against left side of screen
                 h->vBottom = fluidTop[h->uRight-1];
-        else 
+        else
             if( h->uRight==uWidth )
                 // Hill up against right side of screen
                 h->vBottom = fluidTop[h->uLeft];
@@ -225,9 +231,9 @@ static void FillPorousCells( ReservoirStats& s, int uWidth, int vHeight ) {
                 h->vBottom = Min(fluidTop[h->uLeft],fluidTop[h->uRight-1]);
         Assert( h->vTop<=h->vBottom );
         for(;;) {
-            while( h->uLeft<h->uRight && fluidTop[h->uLeft]>h->vBottom ) 
+            while( h->uLeft<h->uRight && fluidTop[h->uLeft]>h->vBottom )
                 h->uLeft+=1;
-            while( h->uLeft<h->uRight && fluidTop[h->uRight-1]>h->vBottom ) 
+            while( h->uLeft<h->uRight && fluidTop[h->uRight-1]>h->vBottom )
                 h->uRight-=1;
             if( h->uRight-h->uLeft<=uWidth*0.2f || h->vBottom-h->vTop<=vHeight*.05f )
                 break;
@@ -243,7 +249,7 @@ static void FillPorousCells( ReservoirStats& s, int uWidth, int vHeight ) {
     for( Hill* h=hill; h<hEnd; ++h ) {
         h->volume = 0;
         // Compute max fluid volume of hill in units of reservoir cells
-        for( int u=h->uLeft; u<h->uRight; ++u ) 
+        for( int u=h->uLeft; u<h->uRight; ++u )
             h->volume += Max(0,Min<int>( fluidBottom[u], h->vBottom )-fluidTop[u]);
         Assert( h->volume>=0 );
         s.numTrap += h->volume>0;
@@ -263,11 +269,11 @@ static void FillPorousCells( ReservoirStats& s, int uWidth, int vHeight ) {
     for( Hill* h=hill; h<hEnd; ++h ) {
         int avail[N_Phase];
         avail[GAS] = h->volume*gasFrac;
-        avail[OIL] = h->volume*oilFrac; 
+        avail[OIL] = h->volume*oilFrac;
         avail[WATER] = INT_MAX;
         int fillPhase = GAS;
         for( int v=h->vTop; v<h->vBottom; ++v ) {
-            while( avail[fillPhase]<=0 ) 
+            while( avail[fillPhase]<=0 )
                 ++fillPhase;
             if( fillPhase==WATER ) {
                 // Already default filled cells with water.
@@ -340,7 +346,7 @@ static void UpdateExtract( float amount[N_Phase] ) {
         int y = Hole[i].depth;
         int vmin = Max(0,TheGeology.layerBottomCell(TOP_SHALE,UofX(x)));
         int vmax = Min(VofY(y),TheGeology.layerBottomCell(MIDDLE_SANDSTONE,UofX(x)));
-        for( int v=vmin; v<=vmax; ++v ) 
+        for( int v=vmin; v<=vmax; ++v )
             for( int u=umin; u<=umax;++u ) {
                 ReservoirCell& cell = Cell[v][u];
                 float total = cell.saturation[GAS] + cell.saturation[OIL] + cell.saturation[WATER];
@@ -361,16 +367,17 @@ static void UpdateExtract( float amount[N_Phase] ) {
 }
 
 static void UpdateFluxesAndSaturations() {
-    // Flux carried into left cell from current cell 
+    // Flux carried into left cell from current cell
     static float leftDelta[N_Phase];
 
-    // Flux carried into cell above from current cell 
+    // Flux carried into cell above from current cell
     static float aboveDelta[RESERVOIR_U_MAX][N_Phase];
 
     // Loop over porous cells
     for( RunItem* run=RunSet; run!=RunSetEnd; ++run ) {
         int ubegin = run->ubegin;
         int uend = run->uend;
+        Assert(ubegin <= uend);
         int v = run->v;
 
         for( int u=ubegin; u!=uend; ++u ) {
@@ -406,7 +413,7 @@ static void UpdateFluxesAndSaturations() {
 
 void ReservoirUpdate( float fluidExtracted[N_Phase] ) {
     // Update the reservoir
-    for( int k=0; k<N_Phase; k++ ) 
+    for( int k=0; k<N_Phase; k++ )
         fluidExtracted[k]=0;
     for( int t=0; t<4; ++t ) {
         UpdateExtract( fluidExtracted );
@@ -425,7 +432,7 @@ void ReservoirUpdate( float fluidExtracted[N_Phase] ) {
         Assert( size_t(run-RunSet)<sizeof(RunSet)/sizeof(RunSet[0]) );
         int v = run->v;
         // Clip bottom
-        if( v>=vbottom ) 
+        if( v>=vbottom )
             break;
         Assert( run->ubegin<run->uend );
         // Clip left and right
@@ -433,7 +440,7 @@ void ReservoirUpdate( float fluidExtracted[N_Phase] ) {
         int uend = Min(int(run->uend),uright);
         if( ubegin>=uend )
             continue;
-        NimblePixel* dst = origin+ubegin*RESERVOIR_SCALE+v*downDelta*RESERVOIR_SCALE; 
+        NimblePixel* dst = origin+ubegin*RESERVOIR_SCALE+v*downDelta*RESERVOIR_SCALE;
         const byte* isPorous = &IsPorous[v][ubegin];
         const ReservoirCell* c = &Cell[v][ubegin];
         const ReservoirCell* d = &Cell[v][uend];
@@ -443,7 +450,7 @@ void ReservoirUpdate( float fluidExtracted[N_Phase] ) {
             int blue = int(NimbleColor::full*c->saturation[WATER]);
             NimblePixel p = NimbleColor(red,green,blue).pixel();
             // In 2x2 block, write to upper right and lower left corners
-            if( *isPorous&2 ) dst[1] = p; 
+            if( *isPorous&2 ) dst[1] = p;
             if( *isPorous&4 ) dst[downDelta] = p;
             dst+=2;
             ++isPorous;

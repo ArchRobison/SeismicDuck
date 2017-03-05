@@ -27,7 +27,7 @@ const int PANEL_MIN_WIDTH = 192;
 //! Maximum supported display width
 /** Must be multiple of 4.  
     Seem to get slightly better performance if it is not a multiple of 16 */
-const int DISPLAY_WIDTH_MAX = 1924;
+const int DISPLAY_WIDTH_MAX = 2564;
 
 //! Maximum supported display height.
 const int DISPLAY_HEIGHT_MAX = 1440;

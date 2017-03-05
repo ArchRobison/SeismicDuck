@@ -1,15 +1,15 @@
 /* Copyright 1996-2014 Arch D. Robison
 
-   Licensed under the Apache License, Version 2.0 (the "License"); 
-   you may not use this file except in compliance with the License. 
-   You may obtain a copy of the License at 
-   
-       http://www.apache.org/licenses/LICENSE-2.0 
-       
-   Unless required by applicable law or agreed to in writing, software 
-   distributed under the License is distributed on an "AS IS" BASIS, 
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-   See the License for the specific language governing permissions and 
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
    limitations under the License.
  */
 
@@ -56,13 +56,13 @@ static int NumPanel = 10;
 static int PumpFactor = 3;
 
 static int TileHeight = 7;    // Must be <= 15.
-static int TileWidth = 16*7;  // Must be multiple of 4 and <= 4*63 
+static int TileWidth = 16*7;  // Must be multiple of 8 and <= 8*63
 
 //! Size of damping region, in pixels.
 const int DampSize = 16;
 
 //! Velocity of various materials.
-/** The product of LFunc[k]*MFunc[k] must not exceed 0.5, otherwise runaway positive feedback occurs. 
+/** The product of LFunc[k]*MFunc[k] must not exceed 0.5, otherwise runaway positive feedback occurs.
     The values here are correctly proportioned for water and shale.
     The sandstone values are fictionally the geomean of the values for water and shale. */
 //                                           WATER SANDSTONE  SHALE
@@ -78,10 +78,10 @@ static int WavefieldHeight;
 //! Maximum allowed width of wavefield, including left and right PML regions.
 static const int WavefieldWidthMax = HIDDEN_BORDER_SIZE+WAVEFIELD_VISIBLE_WIDTH_MAX+HIDDEN_BORDER_SIZE;
 
-//! Maximum allowed hight of wavefield, including PML region on bottom.  
-/** The 1 is for the top read-only row of grid points. 
-    The 4*NUM_REGION_MAX is for the overlap zones between adjacent regions. */
-static const int WavefieldHeightMax = 1+WAVEFIELD_VISIBLE_HEIGHT_MAX+HIDDEN_BORDER_SIZE+4*NUM_PANEL_MAX;
+//! Maximum allowed hight of wavefield, including PML region on bottom.
+/** The 1 is for the top read-only row of grid points.
+    The (2*PUMP_FACTOR_MAX+1)*(NUM_PANEL_MAX-1) is for the overlap zones between adjacent regions. */
+static const int WavefieldHeightMax = 1 + WAVEFIELD_VISIBLE_HEIGHT_MAX + HIDDEN_BORDER_SIZE + (2*PUMP_FACTOR_MAX+1)*(NUM_PANEL_MAX-1);
 
 //! Array of rock types, with two bits per element.
 static CACHE_ALIGN( byte RockMap[WavefieldHeightMax][WavefieldWidthMax>>2] );
@@ -90,11 +90,11 @@ typedef CACHE_ALIGN( float FieldType[WavefieldHeightMax][WavefieldWidthMax] );
 
 static FieldType Vx, Vy, U, A, B;
 
-//! "Psi" fields for left and right PML regions.  
+//! "Psi" fields for left and right PML regions.
 static CACHE_ALIGN( float Pl[WavefieldHeightMax][DampSize] );
 static CACHE_ALIGN( float Pr[WavefieldHeightMax][DampSize] );
 
-//! "Psi" field for bottom PML region.  
+//! "Psi" field for bottom PML region.
 /** Overlaps left and right PML regions on corners. */
 static CACHE_ALIGN( float Pb[DampSize][WavefieldWidthMax] );
 
@@ -131,6 +131,8 @@ static inline int TrapezoidLastI( int p, int k ) {
     return p==NumPanel-1 ? PanelLastI[p] : PanelLastI[p]+(PumpFactor-1-k);
 }
 
+// Return index corresponding to given y coordinate.
+// THe y coordinate must be in the closed interval [-1,WavefieldHeight]
 inline int IofY( int y ) {
     Assert( -1<=y && y<=WavefieldHeight );
     return PanelIOfYPlus1[y+1];
@@ -159,10 +161,10 @@ static void InitializePanelMap() {
             PanelIOfYPlus1[y+1] = i++;
         PanelLastI[p] = i;
         // Allocate separation zone
-        i+=2*PUMP_FACTOR_MAX+1;
+        i += 2*PUMP_FACTOR_MAX+1;
     }
     TopIofBottomRegion = PanelLastI[NumPanel-1]-DampSize;
-    LeftJofRightRegion = w-DampSize; 
+    LeftJofRightRegion = w-DampSize;
 }
 
 static void InitializeZoneTranfers() {
@@ -191,14 +193,15 @@ static void InitializeRockMap( const Geology& g ) {
     int h = WavefieldHeight;
     int w = WavefieldWidth;
     Assert( 4<=WavefieldHeight && WavefieldHeight<=WavefieldHeightMax );
-    Assert( 4<=WavefieldWidth && WavefieldWidth<=WavefieldWidthMax ); 
+    Assert( 4<=WavefieldWidth && WavefieldWidth<=WavefieldWidthMax );
 
     static const RockType typeOfLayer[GEOLOGY_N_LAYER] = {Water,Shale,Sandstone,Shale};
     for( int y=1; y<h; ++y ) {
         int i = IofY(y);
+        Assert(0<=i && i<sizeof(RockMap)/sizeof(RockMap[0]));
         for( int j=0; j<w>>2; ++j ) {
             unsigned packed = 0;
-            for( int k=0; k<4; ++k ) { 
+            for( int k=0; k<4; ++k ) {
                 // It is "y-1" here because the geology indices run from 0 to h-1
                 GeologyLayer layer = g.layer(j*4+k,y-1);
                 unsigned r=typeOfLayer[layer];
@@ -221,7 +224,7 @@ static void InitializeFDTD() {
         Assert(U[0][j]==0);
     }
 
-    // Clear the FTDT fields.  The initial value for U is a bit of noise that 
+    // Clear the FTDT fields.  The initial value for U is a bit of noise that
     // prevents performance losses from denormal floating-point values.
     for( int y=0; y<h-1; ++y ) {
         int i = IofY(y);
@@ -229,7 +232,7 @@ static void InitializeFDTD() {
             int r = RockMap[i][j>>2]>>(2*(j&3))&3;
             // Store M/2 in A, because we sum two A values to compute an average M.
             A[i][j] = MofRock[r]*0.5f;
-            B[i][j] = LofRock[r]; 
+            B[i][j] = LofRock[r];
             U[i][j] = sinf(i*.1f)*cosf(j*.1f)*1.E-6;
             Vx[i][j] = 0;
             Vy[i][j] = 0;
@@ -310,6 +313,7 @@ enum TileTag {
     TT_NumTileTag
 };
 
+// A Tile describes one tile in the tiling of the wavefield.
 struct Tile {
 #if ALLOW_BIG_TILES
     unsigned tag:3;
@@ -318,11 +322,11 @@ struct Tile {
     unsigned jFirstOver4:9;
     unsigned jLenOver4:9;
 #else
-    unsigned tag:3;
-    unsigned iFirst:10;
-    unsigned iLen:4;
-    unsigned jFirstOver4:9;
-    unsigned jLenOver4:6;
+    unsigned tag:3;             // a TileTag
+    unsigned iFirst:10;         // i=index of upper left corner of tile.
+    unsigned iLen:4;            // height of tile
+    unsigned jFirstOver8:9;     // j-index divided by 8
+    unsigned jLenOver8:6;       // width of tile divided by 8
 #endif
 };
 
@@ -349,7 +353,7 @@ static inline TileTag Classify( int i, int j ) {
 static void CheckTiles( int p ) {
     Assert(sizeof(Tile)==4);
     static unsigned char TileDepth[WavefieldHeightMax][WavefieldWidthMax];
-    int i0 = TrapezoidFirstI(p,0); 
+    int i0 = TrapezoidFirstI(p,0);
     int i1 = TrapezoidLastI(p,0);
     for( int i=i0; i<i1; ++i )
         for( int j=0; j<WavefieldWidth; ++j )
@@ -359,9 +363,9 @@ static void CheckTiles( int p ) {
     for( const Tile* ptr=tFirst; ptr<tLast; ++ptr ) {
         Tile t = *ptr;
         int iFirst = t.iFirst;
-        int iLast = iFirst+t.iLen;
-        int jFirst = t.jFirstOver4*4;
-        int jLast = jFirst+t.jLenOver4*4;
+        int iLast = iFirst + t.iLen;
+        int jFirst = t.jFirstOver8*8;
+        int jLast = jFirst + t.jLenOver8*8;
         Assert( i0<=iFirst );
         Assert( iLast<=i1 );
         Assert( 0<=jFirst );
@@ -369,19 +373,19 @@ static void CheckTiles( int p ) {
         for( int i=iFirst; i<iLast; ++i ) {
             int j0 = i==0 ? DampSize : 0;
             int j1 = i==0 ? WavefieldWidth-DampSize : WavefieldWidth;
-            for( int j=jFirst; j<jLast; ++j ) { 
+            for( int j=jFirst; j<jLast; ++j ) {
                 Assert( Classify(i,j)<TT_NumTileTag );
                 int d = TileDepth[i][j];
                 Assert( d<PumpFactor );
                 Assert( TrapezoidFirstI(p,d)<=i );
                 Assert( i<TrapezoidLastI(p,d) );
-                if( TrapezoidFirstI(p,d)<i ) 
+                if( TrapezoidFirstI(p,d)<i )
                     Assert( i-1==0 || TileDepth[i-1][j]==d+1 );
                 if( i+1<TrapezoidLastI(p,d) )
                     Assert(TileDepth[i+1][j]==d);
                 if( j0<j )
                     Assert(TileDepth[i][j-1]==d+1);
-                if( j+1<j1 ) 
+                if( j+1<j1 )
                     Assert(d==TileDepth[i][j+1]);
                 TileDepth[i][j] = d+1;
             }
@@ -394,7 +398,7 @@ static void CheckTiles( int p ) {
             if( TrapezoidFirstI(p,k)<=i && i<TrapezoidLastI(p,k) )
                 ++depth;
         // Check that trapezoid is tiled to correct depth.
-        for( int j=0; j<WavefieldWidth; ++j ) 
+        for( int j=0; j<WavefieldWidth; ++j )
             if( i!=0 || (DampSize<=j && j<WavefieldWidth-DampSize ) )
                 Assert( TileDepth[i][j]==depth );
     }
@@ -439,11 +443,11 @@ static void AddTile( int iFirst, int iLast, int jFirst, int jLast ) {
     t.iFirst=iFirst;
     Assert(t.iFirst==iFirst);
     t.iLen=iLast-iFirst;
-    Assert(t.iFirst+t.iLen==iLast);
-    t.jFirstOver4=jFirst/4;
-    Assert(t.jFirstOver4*4==jFirst);
-    t.jLenOver4=(jLast-jFirst)/4;
-    Assert(4*t.jFirstOver4+4*t.jLenOver4==jLast);
+    Assert(t.iFirst+t.iLen == iLast);
+    t.jFirstOver8 = jFirst/8;
+    Assert(t.jFirstOver8*8 == jFirst);
+    t.jLenOver8 = (jLast-jFirst)/8;
+    Assert(8*t.jFirstOver8 + 8*t.jLenOver8 == jLast);
     Assert( TileEnd<TileArray+NUM_TILE_MAX );
     *TileEnd++ = t;
 }
@@ -463,7 +467,7 @@ static void SplitHorizontal( int iFirst, int iLast, int jFirst, int jLast ) {
 }
 
 static void SplitVertical( int iFirst, int iLast, int jFirst, int jLast ) {
-    Assert( DampSize<=TopIofBottomRegion ); 
+    Assert( DampSize<=TopIofBottomRegion );
     if( iFirst<iLast && jFirst<jLast ) {
         if( iFirst<1 && 1<iLast ) {
             SplitHorizontal( iFirst, 1, jFirst, jLast );
@@ -484,11 +488,11 @@ void MakeTilesForPanel( int p ) {
     int d = PumpFactor-1;
     int i0=TrapezoidFirstI(p,0);
     int i1=TrapezoidLastI(p,0);
-    for( int i=i0; i-d<i1; i+=TileHeight ) 
-        for( int j=0; j-4*d<w; j+=TileWidth )
+    for( int i=i0; i-d < i1; i+=TileHeight )
+        for( int j=0; j-8*d < w; j+=TileWidth )
             for( int k=0; k<=d; ++k )
                 SplitVertical( Max(i-k,TrapezoidFirstI(p,k)), Min(i-k+TileHeight,TrapezoidLastI(p,k)),
-                               Max(j-4*k,0), Min(j-4*k+TileWidth,w) );
+                               Max(j-8*k,0), Min(j-8*k+TileWidth,w) );
     PanelLastTile[p] = TileEnd;
 #if ASSERTIONS
     CheckTiles(p);
@@ -528,7 +532,7 @@ void WavefieldSetPumpFactor( int d ) {
         InitializeZoneTranfers();
         for( int p=1; p<NumPanel; ++p )
             ReplicateZone(p,/*all=*/true);
-        InitializeTiles();  
+        InitializeTiles();
     }
 }
 
@@ -560,8 +564,8 @@ static void WavefieldUpdatePanel( int p ) {
         Tile t = *ptr;
         int iFirst = t.iFirst;
         int iLast = iFirst+t.iLen;
-        int jFirst = t.jFirstOver4*4;
-        int jLast = jFirst+t.jLenOver4*4;
+        int jFirst = t.jFirstOver8*8;
+        int jLast = jFirst+t.jLenOver8*8;
         switch( t.tag ) {
             case TT_Top:
                 // Reflection boundary condition at top.
@@ -573,15 +577,15 @@ static void WavefieldUpdatePanel( int p ) {
                     Vy[0][j] += 4*A[1][j]*(U[1][j]/*-U[0][j]*/);
                 }
                 break;
-            case TT_Left: 
+            case TT_Left:
                 // Left border
                 for( int i=iFirst; i<iLast; ++i ) {
                     for( int j=jFirst, l=DampSize-1-jFirst; j<jLast; ++j, --l ) {
                         // Uniaxial PML along X axis
-                        float u = U[i][j];      
-                        Vx[i][j] = D0[l]*Vx[i][j]+D2[l]*(A[i][j+1]+A[i][j])*(U[i][j+1]-u);  
+                        float u = U[i][j];
+                        Vx[i][j] = D0[l]*Vx[i][j]+D2[l]*(A[i][j+1]+A[i][j])*(U[i][j+1]-u);
                         Vy[i][j] =       Vy[i][j]+      (A[i+1][j]+A[i][j])*(U[i+1][j]-u);
-                        U [i][j] = D1[l]*u       +B[i][j]*(D3[l]*((Vx[i][j]-Vx[i][j-1])+Pl[i][l]) + (Vy[i][j]-Vy[i-1][j])); 
+                        U [i][j] = D1[l]*u       +B[i][j]*(D3[l]*((Vx[i][j]-Vx[i][j-1])+Pl[i][l]) + (Vy[i][j]-Vy[i-1][j]));
                         Pl[i][l] = D6   *Pl[i][l]+         D5[l]*                                   (Vy[i][j]-Vy[i-1][j]);
                     }
                 }
@@ -604,15 +608,15 @@ static void WavefieldUpdatePanel( int p ) {
                 // SSE form - less readable but fast
                 __m128 a = CAST(A[iFirst][jFirst]);
                 a = ADD(a,a);
-                __m128 b = CAST(B[iFirst][jFirst]); 
+                __m128 b = CAST(B[iFirst][jFirst]);
                 for( int i=iFirst; i<iLast; ++i ) {
                     // Fissioning inner loop into two loops seems to get best performance from Core-2 processors.
-                    for( int j=jFirst; j<jLast; j+=4 ) {  
+                    for( int j=jFirst; j<jLast; j+=4 ) {
                         CAST(Vx[i][j]) = ADD(CAST(Vx[i][j]),MUL(a,SUB(LOAD(U[i][j+1]),CAST(U[i][j]))));
-                        CAST(Vy[i][j]) = ADD(CAST(Vy[i][j]),MUL(a,SUB(CAST(U[i+1][j]),CAST(U[i][j])))); 
+                        CAST(Vy[i][j]) = ADD(CAST(Vy[i][j]),MUL(a,SUB(CAST(U[i+1][j]),CAST(U[i][j]))));
                     }
-                    for( int j=jFirst; j<jLast; j+=4 ) 
-                        CAST(U[i][j]) = ADD(CAST(U[i][j]),MUL(b,ADD(SUB(CAST(Vx[i][j]),LOAD(Vx[i][j-1])),SUB(CAST(Vy[i][j]),CAST(Vy[i-1][j])))));   
+                    for( int j=jFirst; j<jLast; j+=4 )
+                        CAST(U[i][j]) = ADD(CAST(U[i][j]),MUL(b,ADD(SUB(CAST(Vx[i][j]),LOAD(Vx[i][j-1])),SUB(CAST(Vy[i][j]),CAST(Vy[i-1][j])))));
                 }
 #else
                 // Scalar form - more readable but slow
@@ -625,7 +629,7 @@ static void WavefieldUpdatePanel( int p ) {
                         U[i][j] += b*((Vx[i][j]-Vx[i][j-1])+(Vy[i][j]-Vy[i-1][j]));
                     }
                 }
-#endif           
+#endif
                 break;
             }
 #endif /* OPTIMIZE_HOMOGENEOUS_TILES */
@@ -644,21 +648,21 @@ static void WavefieldUpdatePanel( int p ) {
                 // SSE form - less readable but fast
                 for( int i=iFirst; i<iLast; ++i ) {
                     for( int j=jFirst; j<jLast; j+=4 ) {
-                        __m128 u = CAST(U[i][j]);   
-                        __m128 a = CAST(A[i][j]); 
+                        __m128 u = CAST(U[i][j]);
+                        __m128 a = CAST(A[i][j]);
                         CAST(Vx[i][j]) = ADD(CAST(Vx[i][j]),MUL(ADD(LOAD(A[i][j+1]),a),SUB(LOAD(U[i][j+1]),u)));
-                        CAST(Vy[i][j]) = ADD(CAST(Vy[i][j]),MUL(ADD(CAST(A[i+1][j]),a),SUB(CAST(U[i+1][j]),u)));    
-                        CAST(U[i][j]) = ADD(u,MUL(CAST(B[i][j]),ADD(SUB(CAST(Vx[i][j]),LOAD(Vx[i][j-1])),SUB(CAST(Vy[i][j]),CAST(Vy[i-1][j])))));                           
+                        CAST(Vy[i][j]) = ADD(CAST(Vy[i][j]),MUL(ADD(CAST(A[i+1][j]),a),SUB(CAST(U[i+1][j]),u)));
+                        CAST(U[i][j]) = ADD(u,MUL(CAST(B[i][j]),ADD(SUB(CAST(Vx[i][j]),LOAD(Vx[i][j-1])),SUB(CAST(Vy[i][j]),CAST(Vy[i-1][j])))));
                     }
                 }
 #else
                 // Scalar form - more readable but slow
                 for( int i=iFirst; i<iLast; ++i ) {
                     for( int j=jFirst; j<jLast; ++j ) {
-                        float u = U[i][j];  
-                        Vx[i][j] += (A[i][j+1]+A[i][j])*(U[i][j+1]-u);  
+                        float u = U[i][j];
+                        Vx[i][j] += (A[i][j+1]+A[i][j])*(U[i][j+1]-u);
                         Vy[i][j] += (A[i+1][j]+A[i][j])*(U[i+1][j]-u);
-                        U [i][j] = u + B[i][j]*((Vx[i][j]-Vx[i][j-1]) + (Vy[i][j]-Vy[i-1][j])); 
+                        U [i][j] = u + B[i][j]*((Vx[i][j]-Vx[i][j-1]) + (Vy[i][j]-Vy[i-1][j]));
                     }
                 }
 #endif
@@ -669,30 +673,30 @@ static void WavefieldUpdatePanel( int p ) {
                 for( int i=iFirst; i<iLast; ++i ) {
                     for( int j=jFirst, l=j-leftJofRightRegion; j<jLast; ++j, ++l ) {
                         // Uniaxial PML along X axis
-                        float u = U[i][j];      
-                        Vx[i][j] = D1[l]*Vx[i][j]+D3[l]*(A[i][j+1]+A[i][j])*(U[i][j+1]-u);  
+                        float u = U[i][j];
+                        Vx[i][j] = D1[l]*Vx[i][j]+D3[l]*(A[i][j+1]+A[i][j])*(U[i][j+1]-u);
                         Vy[i][j] =       Vy[i][j]+      (A[i+1][j]+A[i][j])*(U[i+1][j]-u);
-                        U [i][j] = D0[l]*u       +B[i][j]*(D2[l]*((Vx[i][j]-Vx[i][j-1])+Pr[i][l]) + (Vy[i][j]-Vy[i-1][j])); 
+                        U [i][j] = D0[l]*u       +B[i][j]*(D2[l]*((Vx[i][j]-Vx[i][j-1])+Pr[i][l]) + (Vy[i][j]-Vy[i-1][j]));
                         Pr[i][l] = D6   *Pr[i][l]+         D4[l]*                                   (Vy[i][j]-Vy[i-1][j]);
                     }
                 }
                 break;
-            case TT_BottomLeft: 
+            case TT_BottomLeft:
                 // PML region for bottom left corner.
                 for( int i=iFirst, k=i-topIofBottomRegion; i<iLast; ++i, ++k ) {
                     for( int j=jFirst, l=DampSize-1-jFirst; j<jLast; ++j, --l ) {
                         Assert(0<=k && k<DampSize);
                         // Uniaxial PML along X and Y axis
-                        float u = U[i][j];      
-                        Vx[i][j] = D0[l]*Vx[i][j]+D2[l]*(A[i][j+1]+A[i][j])*(U[i][j+1]-u);  
-                        Vy[i][j] = D1[k]*Vy[i][j]+D3[k]*(A[i+1][j]+A[i][j])*(U[i+1][j]-u);  
-                        U [i][j] = D0[k]*D1[l]*u       +B[i][j]*(D3[l]*((Vx[i][j]-Vx[i][j-1])+Pl[i][l]) + D2[k]*((Vy[i][j]-Vy[i-1][j])+Pb[k][j]));  
+                        float u = U[i][j];
+                        Vx[i][j] = D0[l]*Vx[i][j]+D2[l]*(A[i][j+1]+A[i][j])*(U[i][j+1]-u);
+                        Vy[i][j] = D1[k]*Vy[i][j]+D3[k]*(A[i+1][j]+A[i][j])*(U[i+1][j]-u);
+                        U [i][j] = D0[k]*D1[l]*u       +B[i][j]*(D3[l]*((Vx[i][j]-Vx[i][j-1])+Pl[i][l]) + D2[k]*((Vy[i][j]-Vy[i-1][j])+Pb[k][j]));
                         Pb[k][j] = D6   *Pb[k][j]+D4[k]*(Vx[i][j]-Vx[i][j-1]);
-                        Pl[i][l] = D6   *Pl[i][l]+D5[l]*(Vy[i][j]-Vy[i-1][j]);                           
+                        Pl[i][l] = D6   *Pl[i][l]+D5[l]*(Vy[i][j]-Vy[i-1][j]);
                     }
                 }
                 break;
-            case TT_Bottom: 
+            case TT_Bottom:
                 // PML region on bottom.
                 for( int i=iFirst, k=i-topIofBottomRegion; i<iLast; ++i, ++k ) {
                     for( int j=jFirst; j<jLast; ++j ) {
@@ -700,10 +704,10 @@ static void WavefieldUpdatePanel( int p ) {
                         Assert(A[i][j]!=0);
                         // FIXME - does not damp very high frequencies.
                         // Uniaxial PML along Y axis
-                        float u = U[i][j];      
+                        float u = U[i][j];
                         Vx[i][j] =       Vx[i][j]+      (A[i][j+1]+A[i][j])*(U[i][j+1]-u);
-                        Vy[i][j] = D1[k]*Vy[i][j]+D3[k]*(A[i+1][j]+A[i][j])*(U[i+1][j]-u);  
-                        U [i][j] = D0[k]*u       +B[i][j]*((Vx[i][j]-Vx[i][j-1])+D2[k]*((Vy[i][j]-Vy[i-1][j])+Pb[k][j]));   
+                        Vy[i][j] = D1[k]*Vy[i][j]+D3[k]*(A[i+1][j]+A[i][j])*(U[i+1][j]-u);
+                        U [i][j] = D0[k]*u       +B[i][j]*((Vx[i][j]-Vx[i][j-1])+D2[k]*((Vy[i][j]-Vy[i-1][j])+Pb[k][j]));
                         Pb[k][j] = D6   *Pb[k][j]+D4[k]*   (Vx[i][j]-Vx[i][j-1]);
                     }
                 }
@@ -714,12 +718,12 @@ static void WavefieldUpdatePanel( int p ) {
                     for( int j=jFirst, l=j-leftJofRightRegion; j<jLast; ++j, ++l ) {
                         Assert(0<=k && k<DampSize);
                         // Uniaxial PML along X and Y axis
-                        float u = U[i][j];      
-                        Vx[i][j] = D1[l]*Vx[i][j]+D3[l]*(A[i][j+1]+A[i][j])*(U[i][j+1]-u);  
-                        Vy[i][j] = D1[k]*Vy[i][j]+D3[k]*(A[i+1][j]+A[i][j])*(U[i+1][j]-u);  
-                        U [i][j] = D0[k]*D0[l]*u       +B[i][j]*(D2[l]*((Vx[i][j]-Vx[i][j-1])+Pr[i][l]) + D2[k]*((Vy[i][j]-Vy[i-1][j])+Pb[k][j]));  
+                        float u = U[i][j];
+                        Vx[i][j] = D1[l]*Vx[i][j]+D3[l]*(A[i][j+1]+A[i][j])*(U[i][j+1]-u);
+                        Vy[i][j] = D1[k]*Vy[i][j]+D3[k]*(A[i+1][j]+A[i][j])*(U[i+1][j]-u);
+                        U [i][j] = D0[k]*D0[l]*u       +B[i][j]*(D2[l]*((Vx[i][j]-Vx[i][j-1])+Pr[i][l]) + D2[k]*((Vy[i][j]-Vy[i-1][j])+Pb[k][j]));
                         Pb[k][j] = D6   *Pb[k][j]+D4[k]*(Vx[i][j]-Vx[i][j-1]);
-                        Pr[i][l] = D6   *Pr[i][l]+D4[l]*(Vy[i][j]-Vy[i-1][j]);          
+                        Pr[i][l] = D6   *Pr[i][l]+D4[l]*(Vy[i][j]-Vy[i-1][j]);
                     }
                 }
                 break;
@@ -728,7 +732,7 @@ static void WavefieldUpdatePanel( int p ) {
         if( iFirst<=airgunI && airgunI<iLast && jFirst<=airgunJ && airgunJ<jLast ) {
             Assert( 0<=AirgunImpulseCounter[p] && AirgunImpulseCounter[p]<PumpFactor );
             U[airgunI][airgunJ] += AirgunImpulseValue[AirgunImpulseCounter[p]++];
-        } 
+        }
     }
 }
 
@@ -748,19 +752,19 @@ static void ComputeWaveClut( const NimblePixMap& map, float showGeology, float s
     Assert(0<=showGeology && showGeology<=1);
     Assert(0<=showSeismic && showSeismic<=1);
     // Check against current CLUT
-    if( showGeology==WaveClutShowsGeology && showSeismic==WaveClutShowsSeismic && colorFunc==WaveClutColorFunc ) 
+    if( showGeology==WaveClutShowsGeology && showSeismic==WaveClutShowsSeismic && colorFunc==WaveClutColorFunc )
         // Use existing CLUT
         return;
-    
+
     // Need to recompute CLUT
     WaveClutShowsGeology = showGeology;
     WaveClutShowsSeismic = showSeismic;
     WaveClutColorFunc = colorFunc;
-    for( int r=0; r<=RockTypeMax; ++r ) 
-        ColorFuncMakeClut( WaveClut[r], r, map, showGeology, showSeismic, colorFunc ); 
+    for( int r=0; r<=RockTypeMax; ++r )
+        ColorFuncMakeClut( WaveClut[r], r, map, showGeology, showSeismic, colorFunc );
 }
 
-static void WavefieldDrawPanel( int p, const NimblePixMap& map ) { 
+static void WavefieldDrawPanel( int p, const NimblePixMap& map ) {
     const int w = map.width();
     const int h = map.height();
     Assert( h>0 );
@@ -790,7 +794,7 @@ static void WavefieldDrawPanel( int p, const NimblePixMap& map ) {
         for( int j=0; j<w; j+=4, ++rock ) {
             unsigned r = *rock<<SAMPLE_CLUT_LG_SIZE;
             const unsigned SUBCLUT_MASK = 3<<SAMPLE_CLUT_LG_SIZE;
-#if USE_SSE 
+#if USE_SSE
             __m128 v = _mm_max_ps(_mm_min_ps(*in++,upperLimit),lowerLimit);
             // The redundant cast to int works around a bug in Apple LLVM version 7.0.0 (clang-700.1.76)
             // that otherwise causes Seismic Duck to crash.
@@ -817,7 +821,7 @@ static void WavefieldDrawPanel( int p, const NimblePixMap& map ) {
 #if DRAW_TILES
 static void WavefieldDrawTiles( int p, const NimblePixMap& map ) {
     const int h = WavefieldHeight;
-    const int w = WavefieldWidth; 
+    const int w = WavefieldWidth;
     Assert(w==map.width()+2*HIDDEN_BORDER_SIZE);
     NimblePixel red = map.pixel( NimbleColor(255,0,0));
     NimblePixel yellow = map.pixel( NimbleColor(255,255,0));
@@ -865,7 +869,7 @@ static void WavefieldDrawTiles( int p, const NimblePixMap& map ) {
 
 //! Operations required by parallel_ghost_cell template.
 class UpdateOps {
-    const NimblePixMap& map; 
+    const NimblePixMap& map;
     const NimbleRequest request;
 public:
     void exchangeBorders( int p ) const {
@@ -875,9 +879,9 @@ public:
     }
 
     void updateInterior( int p ) const {
-        if( request&NimbleUpdate ) 
-            WavefieldUpdatePanel( p );    
-        if( request&NimbleDraw ) { 
+        if( request&NimbleUpdate )
+            WavefieldUpdatePanel( p );
+        if( request&NimbleDraw ) {
             WavefieldDrawPanel( p, map );
 #if DRAW_TILES
             WavefieldDrawTiles( p, map );
@@ -893,7 +897,7 @@ static void DrawColorScale( const NimblePixMap& map ) {
     int xLimit = Min(SAMPLE_CLUT_SIZE/xScale,map.width());
     for( int y=0; y<24; ++y ) {
         int i = y/6;
-        for( int x=0; x<xLimit; ++x ) 
+        for( int x=0; x<xLimit; ++x )
             *(NimblePixel*)map.at(x,y) = WaveClut[i][x*xScale];
     }
 }
