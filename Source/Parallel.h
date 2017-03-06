@@ -77,7 +77,7 @@ template<typename Op>
 class ghost_cell_task: public tbb::task {
     int lower, upper;
     const Op op;
-    /*override*/ tbb::task* execute() {
+    tbb::task* execute() override {
         if( lower+1==upper ) {
             op.updateInterior(lower);
             return nullptr;

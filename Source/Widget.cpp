@@ -1,15 +1,15 @@
-/* Copyright 1996-2015 Arch D. Robison 
+/* Copyright 1996-2017 Arch D. Robison
 
-   Licensed under the Apache License, Version 2.0 (the "License"); 
-   you may not use this file except in compliance with the License. 
-   You may obtain a copy of the License at 
-   
-       http://www.apache.org/licenses/LICENSE-2.0 
-       
-   Unless required by applicable law or agreed to in writing, software 
-   distributed under the License is distributed on an "AS IS" BASIS, 
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-   See the License for the specific language governing permissions and 
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
    limitations under the License.
  */
 
@@ -33,17 +33,17 @@ static NimbleRect FindTransparentBox( const NimblePixMap& map, int xInside, int 
     Assert( IsTransparent(map,xInside,yInside) );
     int x=xInside;
     int y=yInside;
-    while( x>0 && IsTransparent(map,x-1,y) ) 
+    while( x>0 && IsTransparent(map,x-1,y) )
         --x;
-    while( y>0 && IsTransparent(map,x,y-1) ) 
+    while( y>0 && IsTransparent(map,x,y-1) )
         --y;
     box.left=x;
     box.top=y;
     x=xInside;
     y=yInside;
-    while( y+1<map.height() && IsTransparent(map,x,y+1) ) 
+    while( y+1<map.height() && IsTransparent(map,x,y+1) )
         ++y;
-    while( x+1<map.width() && IsTransparent(map,x+1,y) ) 
+    while( x+1<map.width() && IsTransparent(map,x+1,y) )
         ++x;
     box.right=x+1;
     box.bottom=y+1;
@@ -62,7 +62,7 @@ void Widget::buildFrom( const NimblePixMap& map ) {
 // RubberImage
 //-----------------------------------------------------------------
 
-RubberImage::RubberImage( const char* resourceName ) : 
+RubberImage::RubberImage( const char* resourceName ) :
     Widget( resourceName )
 {}
 
@@ -103,7 +103,7 @@ inline bool Font::isBlankColumn( const NimblePixMap& map, int x ) {
 void Font::buildFrom( const NimblePixMap& map ) {
     Assert(!storage);
     myHeight = map.height();
-    const int nByte = map.height()*map.width(); 
+    const int nByte = map.height()*map.width();
     storage = new byte[nByte];
     byte* p = storage;
     int x = 0;
@@ -124,7 +124,7 @@ void Font::buildFrom( const NimblePixMap& map ) {
             for( int j=0; j<width; ++j ) {
                 Assert(p<storage+nByte);
                 // Bottom row of pixels is used only as internal marker for ' ' and ".
-                *p++ = i==myHeight-1 ? 0 : map.pixel(xStart+j,i)&0xFF; 
+                *p++ = i==myHeight-1 ? 0 : map.pixel(xStart+j,i)&0xFF;
             }
     }
     start[charMax+1-charMin] = p-storage;
@@ -157,7 +157,7 @@ int Font::drawOn( NimblePixMap& map, int x, int y, const char* s, NimblePixel in
         for( int i=0; i<myHeight; ++i ) {
             NimblePixel* dst = (NimblePixel*)map.at(x,y+i);
             for( int j=0; j<width; ++j, ++dst )
-                if( *p++>=0x80 ) 
+                if( *p++>=0x80 )
                     *dst = ink;
         }
         //  Assert(p==q);
@@ -180,7 +180,7 @@ struct DecimalNumeral {
 };
 
 DecimalNumeral::DecimalNumeral( unsigned value, bool zeroIsEmptyString ) {
-    // Convert to decimal. 
+    // Convert to decimal.
     int k=0;
     if( value || !zeroIsEmptyString ) {
         while( value>=10u ) {
@@ -209,14 +209,14 @@ void WheelDigits::buildFrom( const NimblePixMap& map ) {
     faceHeight = myPixMap.height()/12;
 }
 
-void WheelDigits::drawOn( NimblePixMap& map, float value ) { 
+void WheelDigits::drawOn( NimblePixMap& map, float value ) {
     int faceTop = int(faceHeight*value);
     int faceWidth = myPixMap.width();
     // Center the face if it is not exactly the same size as the map.
     int dx = faceWidth-map.width();
     int dy = faceHeight-map.height();
     NimblePixMap subrect( myPixMap, NimbleRect(dx>>1, faceTop+(dy>>1), faceWidth-(dx-(dx>>1)), faceTop+faceHeight-(dy-(dy>>1)) ) );
-    subrect.drawOn( map, 0, 0 ); 
+    subrect.drawOn( map, 0, 0 );
 }
 
 static WheelDigits TheWheelDigits("WheelDigits");
@@ -225,7 +225,7 @@ static WheelDigits TheWheelDigits("WheelDigits");
 // WheelMeter
 //-----------------------------------------------------------------
 
-WheelMeter::WheelMeter( const char* resourceName ): 
+WheelMeter::WheelMeter( const char* resourceName ):
     Widget( resourceName ),
     myValue(0),
     myNdigit(0)
@@ -237,7 +237,7 @@ void WheelMeter::buildFrom(const NimblePixMap& map) {
     Widget::buildFrom(map);
     // Scan for digit windows
     int midy = map.height()/2;
-    for( int x=map.width(); --x>=0; ) 
+    for( int x=map.width(); --x>=0; )
         if( IsTransparent(map,x,midy) ) {
             Assert(myNdigit<DIGIT_MAX);
             myDigitWindow[myNdigit] = FindTransparentBox(map,x,midy);
@@ -261,13 +261,13 @@ void WheelMeter::drawOn( NimblePixMap& map, int x, int y ) const {
         const double threshold = k==0 ? 0 : (8.0/9);
         if( frac>=threshold ) {
             d += (frac-threshold)/(1.0-threshold);
-        } 
+        }
         frac = d/10;
         if( d<=1.0 && k<numeral.size ) {
             d += 10;
         }
         NimblePixMap subrect(map,myDigitWindow[k].translate(x,y));
-        TheWheelDigits.drawOn( subrect, d ); 
+        TheWheelDigits.drawOn( subrect, d );
      }
 }
 
@@ -308,9 +308,27 @@ void DigitalMeter::drawOn( NimblePixMap& map, int x, int y ) const {
 // BarMeter
 //-----------------------------------------------------------------
 
-BarMeter::BarMeter( const char* resourceName, bool isVertical ) : 
+BarMeter::BarMeter(const char* resourceName, bool isVertical ) :
     Widget(resourceName), myValue(0), myIsVertical(char(isVertical))
-{
+{}
+
+void BarMeter::buildFrom( const NimblePixMap& map ) {
+    // Build pixels for the full meter.
+    Widget::buildFrom(map);
+    // Build pixels for the empty meter by copying full meter and stripping color from it.
+    myEmptyPixMap.deepCopy(map);
+    int w = map.width();
+    int h = map.height();
+    for( int i=0; i<h; ++i ) {
+        NimblePixel* p = (NimblePixel*)myEmptyPixMap.at(0,i); //myEmptyPixMap.row(i);
+        for( int j=0; j<w; ++j ) {
+            NimbleColor c(p[j]);
+            auto value = c.red;
+            if( c.green > value ) value = c.green;
+            if( c.blue > value ) value = c.blue;
+            p[j] = NimbleColor(value).pixel();
+        }
+    }
 }
 
 void BarMeter::drawOn( NimblePixMap& map, int x, int y ) const {
@@ -323,20 +341,20 @@ void BarMeter::drawOn( NimblePixMap& map, int x, int y ) const {
     if( myIsVertical ) {
         // e = length (in pixels) of empty fraction of meter
         int e = h-h*value;
-        NimblePixMap(myPixMap, NimbleRect(0, 0, w, e)).drawOn(map, x, y);       // Empty part
-        NimblePixMap(myPixMap, NimbleRect(w, e, 2*w, h)).drawOn(map, x, y+e);   // Full part
+        NimblePixMap(myEmptyPixMap, NimbleRect(0, 0, w, e)).drawOn(map, x, y);       // Empty part
+        NimblePixMap(myPixMap, NimbleRect(0, e, w, h)).drawOn(map, x, y+e);   // Full part
     } else {
         // f = length (in pixels) of full fraction of meter
         int f = w*value;
-        NimblePixMap(myPixMap, NimbleRect(0, h, f, 2*h)).drawOn(map, x, y);     // Full Part
-        NimblePixMap(myPixMap, NimbleRect(f, 0, w, h)).drawOn(map, x+f, y);     // Empty Part
+        NimblePixMap(myPixMap, NimbleRect(0, 0, f, h)).drawOn(map, x, y);     // Full Part
+        NimblePixMap(myEmptyPixMap, NimbleRect(f, 0, w, h)).drawOn(map, x+f, y);     // Empty Part
     }
 }
 
 //-----------------------------------------------------------------
 // GraphMeter
 //-----------------------------------------------------------------
- 
+
 GraphMeter::GraphMeter( int width, int height, NimbleColor penColor ) :
     myWidth(width),
     myHeight(height),
@@ -351,7 +369,7 @@ GraphMeter::GraphMeter( int width, int height, NimbleColor penColor ) :
     myHead = myArray;
     memset( myArray, 0, n*sizeof(float) );
 }
- 
+
 void GraphMeter::drawOn( NimblePixMap& map, int x, int y ) const {
     NimbleRect r(x,y,x+myWidth,y+myHeight);
     map.draw(r,NimblePixel(0));
@@ -366,7 +384,7 @@ void GraphMeter::drawOn( NimblePixMap& map, int x, int y ) const {
         --p;
         // Clip
         if( i<0 ) i=0;
-        if( i>=h ) i=h-1; 
+        if( i>=h ) i=h-1;
         *(NimblePixel*)map.at(t>>scale,y+i) = myPenColor;
     }
 }
@@ -402,8 +420,8 @@ Clickable::action Clickable::mouseUp( NimblePoint p ) {
 // Dialog
 //-----------------------------------------------------------------
 
-Dialog::Dialog( const char* resourceName ) :
-    BuiltFromResourcePixMap( resourceName ) 
+Dialog::Dialog(const char* resourceName ) :
+    BuiltFromResourcePixMap(resourceName)
 {
 }
 
@@ -439,20 +457,23 @@ void ButtonDialog::buildFrom( const NimblePixMap& map ) {
         for( int x=0; x<map.width(); ++x )
             if( IsTransparent(map,x,y) ) {
                 myButtonRect = FindTransparentBox(map,x,y);
+                // Check for accidentially leaving transparent pixels in the image.
+                Assert(8<=myButtonRect.width());
+                Assert(8<=myButtonRect.height());
                 return;
             }
     Assert(0); // Fails if button area not found
 }
 
 void ButtonDialog::doDrawOn( NimblePixMap& map ) {
-    Dialog::doDrawOn( map ); 
+    Dialog::doDrawOn( map );
     NimblePixMap buttonMap( map, myButtonRect );
     (myButtonSelected ? ButtonSelected : ButtonBackground).drawOn(buttonMap);
     int w = myButtonRect.width();
     for( int y=myButtonRect.top; y<myButtonRect.bottom; ++y ) {
         const NimblePixel* src = (NimblePixel*)myPixMap.at(myButtonRect.left,y);
         NimblePixel* dst = (NimblePixel*)map.at(myButtonRect.left,y);
-        for( int j=0; j<w; ++j ) 
+        for( int j=0; j<w; ++j )
             if( NimbleColor::alphaOf(src[j])>=NimbleColor::full/2 )
                 dst[j] = src[j];
     }
@@ -524,7 +545,7 @@ void SliderDialog::doDrawOn( NimblePixMap& map ) {
     int knobHalfWidth = SliderKnob.width()/2;
     int knobHalfHeight = SliderKnob.height()/2;
     for( int k=0; k<myNumberOfValues; ++k ) {
-        int knobX = mySlotX[k]; 
+        int knobX = mySlotX[k];
         int knobY =(mySlotBottom-mySlotTop)*(1-(myValue[k]-myMinValue[k])/(myMaxValue[k]-myMinValue[k]))+mySlotTop;
         (k==mySelectedSlider?SliderKnobSelected:SliderKnob).drawOn( map, knobX-knobHalfWidth, knobY-knobHalfHeight );
     }
@@ -534,7 +555,7 @@ void SliderDialog::trackMouse( NimblePoint p ) {
     int knobWidth = 40;
     int knobHeight = 10;
     for( int k=0; k<myNumberOfValues; ++k ) {
-        int knobX = mySlotX[k]; 
+        int knobX = mySlotX[k];
         int knobY =(mySlotBottom-mySlotTop)*(1-(myValue[k]-myMinValue[k])/(myMaxValue[k]-myMinValue[k]))+mySlotTop;
         NimbleRect r( knobX-knobWidth/2, knobY-knobHeight/2, knobX+knobWidth/2, knobY+knobHeight/2 );
         if( r.contains(p) ) {
@@ -548,7 +569,7 @@ void SliderDialog::trackMouse( NimblePoint p ) {
 
 void SliderDialog::doMouseDown( NimblePoint p ) {
     trackMouse(p);
-    if( mySelectedSlider>=0 ) 
+    if( mySelectedSlider>=0 )
         myDrag = true;
 }
 
@@ -601,12 +622,12 @@ void Menu::constructAll() {
     StartupListItem<Menu>::forAll( &Menu::finishConstruction );
 }
 
-Menu::Menu( const char* tab, Font& font ) : 
-    root(NULL), 
-    end(&root), 
-    myTab(tab), 
-    myFont(font), 
-    myWidth(0), 
+Menu::Menu( const char* tab, Font& font ) :
+    root(NULL),
+    end(&root),
+    myTab(tab),
+    myFont(font),
+    myWidth(0),
     myHeight(0),
     myTabWidth(0),
     myCheckWidth(0),
@@ -629,7 +650,7 @@ void Menu::finishConstruction() {
     for( item* i=root; i; i=i->next ) {
         myHeight += myTabHeight;
         myWidth = Max( myWidth, short(myFont.width(i->text())) );
-        if( i->shortcut() ) 
+        if( i->shortcut() )
             myShortcutWidth = Max( myShortcutWidth, short(myFont.width(i->shortcut())) );
     }
     myCheckWidth = myFont.width(MenuCheckPrefix);
@@ -682,9 +703,9 @@ void Menu::trackMouse( NimblePoint p, bool act ) {
             mySelectedRow = k;
         }
         if( mySelectedRow>0 && act ) {
-            item* i=root; 
+            item* i=root;
             for(int n = mySelectedRow-1;n;--n) {
-                // Following check should not be necessary in theory, but included to 
+                // Following check should not be necessary in theory, but included to
                 // prevent crashes if there is an accounting error.
                 if( !i ) return;
                 if( n==0 ) break;
@@ -693,7 +714,7 @@ void Menu::trackMouse( NimblePoint p, bool act ) {
             if( i->isEnabled() )
                 i->onSelect();
         }
-    } else 
+    } else
         mySelectedRow = noRow;
 }
 
@@ -717,7 +738,7 @@ void Menu::doMouseMove( NimblePoint p ) {
             trackMouse(p,false);
             break;
         case pulled:
-        case armed: 
+        case armed:
             trackMouse(p,false);
             break;
     }

@@ -29,16 +29,16 @@ I would like to move to SDL2 exclusively.  However, I am currently maintaining
 both ports because the DirectX 9.0c version is capable of almost twice the
 frame rate of the SDL2 version.
 
-You will need Visual Studio 2013, or rely on up-conversion to a newer version.
-The Express edition suffices.
+You will need Visual Studio 2015, or rely on up-conversion to a newer version.
+The Community edition suffices.
 
 ### SDL2 Version
 
-The solution file is in `Platform\SDL-2.0\VS2013` and
+The solution file is in `Platform\SDL-2.0\VS2015` and
 assumes that prerequisites are in the following locations:
 * TBB is in `$(TBB40_INSTALL_DIR)`.
-* SDL2 headers are in `C:\lib\SDL2\include` and the libraries
-  are in `C:\lib\SDL2\lib\x86`.
+* SDL2 headers are in `C:\lib\SDL2-2.0.4\include` and the libraries
+  are in `C:\lib\SDL2-2.0.4\lib\x86`.
 * SDL_image headers are in `C:\lib\SDL2_image-2.0.0\include` and the libraries are in `C:\lib\SDL2_image-2.0.0\lib\x86`.
 
 ### DirectX 9.0c Version

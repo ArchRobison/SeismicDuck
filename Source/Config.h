@@ -21,7 +21,7 @@
 #ifndef Config_H
 #define Config_H
 
-//! Minimum width of panel in pixels
+//! Minimum width of left-hand instrument panel in pixels. 
 const int PANEL_MIN_WIDTH = 192;
 
 //! Maximum supported display width
@@ -49,6 +49,9 @@ const int SEISMOGRAM_WIDTH_MAX = WAVEFIELD_VISIBLE_WIDTH_MAX;
 
 //! Maximum height of seismogram
 const int SEISMOGRAM_HEIGHT_MAX = WAVEFIELD_VISIBLE_HEIGHT_MAX;
+
+//! Maximum number of timesteps per frame
+static const int PUMP_FACTOR_MAX = 6;
 
 //! Log2 of size of a color lookup array for converting samples to colors.
 const int SAMPLE_CLUT_LG_SIZE = 10;

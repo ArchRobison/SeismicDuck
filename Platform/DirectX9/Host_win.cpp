@@ -1,4 +1,4 @@
-/* Copyright 1996-2015 Arch D. Robison 
+/* Copyright 1996-2017 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -55,14 +55,26 @@ const bool ExclusiveMode = false;
 const bool ExclusiveMode = true;
 #endif
 
+//! Common display sizes for testing
+enum CommonDisplaySize {
+    XGA = 1024<<16 | 768,
+    WXGA = 1366<<16 | 768,
+    FHD = 1920<<16 | 1080,
+    WUXGA = 1920<<16 | 1200,
+    WQHD = 2560<<16 | 1440
+};
+
+//! Size to use in non-exclusive mode.
+static CommonDisplaySize TestDisplaySize = XGA;
+
 static int DisplayWidth;
 static int DisplayHeight;
-static short WindowWidth = ExclusiveMode ? 1024 : 1024;
-static short WindowHeight = ExclusiveMode ? 768 : 768;
+static short WindowWidth = ExclusiveMode ? 1024 : TestDisplaySize>>16;
+static short WindowHeight = ExclusiveMode ? 768 : (TestDisplaySize&0xFFFF);
 
 //! Set to true between time that a WM_SIZE message is received and GameResizeOrMove is called.
 static bool ResizeOrMove = false;   
-
+ 
 #define CREATE_LOG 0
 #if CREATE_LOG
 FILE* LogFile;
@@ -108,16 +120,12 @@ void HostExit() {
 
 static bool RequestedTrackMouseEvent = false;
 
+// This is the main message handler of the system
 static LRESULT CALLBACK WindowProc(HWND hwnd,
                             UINT msg, 
                             WPARAM wparam, 
                             LPARAM lparam)
 {                       
-    // this is the main message handler of the system
-    PAINTSTRUCT ps;        // used in WM_PAINT
-    HDC         hdc;       // handle to a device context
-
-    // what is the message
     switch(msg) {
         case WM_LBUTTONDOWN:
         case WM_LBUTTONUP: {
@@ -154,14 +162,28 @@ static LRESULT CALLBACK WindowProc(HWND hwnd,
             // Do initialization stuff here
             return 0;
 
-        case WM_PAINT:
+        case WM_PAINT: {
+            PAINTSTRUCT ps;        // used in WM_PAINT
+            HDC         hdc;       // handle to a device context
+
             // Start painting
             hdc = BeginPaint(hwnd,&ps);
+#if CREATE_LOG
+            if(hdc==NULL) {
+                fprintf(LogFile, "BeginPaint returned NULL\n");
+                fflush(LogFile);
+            } else {
+                fprintf(LogFile, "BeginPaint returned okay\n");
+            }
+#endif
 
             // End painting
             EndPaint(hwnd,&ps);
+#if CREATE_LOG
+            fprintf(LogFile,"EndPaint returned\n");
+#endif
             return 0;
-        
+        }
         case WM_MOVE:
             return 0;
         
@@ -263,7 +285,15 @@ static void LoadResourceBitmaps(HINSTANCE hInstance) {
     ULONG_PTR gdiplusToken;
     Gdiplus::GdiplusStartupInput gdiplusStartupInput;
     Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
-    GameInitialize();
+    int w, h;
+    if( ExclusiveMode ) {
+        w = DisplayWidth;
+        h = DisplayHeight;
+    } else {
+        w = WindowWidth;
+        h = WindowHeight;
+    }
+    GameInitialize(w,h);
     Gdiplus::GdiplusShutdown(gdiplusToken);
 }
 
@@ -336,6 +366,7 @@ void HostSetFrameIntervalRate( int limit ) {
 	fprintf(LogFile, "BackBufferCount=%u\n", present.BackBufferCount);
 	fprintf(LogFile, "SwapEffect=%u\n", present.SwapEffect);
 	fprintf(LogFile, "PresentationInterval=%u\n", present.PresentationInterval);
+    fflush(LogFile);
 #endif
     present.PresentationInterval = limit==0 ? D3DPRESENT_INTERVAL_IMMEDIATE : 
                                    limit==1 ? D3DPRESENT_INTERVAL_DEFAULT : 
@@ -412,18 +443,37 @@ static void ShutdownDirectX() {
         d3d->Release();
 } 
 
+#if CREATE_LOG
+static void CheckResult(HRESULT hr, const char* expr)
+#else
+static inline void CheckResult(HRESULT hr)
+#endif
+{
+#if CREATE_LOG
+    if(hr!=D3D_OK) {
+        fprintf(LogFile, "%s returned error %s\n", expr, Decode(hr));
+        fflush(LogFile);
+    } else {
+        fprintf(LogFile, "%s returned D3D_OK\n", expr);
+    }
+#endif
+    Assert(hr==D3D_OK);
+}
+
+#if CREATE_LOG
+#define CHECK_RESULT(e) CheckResult(e,#e)
+#else
+#define CHECK_RESULT(e) CheckResult(e)
+#endif
+
 static void UpdateAndDraw( HWND hwnd ) {
-    HRESULT hr;
-    Device->BeginScene();
+    CHECK_RESULT(Device->BeginScene());
     IDirect3DSurface9* backBuffer=0;
-    hr = Device->GetBackBuffer(0,0,D3DBACKBUFFER_TYPE_MONO,&backBuffer);
-    Assert(hr==D3D_OK);
+    CHECK_RESULT(Device->GetBackBuffer(0,0,D3DBACKBUFFER_TYPE_MONO,&backBuffer));
     D3DSURFACE_DESC desc;
-    hr = backBuffer->GetDesc(&desc);
-    Assert(hr==D3D_OK);
+    CHECK_RESULT(backBuffer->GetDesc(&desc));
     D3DLOCKED_RECT lockedRect;
-    hr = backBuffer->LockRect(&lockedRect,NULL,D3DLOCK_NOSYSLOCK|D3DLOCK_DISCARD);
-    Assert(hr==D3D_OK);
+    CHECK_RESULT(backBuffer->LockRect(&lockedRect,NULL,D3DLOCK_NOSYSLOCK|D3DLOCK_DISCARD));
     double t0 = HostClockTime();
     NimblePixMap pixmap(desc.Width,desc.Height,32,lockedRect.pBits,lockedRect.Pitch);
     if( ResizeOrMove ) {
@@ -433,22 +483,26 @@ static void UpdateAndDraw( HWND hwnd ) {
 #if CREATE_LOG
 	static double previousTime;
 	double currentTime = HostClockTime();
-	fprintf(LogFile, "Drawing into %p at time %.3f, delta %.5f\n", pixmap.at(0, 0), HostClockTime(), currentTime - previousTime);
+	fprintf(LogFile, "drawing into %p at time %.3f, delta %.5f\n", pixmap.at(0, 0), HostClockTime(), currentTime - previousTime);
+    fflush(LogFile);
 	previousTime = currentTime;
 #endif
 	GameUpdateDraw(pixmap, NimbleUpdate | NimbleDraw);
 
     extern void ThrottleWorkers(double,double);         // Defined in Parallel.cpp
+#if CREATE_LOG
+    fprintf(LogFile, "calling ThrottleWorkers\n");
+    fflush(stderr);
+#endif
     ThrottleWorkers(t0,HostClockTime());
-
-    hr = backBuffer->UnlockRect();
-    Assert(hr==D3D_OK);
+#if CREATE_LOG
+    fprintf(LogFile, "returned from ThrottleWorkers\n");
+    fflush(stderr);
+#endif
+    CHECK_RESULT(backBuffer->UnlockRect());
     backBuffer->Release();
-    Device->EndScene();
-    hr = Device->Present( 0, 0, 0, 0 );
-    if( hr!=D3D_OK ) {
-        Decode(hr);
-	}
+    CHECK_RESULT(Device->EndScene());
+    CHECK_RESULT(Device->Present( 0, 0, 0, 0 ));
 }
 
 void HostShowCursor( bool show ) {
@@ -519,7 +573,7 @@ int WINAPI WinMain( HINSTANCE hinstance,
         return 0;
     }
 #if CREATE_LOG
-    fprintf(LogFile,"registered main window\n");
+    fprintf(LogFile,"WinMain registered main window\n");
     fflush(LogFile);
 #endif /* CREATE_LOG */
     srand(2);
@@ -544,13 +598,17 @@ int WINAPI WinMain( HINSTANCE hinstance,
 
     LoadResourceBitmaps(hinstance);
 #if CREATE_LOG
-    fprintf(LogFile,"loaded resource bitmap\n");
+    fprintf(LogFile,"WinMain loaded resource bitmap\n");
     fflush(LogFile);
 #endif /* CREATE_LOG */
 
     // Enter main event loop
     for(;;) {
         if (PeekMessage(&msg,NULL,0,0,PM_REMOVE)) { 
+#if CREATE_LOG
+            fprintf(LogFile, "PeekMessage returns with msg.message=%x\n", msg.message);
+            fflush(LogFile);
+#endif /* CREATE_LOG */
             // Test if this is a quit
             if (msg.message == WM_QUIT)
                break;

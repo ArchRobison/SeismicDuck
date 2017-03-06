@@ -1,15 +1,15 @@
-/* Copyright 1996-2014 Arch D. Robison 
+/* Copyright 1996-2017 Arch D. Robison
 
-   Licensed under the Apache License, Version 2.0 (the "License"); 
-   you may not use this file except in compliance with the License. 
-   You may obtain a copy of the License at 
-   
-       http://www.apache.org/licenses/LICENSE-2.0 
-       
-   Unless required by applicable law or agreed to in writing, software 
-   distributed under the License is distributed on an "AS IS" BASIS, 
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-   See the License for the specific language governing permissions and 
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
    limitations under the License.
  */
 
@@ -23,30 +23,30 @@
 class SpriteRep {
     //! Header for sequence of consecutive non-transparent NimblePixel.
     /** Assumed to have same alignment as a NimblePixel */
-    struct header { 
+    struct header {
         //! Length of pixels array.
         /** Zero for last item in sequence. */
-        unsigned int length:10;         
+        unsigned int length:10;
         signed int x:10;
         /** Always non-decreasing for successive headers. */
         signed int y:10;
         //! Really a variable-length array.
-        NimblePixel pixels[1];  
+        NimblePixel pixels[1];
     };
-    /** Data format consists of sequence of items.  Each item is a header followed by 
-        header::length occurrences of NimblePixel. 
+    /** Data format consists of sequence of items.  Each item is a header followed by
+        header::length occurrences of NimblePixel.
         nullptr if not initialized. */
     header* myData;
 public:
     SpriteRep() : myData(0) {}
     ~SpriteRep() {operator delete(myData);}
     void buildFrom( const NimblePixMap& map, int top, int bottom, bool flip=false );
-    void drawOn( const NimblePixMap& map, int x, int y ) const; 
+    void drawOn( const NimblePixMap& map, int x, int y ) const;
 };
 
 class Sprite: public BuiltFromResourcePixMap {
 public:
-    Sprite( const char* resourceName, bool flip=false ) : 
+    Sprite( const char* resourceName, bool flip=false ) :
         BuiltFromResourcePixMap(resourceName),
         myFlip(flip)
     {}
@@ -63,7 +63,7 @@ private:
     short myHeight;
     SpriteRep myRep;
     const bool myFlip;
-    /*override*/ void buildFrom( const NimblePixMap& map );
+    void buildFrom( const NimblePixMap& map ) override;
 };
 
 class AnimatedSprite: public BuiltFromResourcePixMap {
@@ -85,7 +85,7 @@ public:
     }
 
     void update() {
-        if(++myCurrentFrame>=myNumFrames) 
+        if(++myCurrentFrame>=myNumFrames)
             myCurrentFrame=0;
     }
 
@@ -97,7 +97,7 @@ private:
 
     //! Pointer to SpriteRep[myNumFrames]
     SpriteRep* myRep;
-    
-    /*override*/ void buildFrom( const NimblePixMap& map );
+
+    void buildFrom( const NimblePixMap& map ) override;
 };
 

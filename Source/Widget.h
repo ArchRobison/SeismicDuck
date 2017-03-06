@@ -21,15 +21,16 @@
 
 class Widget: BuiltFromResourcePixMap {
 public:
-    Widget( const char* resourceName ) : 
+    Widget(const char* resourceName ) :
         BuiltFromResourcePixMap(resourceName) 
     {}
+    using BuiltFromResourcePixMap::setResourceName;
 protected:
     NimblePixMapWithOwnership myPixMap;   
-    /*override*/ void buildFrom( const NimblePixMap& map );
+    void buildFrom( const NimblePixMap& map ) override;
 private:
-    Widget( const Widget& );
-    void operator=( const Widget& );
+    Widget( const Widget& ) = delete;
+    void operator=( const Widget& ) = delete;
 };
 
 //! Image that can be stretched to fit a rectangle.
@@ -44,10 +45,10 @@ public:
 class Font: BuiltFromResourcePixMap {
 public:
     Font( const char* resourceName ) : 
-        BuiltFromResourcePixMap(resourceName),
-        storage(nullptr), myHeight(0)
-    {
-    }
+        BuiltFromResourcePixMap(resourceName)
+    {}
+    using BuiltFromResourcePixMap::setResourceName;
+
     ~Font() {delete[] storage;}
     /** Returns x coordinate that next character would have. */
     int drawOn( NimblePixMap& map, int x, int y, const char* s, NimblePixel ink );
@@ -56,12 +57,12 @@ public:
 private:
     static const char charMin=32;
     static const char charMax=127;
-    byte* storage;
-    byte myHeight;
+    byte* storage = nullptr;
+    byte myHeight = 0;
     unsigned short start[charMax-charMin+2];
-    /*override*/ void buildFrom( const NimblePixMap& map );
+    void buildFrom( const NimblePixMap& map ) override;
     Font( const Widget& );
-    void operator=( const Font& );
+    void operator=( const Font& ) = delete;
     static bool isBlankColumn( const NimblePixMap& map, int x );
 };
 
@@ -78,7 +79,7 @@ public:
     int width() const {return myPixMap.width();}
     int height() const {return myPixMap.height();}
 protected:
-    /*override*/ void buildFrom(const NimblePixMap& map); 
+    void buildFrom(const NimblePixMap& map) override;
 private:
     static const int maxNdigit = 4;
     float myValue;
@@ -108,12 +109,15 @@ class BarMeter: public Widget {
 public:
     BarMeter( const char* resourceName, bool isVertical=true );
     void drawOn( NimblePixMap& map, int x, int y ) const;
-    int width() const {return myPixMap.width() >> myIsVertical;}
-    int height() const {return myPixMap.height() >> (myIsVertical^1);}
+    int width() const {return myPixMap.width();}
+    int height() const {return myPixMap.height();}
     void setValue( float value ) {myValue=value;}
 private:
     float myValue;
+    //! Pixmap for empty meter
+    NimblePixMapWithOwnership myEmptyPixMap;
     char myIsVertical;  // 1 if meter is oriented vertically, 0 otherwise.
+    void buildFrom(const NimblePixMap& map) override;
 };
 
 class GraphMeter {
@@ -192,15 +196,16 @@ public:
     int height() const {return myPixMap.height();}
     //! Called when derived class should set values.
     virtual void setValues() {}
+    using BuiltFromResourcePixMap::setResourceName;
 protected:
     NimblePixMapWithOwnership myPixMap;
     Dialog( const char* resourceName );
-    /*override*/ void buildFrom( const NimblePixMap& map );
+    void buildFrom( const NimblePixMap& map ) override;
 
-    /*override*/ void doDrawOn( NimblePixMap& map );
-    /*override*/ void doMouseDown( NimblePoint p ){};
-    /*override*/ void doMouseMove( NimblePoint p ) {};
-    /*override*/ action doMouseUp( NimblePoint p );
+    void doDrawOn( NimblePixMap& map ) override;
+    void doMouseDown( NimblePoint p ) override {};
+    void doMouseMove( NimblePoint p ) override {};
+    action doMouseUp( NimblePoint p ) override;
 };
 
 /** Dialog without any sliders. */
@@ -212,16 +217,15 @@ public:
 //! Dialog with a single button
 class ButtonDialog: public Dialog {
 public:
-    /*override*/ void doDrawOn( NimblePixMap& map );
-    /*override*/ void doMouseDown( NimblePoint p );
-    /*override*/ void doMouseMove( NimblePoint p );
-    /*override*/ action doMouseUp( NimblePoint p );
+    void doDrawOn( NimblePixMap& map ) override;
+    void doMouseDown( NimblePoint p ) override;
+    void doMouseMove( NimblePoint p ) override;
+    action doMouseUp( NimblePoint p ) override;
     virtual void onSelect() = 0;
 protected:
-    ButtonDialog( const char* resourceName ) : 
+    ButtonDialog(const char* resourceName ) :
          Dialog(resourceName)
-    {
-    }
+    {}
 private:
     void trackMouse( NimblePoint p );
     NimbleRect myButtonRect;
@@ -231,12 +235,13 @@ private:
 
 class SliderDialog: public Dialog {
 public: 
-    /*override*/ void doDrawOn( NimblePixMap& map );
-    /*override*/ void doMouseDown( NimblePoint p );
-    /*override*/ void doMouseMove( NimblePoint p );
-    /*override*/ action doMouseUp( NimblePoint p );
+    void doDrawOn( NimblePixMap& map ) override;
+    void doMouseDown( NimblePoint p ) override;
+    void doMouseMove( NimblePoint p ) override;
+    action doMouseUp( NimblePoint p ) override;
     virtual void changeNotice( int whichSlider, float newValue ) = 0;
     void setValue( int whichSlider, float value );
+    //! Set lower and upper bounds for given slider. */
     void setLimits( int whichSlider, float min, float max  );
 protected:
    SliderDialog( const char* resourceName );
@@ -254,7 +259,7 @@ private:
     float myMinValue[maxSliders];
     float myMaxValue[maxSliders];
     void trackMouse( NimblePoint p );
-    /*override*/ void buildFrom( const NimblePixMap& map );
+    void buildFrom( const NimblePixMap& map ) override;
 };
 
 class Menu: public Clickable, public StartupListItem<Menu> {
@@ -296,7 +301,7 @@ public:
     };
 
     class boolItem: public Menu::item {
-        /*override*/ void onSelect() {
+        void onSelect() override {
             toggleChecked();
         }
     public:
@@ -336,9 +341,9 @@ private:
     };
     state myState;
     void trackMouse( NimblePoint p, bool act );
-    /*override*/ void doDrawOn( NimblePixMap& map );
-    /*override*/ void doMouseDown( NimblePoint p );
-    /*override*/ void doMouseMove( NimblePoint p );
-    /*override*/ action doMouseUp( NimblePoint p );
+    void doDrawOn( NimblePixMap& map ) override;
+    void doMouseDown( NimblePoint p ) override;
+    void doMouseMove( NimblePoint p ) override;
+    action doMouseUp( NimblePoint p ) override;
     void finishConstruction();
 };

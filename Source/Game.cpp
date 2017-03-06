@@ -1,4 +1,4 @@
-/* Copyright 1996-2015 Arch D. Robison 
+/* Copyright 1996-2017 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -136,7 +136,7 @@ public:
         setValue(4,TheGeologyParameters.nBump);
     }
 private:
-    /*override*/void changeNotice( int whichSlider, float newValue ) {
+    void changeNotice( int whichSlider, float newValue ) override {
         switch( whichSlider ) {
             case 0:
                 TheGeologyParameters.oceanDepth = 1-newValue;
@@ -188,7 +188,7 @@ public:
         setValue(2,logf(TheAirgunParameters.amplitude));
     }
 private:
-    /*override*/void changeNotice( int whichSlider, float newValue ) {
+    void changeNotice( int whichSlider, float newValue ) override {
         switch( whichSlider ) {
             case 0: {
                 int rounded = Round(newValue);
@@ -219,7 +219,7 @@ public:
         setValue(0,TheColorFunc);
     }
 private:
-    /*override*/void changeNotice( int whichSlider, float newValue ) {
+    void changeNotice( int whichSlider, float newValue ) override {
         switch( whichSlider ) {
             case 0: {
                 int rounded = Round(newValue);
@@ -233,29 +233,32 @@ private:
 
 static ColorSliderDialog TheColorDialog;
 
+//! Dialog for controlling speed parameters
 class SpeedDialog: public SliderDialog {
 public:
+    static const int waveSpeedSlider = 0;
+    static const int frameRateSlider = 1;
     SpeedDialog() : SliderDialog("SpeedSliders") {
-        setLimits(0,1,5);
-        setLimits(1,0,2);
+        setLimits(waveSpeedSlider, 1, PUMP_FACTOR_MAX);
+        setLimits(frameRateSlider, 0, 2);
         oldIntervalLimit=1;
     }
     void setValues() {
-        setValue(0,WavefieldGetPumpFactor());
-        setValue(1,oldIntervalLimit);
+        setValue(waveSpeedSlider,WavefieldGetPumpFactor());
+        setValue(frameRateSlider,oldIntervalLimit);
     }
 private:
     int oldIntervalLimit;
 public:
-    /*override*/void changeNotice( int whichSlider, float newValue ) {
+    void changeNotice( int whichSlider, float newValue ) override {
         switch( whichSlider ) {
-            case 0: {
+            case waveSpeedSlider: {
                 int rounded = Round(newValue);
                 setValue(whichSlider,rounded);
                 WavefieldSetPumpFactor(rounded);
                 break;
             }
-            case 1: {
+            case frameRateSlider: {
                 int rounded = Round(newValue);
                 setValue(whichSlider,rounded);
                 if( rounded!=oldIntervalLimit ) {
@@ -273,17 +276,17 @@ static SpeedDialog TheSpeedDialog;
 class MessageDialog: public ButtonDialog {
     void onSelect() {VisibleDialog=NULL;}
 public:
-    MessageDialog( const char* resourceName ) : ButtonDialog(resourceName) {}
+    MessageDialog(const char* resourceName) : ButtonDialog(resourceName) {}
 };
 
 static MessageDialog TheAboutTheAuthorDialog("AboutTheAuthor");
-static MessageDialog TheKeyboardHelpDialog("Keyboard");
+static MessageDialog TheKeyboardHelpDialog("Keyboard13");
 
 static Font TheFont("FontSans16");
 
 class DialogItem: public Menu::item {
     Dialog& myDialog;
-    /*override*/ void onSelect() {
+    void onSelect() override {
         myDialog.setValues();
         VisibleDialog=&myDialog;
     }
@@ -292,25 +295,25 @@ public:
 };
 
 class BeginGameItem: public Menu::item {
-    /*override*/ void onSelect();
+    void onSelect() override;
 public:
     BeginGameItem() : Menu::item("Begin Game") {}
 };
 
 class ExploreNewAreaItem: public Menu::item {
-    /*override*/ void onSelect();
+    void onSelect() override;
 public:
     ExploreNewAreaItem() : Menu::item("Explore New Area","n") {}
 };
 
 class EndGameItem: public Menu::item {
-    /*override*/ void onSelect();
+    void onSelect() override;
 public:
     EndGameItem() : Menu::item("End Game") {}
 };
 
 class ExitItem: public Menu::item {
-    /*override*/ void onSelect() {HostExit();}
+    void onSelect() override {HostExit();}
 public:
     ExitItem() : Menu::item("Exit","Esc") {}
 };
@@ -352,7 +355,7 @@ public:
 static ModelMenu TheModelMenu;
 
 class GeologyItem: public Menu::item {
-    /*override*/ void onSelect();
+    void onSelect() override;
 public:
     GeologyItem() : Menu::item("Geology","g") {}
 } TheGeologyItem;
@@ -360,7 +363,7 @@ public:
 static Menu::boolItem ShowReservoir("Reservoir","r");
 
 class SeismicItem: public Menu::item {
-    /*override*/ void onSelect();
+    void onSelect() override;
 public:
     SeismicItem() : Menu::item("Seismic","s") {}
 } TheSeismicItem;
@@ -382,13 +385,13 @@ public:
 static ViewMenu TheViewMenu;
 
 class AboutItem: public Menu::item {
-    /*override*/ void onSelect() {VisibleDialog = &TheAboutTheAuthorDialog;}
+    void onSelect() override {VisibleDialog = &TheAboutTheAuthorDialog;}
 public:
     AboutItem() : Menu::item("About Seismic Duck") {}
 } TheAboutItem;
 
 class KeyboardItem: public Menu::item {
-    /*override*/ void onSelect() {VisibleDialog = &TheKeyboardHelpDialog;}
+    void onSelect() override {VisibleDialog = &TheKeyboardHelpDialog;}
 public:
     KeyboardItem() : Menu::item("Keys") {}
 } TheKeyboardItem;
@@ -457,9 +460,34 @@ void SurfaceX::update( int dir, float dt ) {
 
 static WheelMeter CashMeter("CashMeter");
 static WheelMeter LevelMeter("LevelMeter");
-static BarMeter WaterMeter("WaterMeter");
-static BarMeter OilMeter("OilMeter");
-static BarMeter GasMeter("GasMeter");
+
+static BarMeter WaterMeter("WaterMeter40");
+static BarMeter OilMeter("OilMeter40");
+static BarMeter GasMeter("GasMeter40");
+
+static void SetWidgetSizes() {
+    int hypot = std::hypot(WindowWidth, WindowHeight);
+    if (hypot >= 2100) {
+        TheKeyboardHelpDialog.setResourceName("Keyboard20"); 
+    }
+    if (hypot >= 2500) {
+        // Use big meters and fonts
+        TheFont.setResourceName("FontSans21");
+        WaterMeter.setResourceName("WaterMeter54");
+        OilMeter.setResourceName("OilMeter54");
+        GasMeter.setResourceName("GasMeter54");
+    }
+    // Set initial "pump factor" so that overall wave speed is roughtly similar on different size displays.
+    // The user can change it vvia the Speed menu.
+    if (hypot >= 2500) {
+        WavefieldSetPumpFactor(4);
+    } else if(hypot >= 1800) {
+        WavefieldSetPumpFactor(3);
+    } else {
+        WavefieldSetPumpFactor(2);
+    }
+}
+
 static RubberImage PanelBackground("Panel");
 static DigitalMeter FrameRateMeter(6,1);
 #if USE_TBB
@@ -743,8 +771,11 @@ void GameUpdateDraw( NimblePixMap& map, NimbleRequest request ) {
     ScoreState.update();
 }
 
-bool GameInitialize() {
+bool GameInitialize(int width, int height) {
     CheckGameInterface(GIC_GameInitialize);
+    WindowWidth = width;
+    WindowHeight = height;
+    SetWidgetSizes();
     BuiltFromResourcePixMap::loadAll();
     AirgunInitialize( TheAirgunParameters );
     CashMeter.setValue(100);
@@ -826,8 +857,13 @@ void GameResizeOrMove( NimblePixMap& map ) {
     CheckGameInterface( GIC_GameResizeOrMove );
     WindowWidth = map.width();
     WindowHeight = map.height();
-    // Set PanelWidth so that remaining width is mulitple of 4
-    PanelWidth = PANEL_MIN_WIDTH+WindowWidth%4;
+    // Minimum width to display meters
+    int meterWidth = WaterMeter.width() + OilMeter.width() + GasMeter.width() + 72;
+    // FIXME - should compute minimum width to display other panel instruments
+    int tentativePanelWidth = meterWidth;
+    // Set PanelWidth so that remaining width is multiple of 8
+    PanelWidth = meterWidth + (WindowWidth-meterWidth) % 8;
+    Assert(PanelWidth >= PANEL_MIN_WIDTH);
     CreateNewArea();
 }
 
@@ -922,9 +958,10 @@ void GameKeyDown( int key ) {
         case 's':
             ToggleShowSeismic();
             break;
-        case 'u':                           // Unlimit frame rate and show it
-            TheSpeedDialog.changeNotice(0,5);
-            TheSpeedDialog.changeNotice(1,2);
+        case 'u':                           
+            // Set "speed" parameters to maximum and show frame rate.
+            TheSpeedDialog.changeNotice(SpeedDialog::waveSpeedSlider, PUMP_FACTOR_MAX);
+            TheSpeedDialog.changeNotice(SpeedDialog::frameRateSlider, 2);
             ShowFrameRate = true;
             break;
 #if WRITING_DOCUMENTATION

@@ -211,8 +211,8 @@ int main(int argc, char* argv[]){
     int w = displayMode.w;
     int h = displayMode.h;
 #if !EXCLUSIVE_MODE
-    w = 1024;
-    h = 768;
+    w = 2560;
+    h = 1440;
 #endif
     SDL_Window* window = SDL_CreateWindow(
         GameTitle(),                

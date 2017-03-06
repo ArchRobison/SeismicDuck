@@ -1,4 +1,4 @@
-/* Copyright 1996-2015 Arch D. Robison 
+/* Copyright 1996-2017 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -163,6 +163,9 @@ public:
     //! Construct undefined map.
     NimblePixMap() : myBaseAddress(0), myBytesPerRow(0) {}
     
+    //! Return true if map is undefined
+    bool isDefined() const {return myBaseAddress!=0;}
+
     //! Construct map as view of memory.
     NimblePixMap( int width, int height, int bitsPerPixel, void* base, int bytesPerRow ); 
 
@@ -186,6 +189,12 @@ public:
 
     //! Return value of pixel at (x,y)
     NimblePixel pixel( int x, int y ) const {return *(NimblePixel*)at(x,y);}
+
+    //! Return pointer to (0,y)
+    NimblePixel* row( int y ) {
+        Assert(0 <= y && y < height());
+        return (NimblePixel*)((byte*)myBaseAddress + myBytesPerRow*y);
+    }
 
     //! Return color of pixel at (x,y)
     NimbleColor color( int x, int y ) const {return NimbleColor(pixel(x,y));}
@@ -234,7 +243,7 @@ private:
     }
  
     // Deny access to assignment in order to prevent slicing errors with NimblePixMapWithOwnership
-    void operator=( const NimblePixMap& src );
+    void operator=( const NimblePixMap& src ) = delete;
     friend class NimblePixMapWithOwnership;
 };
 
@@ -246,8 +255,8 @@ inline void* NimblePixMap::at( int x, int y ) const {
 
 //! NimblePixMap that owns its buffer.
 class NimblePixMapWithOwnership: public NimblePixMap {
-    void operator=( const NimblePixMapWithOwnership& ); 
-    NimblePixMapWithOwnership( const NimblePixMapWithOwnership& ); 
+    void operator=( const NimblePixMapWithOwnership& ) = delete;
+    NimblePixMapWithOwnership( const NimblePixMapWithOwnership& ) = delete;
 public:
     NimblePixMapWithOwnership() {}
     void deepCopy( const NimblePixMap& src );

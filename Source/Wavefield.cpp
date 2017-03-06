@@ -1,4 +1,4 @@
-/* Copyright 1996-2014 Arch D. Robison
+/* Copyright 1996-2017 Arch D. Robison
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -48,11 +48,10 @@
 
 static const int NUM_PANEL_MAX = 16;
 
-//! Set to 1 if experimenting with tiles bigger than 7x508
-#define ALLOW_BIG_TILES 0
-
 //! Number of panels
 static int NumPanel = 10;
+
+//! Number of timesteps per video frame.
 static int PumpFactor = 3;
 
 static int TileHeight = 7;    // Must be <= 15.
@@ -76,7 +75,7 @@ static int WavefieldWidth;
 static int WavefieldHeight;
 
 //! Maximum allowed width of wavefield, including left and right PML regions.
-static const int WavefieldWidthMax = HIDDEN_BORDER_SIZE+WAVEFIELD_VISIBLE_WIDTH_MAX+HIDDEN_BORDER_SIZE;
+static const int WavefieldWidthMax = HIDDEN_BORDER_SIZE + WAVEFIELD_VISIBLE_WIDTH_MAX + HIDDEN_BORDER_SIZE;
 
 //! Maximum allowed hight of wavefield, including PML region on bottom.
 /** The 1 is for the top read-only row of grid points.
@@ -168,6 +167,7 @@ static void InitializePanelMap() {
 }
 
 static void InitializeZoneTranfers() {
+    Assert(0<PumpFactor && PumpFactor<=PUMP_FACTOR_MAX);
     // Compute panel boundary transfers
     PanelTransferCount = 2*PumpFactor;
     for( int p=1; p<NumPanel; ++p ) {
@@ -315,22 +315,14 @@ enum TileTag {
 
 // A Tile describes one tile in the tiling of the wavefield.
 struct Tile {
-#if ALLOW_BIG_TILES
-    unsigned tag:3;
-    unsigned iFirst:10;
-    unsigned iLen:10;
-    unsigned jFirstOver4:9;
-    unsigned jLenOver4:9;
-#else
     unsigned tag:3;             // a TileTag
     unsigned iFirst:10;         // i=index of upper left corner of tile.
     unsigned iLen:4;            // height of tile
     unsigned jFirstOver8:9;     // j-index divided by 8
     unsigned jLenOver8:6;       // width of tile divided by 8
-#endif
 };
 
-// Fixme - estimate is way to high in practice, and theoretically too low
+// Fixme - estimate is way too high in practice, and theoretically too low
 static const int NUM_TILE_MAX = WavefieldWidthMax*WavefieldHeightMax*PUMP_FACTOR_MAX;
 
 static const Tile* PanelFirstTile[NUM_PANEL_MAX];
@@ -405,13 +397,14 @@ static void CheckTiles( int p ) {
 }
 #endif /* ASSERTIONS */
 
+//! Return true if tile for [iFirst,iLast) x [jFirst,jLast) is homogeneous
 static bool IsHomogeneous( int iFirst, int iLast, int jFirst, int jLast ) {
     // Load values that are used for a homogenous tile.
     float a = A[iFirst][jFirst];
     float b = B[iFirst][jFirst];
     for( int i=iFirst; i<iLast; ++i )
         for( int j=jFirst; j<jLast; ++j )
-            // Check that values that would be loaded for a heterogenous tile match.
+            // Check that values that would be loaded match those that would be loaded for a heterogenous tile.
             if( A[i][j]!=a || A[i+1][j]!=a || A[i][j+1]!=a || B[i][j]!=b )
                 return false;
     return true;
@@ -481,7 +474,7 @@ static void SplitVertical( int iFirst, int iLast, int jFirst, int jLast ) {
     }
 }
 
-void MakeTilesForPanel( int p ) {
+static void MakeTilesForPanel( int p ) {
     Assert(TileWidth%4==0);
     PanelFirstTile[p] = TileEnd;
     int w = WavefieldWidth;
@@ -510,6 +503,19 @@ static void InitializeTiles() {
     }
 }
 
+//! "pump factor" for which current tiling is set up, or zero if tiling needs to be recomputed.
+static int currentPumpFactor = 0;
+
+static void ComputeTiling() {
+    if( PumpFactor != currentPumpFactor ) {
+        currentPumpFactor = PumpFactor;
+        InitializeZoneTranfers();
+        for(int p=1; p<NumPanel; ++p)
+            ReplicateZone(p,/*all=*/true);
+        InitializeTiles();
+    }
+}
+
 void WavefieldInitialize( const Geology& g ) {
     WavefieldHeight = g.height()+1;
     WavefieldWidth = g.width();
@@ -517,23 +523,17 @@ void WavefieldInitialize( const Geology& g ) {
     InitializeRockMap(g);
     InitializeFDTD();
     InitializePML();
-    InitializeZoneTranfers();
-    for( int p=1; p<NumPanel; ++p )
-        ReplicateZone(p,/*all=*/true);
-    InitializeTiles();
+    //! Force tiling to be recomputed.
+    currentPumpFactor = 0;
 }
 
-int WavefieldGetPumpFactor() {return PumpFactor;}
+int WavefieldGetPumpFactor() {
+    return PumpFactor;
+}
 
 void WavefieldSetPumpFactor( int d ) {
     Assert(1<=d && d<=PUMP_FACTOR_MAX);
-    if( PumpFactor!=d ) {
-        PumpFactor = d;
-        InitializeZoneTranfers();
-        for( int p=1; p<NumPanel; ++p )
-            ReplicateZone(p,/*all=*/true);
-        InitializeTiles();
-    }
+    PumpFactor = d;
 }
 
 static int AirgunY, AirgunX;
@@ -905,6 +905,7 @@ static void DrawColorScale( const NimblePixMap& map ) {
 
 void WavefieldUpdateDraw( const NimblePixMap& map, NimbleRequest request, float showGeology, float showSeismic, ColorFunc colorFunc ) {
     ComputeWaveClut( map, showGeology, showSeismic, colorFunc );
+    ComputeTiling();
     if( request&NimbleUpdate ) {
         int i = IofY(AirgunY);
         int j = AirgunX+HIDDEN_BORDER_SIZE;

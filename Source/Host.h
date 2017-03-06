@@ -1,4 +1,4 @@
-/* Copyright 1996-2015 Arch D. Robison 
+/* Copyright 1996-2017 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -60,4 +60,3 @@ class BuiltFromResourcePixMap;
 /** Construct map for resource with name item.resourceName().
     Call item.buildFrom(map) */
 void HostLoadResource( BuiltFromResourcePixMap& item );
-

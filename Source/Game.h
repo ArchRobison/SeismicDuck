@@ -23,10 +23,10 @@
 
 #include "NimbleDraw.h"
 
-//! Must be called by host to initialize game.
+//! Must be called by host to initialize game for window of given size.
 /** Initializes game-specific data structures.
     Return true if successful, otherwise false. */
-bool GameInitialize();
+bool GameInitialize(int width, int height);
 
 //! Called when user presses keyboard key.
 /** See HostIsKeyDown in Host.h for key codes. */

@@ -1,4 +1,4 @@
-/* Copyright 1996-2014 Arch D. Robison 
+/* Copyright 1996-2017 Arch D. Robison 
 
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License. 
@@ -39,9 +39,11 @@ void WavefieldUpdateDraw( const NimblePixMap& map, NimbleRequest request, float 
 /** w is the width of the visible portion of the wavefield. */
 void WavefieldCopySurface( float* out, int w );
 
-/** Coordinates (x,y) are in the coordinate system of the "map" argument to WavefieldUpdateDraw. */
+//! Coordinates (x,y) are in the coordinate system of the "map" argument to WavefieldUpdateDraw. 
 void WavefieldSetImpulseLocation( int x, int y );
 
+//! Get "pump factor", which is number of timesteps per video frame.
 int WavefieldGetPumpFactor();
+
+//! Set "pump factor".  Value should be in closed interval [d,PUMP_FACTOR_MAX]
 void WavefieldSetPumpFactor( int d );
-static const int PUMP_FACTOR_MAX = 5;
