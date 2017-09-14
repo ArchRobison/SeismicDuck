@@ -228,7 +228,7 @@ int main(int argc, char* argv[]){
         );
     InitializeKeyTranslationTables();
     ScreenFormat = SDL_AllocFormat(SDL_PIXELFORMAT_ARGB8888);
-    if(GameInitialize()) {
+    if(GameInitialize(w,h)) {
         SDL_Renderer* renderer = nullptr;
         SDL_Texture* texture[N_TEXTURE];
         for( int i=0; i<N_TEXTURE; ++i )

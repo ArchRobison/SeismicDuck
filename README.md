@@ -37,9 +37,9 @@ The Community edition suffices.
 The solution file is in `Platform\SDL-2.0\VS2015` and
 assumes that prerequisites are in the following locations:
 * TBB is in `$(TBB40_INSTALL_DIR)`.
-* SDL2 headers are in `C:\lib\SDL2-2.0.4\include` and the libraries
-  are in `C:\lib\SDL2-2.0.4\lib\x86`.
-* SDL_image headers are in `C:\lib\SDL2_image-2.0.0\include` and the libraries are in `C:\lib\SDL2_image-2.0.0\lib\x86`.
+* SDL2 headers are in `C:\lib\SDL2-2.0.5\include` and the libraries
+  are in `C:\lib\SDL2-2.0.5\lib\x86`.
+* SDL_image headers are in `C:\lib\SDL2_image-2.0.1\include` and the libraries are in `C:\lib\SDL2_image-2.0.1\lib\x86`.
 
 ### DirectX 9.0c Version
 
